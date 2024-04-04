@@ -1,0 +1,30 @@
+{% load static %}
+
+<!-- Componentes -->
+{% load tela_login %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CNA Digital</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'styles/templatetags/login.css' %}">
+
+        <!-- <link rel="icon" href="{% static 'assets\logos\cna_arado.svg' %}" type="image/x-icon"> -->
+    </head>
+    <body>
+
+        
+        {% tela_login imagem legenda %}
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.body.classList.add('animate-page-enter');
+            });
+        </script>
+    </body>
+</html>

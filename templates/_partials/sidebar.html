@@ -1,0 +1,67 @@
+{% load static %}
+    <!-- Barra Lateral Esquerda -->
+
+        <div class="cabecalho">
+            <img src="{% static 'assets\logos\cna_arado.svg' %}" alt="Logo CNA" class="top-logo">
+            <div class="titulo">
+                <span class="titulo-cna">cna</span><span class="titulo-digital">digital</span><br>
+            </div><br>
+        </div>
+        
+        <div class="tabs">
+            
+            <!-- Dashboard -->
+            <a class="tab {% if request.resolver_match.url_name == 'dashboard' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+                <div class="tab-icone">
+                    <i class="material-symbols-outlined" style="font-size: 1.3vw;">space_dashboard</i>
+                </div>
+                <div class="tab-nome">
+                    Dashboard
+                </div>
+            </a>
+
+            <!-- Atendimentos -->
+            {% with current_url=request.resolver_match.url_name %}
+            <a class="tab {% if current_url in 'web_tecnico_atendimentos,web_tecnico_atendimento_ficha' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+            {% endwith %}
+                <div class="tab-icone">
+                    <i class="material-symbols-outlined" style="font-size: 1.3vw;">support_agent</i>
+                </div>
+                <div class="tab-nome">
+                    Atendimentos
+                </div>
+            </a>
+
+            <!-- Especialidades -->
+            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_especialidades' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+                <div class="tab-icone">
+                    <i class="material-symbols-outlined" style="font-size: 1.3vw;">psychology</i>
+                </div>
+                <div class="tab-nome">
+                    Especialidades
+                </div>
+            </a>
+
+            <!-- Gestão de Horários -->
+            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_gestao_horarios' %}active-tab{% endif %}"  href="{% url 'dashboard' %}">
+                <div class="tab-icone">
+                    <i class="material-symbols-outlined" style="font-size: 1.3vw;">calendar_clock</i>
+                </div>
+                <div class="tab-nome">
+                    Gestão de Horários
+                </div>
+            </a>
+
+            <!-- Pagamento -->
+            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_pagamentos' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+                <div class="tab-icone">
+                    <i class="material-symbols-outlined" style="font-size: 1.3vw;">monetization_on</i>
+                </div>
+                <div class="tab-nome">
+                    Pagamentos
+                </div>
+            </a>
+    
+
+    
+        </div>

@@ -1,0 +1,140 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro CNA.BR</title>
+        <!-- Adicionando jQuery via CDN -->
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+    
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+        <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="{% static 'styles/modulo_admin/cadastro.css' %}">
+        
+        
+        <!-- sweetalert2 -->
+        <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="icon" href="{% static 'assets/logos/icone_cna.ico' %}" type="image/x-icon">
+    </head>
+
+    <body>
+        <div class="container-cadastro">
+        
+            <div class="back-button" onclick="location.href='/'">
+                <i class="material-symbols-outlined" style="font-size: 3vh;">arrow_back</i> Voltar
+            </div>
+    
+            <!-- Logo -->
+            <div class="logo-sistema">
+                <img src="{% static 'assets\logos\cna_arado.svg' %}" alt="Logo CNA">
+                <h1><span class="titulo-cna">cna</span><span class="titulo-digital">digital</span></h1>
+            </div>
+    
+            <div class="titulo-form">
+                Cadastro de Técnico para Atendimento Técnico Digital
+            </div>
+    
+            <div class="container-form">
+    
+                <!-- Cadastro CNA.BR -->
+                <div class="secao" id="novoCadastroCNABR">
+    
+                    <h3>Novo Cadastro CNA.BR</h3>
+                    <form id="formNovoCNAbr" autocomplete="off">
+                    {% csrf_token %}
+                        
+                        <!-- Nome, data de nascimento e sexo -->
+                        <div class="grid">
+                            
+                            <div class="form-floating mb-3">
+                                {{ form_cadastro.cpf }}
+                                <label>{{ form_cadastro.cpf.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3 full-width">
+                                {{ form_cadastro.nome_completo }}
+                                <label>{{ form_cadastro.nome_completo.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3" >
+                                {{ form_cadastro.data_nascimento }}
+                                <label>{{ form_cadastro.data_nascimento.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3" >
+                                {{ form_cadastro.sexo }}
+                                <label>{{ form_cadastro.sexo.label }}</label>
+                            </div>
+                        </div>
+    
+                        <!-- Contato e residência -->
+                        <div class="grid">
+                            <div class="form-floating mb-3" >
+                                {{ form_cadastro.celular }}
+                                <label>{{ form_cadastro.celular.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                {{ form_cadastro.email }}
+                                <label>{{ form_cadastro.email.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="uf">
+                                    <option value=""></option>
+                                    {% for uf in lista_ufs %}
+                                    <option>{{ uf }}</option>
+                                    {% endfor %}
+                                </select>
+                                <label>UF</label>
+                            </div>
+                            <div class="form-floating mb-3 full-width">
+                                <select class="form-select" id="municipio" disabled>
+                                    <option value=""></option>
+                                </select>
+                                <label>Município (onde reside)</label>
+                            </div>
+                            <input type="text" name="cod_ibge" id="formCodIBGE" readonly hidden>
+                        </div>
+    
+                        <!-- Senha -->
+                        <div class="grid">
+                            <div class="form-floating mb-3" >
+                                {{ form_cadastro.senha1 }}
+                                <label>{{ form_cadastro.senha1.label }}</label>
+                            </div>
+                            <div class="form-floating mb-3" >
+                                {{ form_cadastro.senha2 }}
+                                <label>{{ form_cadastro.senha2.label }}</label>
+                            </div>
+                        </div>
+                        <div class="botao">
+                            <button class="botao-cadastrar" type="submit" id="novoCNAbr">Cadastrar CNA.BR</button>
+                        </div>
+                    </form>
+                    
+                    
+                </div>
+    
+            </div>
+        </div>
+
+        <script>
+            document.addEventListener("DOMContentLoaded", function(event) {
+                document.body.classList.add('animate-page-enter');
+            });
+        </script>
+            
+
+    </body>
+
+    <!-- Scritps -->
+    <!-- <script src="{% static 'js/index.js' %}"></script> -->
+    
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/utilidades.js' %}"></script>
+    <script src="{% static 'js/cadastroUsuario.js' %}"></script>
+
+    
+
+</html>
