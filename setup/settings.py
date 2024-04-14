@@ -17,8 +17,6 @@ DEBUG = True
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:3000']
 
 
-
-
 INSTALLED_APPS = [
     'django_extensions',
     'django.contrib.admin',
