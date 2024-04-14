@@ -2,7 +2,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 95vh;
+    height: 94vh;
     padding: 20px;
     overflow: hidden;
     user-select: none;
