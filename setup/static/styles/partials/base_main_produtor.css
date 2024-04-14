@@ -1,0 +1,24 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+    overflow: hidden;
+}
+
+.container_body {
+    height: 90vh;
+    width: 90vw;
+    box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    padding: 0vw 6vw;
+}
+
+
+.container_pagina {    
+    overflow: hidden;
+}
+

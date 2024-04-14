@@ -1,0 +1,89 @@
+.cabecalho {
+    display: flex;
+    font-family: 'Ubuntu', sans-serif;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    margin: 3vh;
+    gap: 5px
+}
+
+.top-logo {
+    height: 4vh;
+    padding-top: 1vh;
+    margin-bottom: 5px;
+}
+
+.titulo {
+    font-size: 2.5vh;
+    width: auto;
+    color: white;
+    font-weight: bold;
+    text-align: left;
+    line-height: 18px;
+}
+
+.titulo-cna{
+    color: #005B2A;
+}
+
+.titulo-digital{
+    color: #00C44C;
+}
+
+.versao {
+    font-size: 10px;
+    font-weight: normal;
+}
+
+
+
+
+.tab {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5vw;
+    align-items: center;
+
+    font-size: 12px;
+    color: black;
+    padding: 10px;
+    padding-left: 20px;
+    cursor: pointer;
+    width: 100%;
+
+    text-align: left;
+    border-left: 4px solid transparent;
+    transition: background-color 0.3s ease-in-out, border-left 0.3s ease-in-out;
+    border-radius: 0px 10px 10px 0px;
+    margin: 3px;
+    margin-left: 0px;
+
+    text-decoration: none;
+}
+
+.tab-icone {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.tab-nome {
+    vertical-align: center;
+}
+
+.tab:hover {
+    background-color: rgba(255, 255, 255, 0.5);
+    color:#00C44C;
+    font-weight: bold;
+    /* border-right: 4px solid #00C44C; */
+}
+
+.active-tab {
+    color: #00C44C;
+    font-weight: bold;
+    /* border-left: 4px solid white; */
+    background-color: white;
+}
+
+

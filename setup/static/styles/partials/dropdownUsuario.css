@@ -1,0 +1,39 @@
+.dropdown__usuario {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 200px;
+    padding: 20px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+    top: 14vh; /* Ajusta a posição vertical do dropdown */
+    right: 1%; /* Posiciona o dropdown à direita da sidebar */
+    transform: translateY(-50%);
+    overflow: visible;
+    border-radius: 10px;
+}
+
+.area__botoes__coluna {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.dropdown__usuario.visible {
+    display: block; /* Mostra quando tem a classe .visible */
+}
+
+.dropdown__usuario a {
+    color: black;
+    padding: 12px 16px;
+    display: block;
+    text-align: left;
+    font-size: 12px;
+    text-decoration: none;
+    
+}
+
+.dropdown__usuario a:hover {
+    background-color: #ddd;
+    border-radius: 5px;
+}

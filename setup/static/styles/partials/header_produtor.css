@@ -1,0 +1,19 @@
+.header {
+    /* background-color: yellowgreen;  */
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header span {
+    color: var(--verde-capital);
+    font-family: 'Ubuntu', sans-serif;
+    line-height: 1;
+    font-weight: bold;
+}
+
+.header img {
+    height: 90%;
+}

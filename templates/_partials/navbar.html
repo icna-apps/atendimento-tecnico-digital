@@ -2,7 +2,7 @@
 
         
 <div class="saudacao">
-    <span style="color:gray; font-weight: normal !important;">Bom dia,</span> Nome do Técnico
+    <span style="color:gray; font-weight: normal !important;">Bom dia,</span> <b>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</b>
 </div>
 
 <div class="botoes__navbar">
@@ -16,7 +16,7 @@
     </div>
 
     <!-- dropdown usuário -->
-    <!-- include "atend_tecnico_digital/web/main/_dropdown_usuario.html" -->
+    {% include "_partials/dropdown_usuario.html" %}
 
 
 </div>

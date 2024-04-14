@@ -1,0 +1,155 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: 'Open Sans', sans-serif;
+    overflow: hidden; /* Impede barras de rolagem */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #f4f5f7;
+}
+
+.back-button {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo-sistema {
+    margin: 10px;
+    height: 12%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.logo-sistema img {
+    width: auto;               
+    max-height: 80%;           
+}
+
+
+.logo-sistema h1 {
+    font-family: 'Ubuntu', sans-serif; 
+    font-weight: 700;                  
+    font-size: 20px;                   
+    text-align: center;                
+                
+}
+
+.titulo-cna{
+    color: #005B2A;
+}
+
+.titulo-digital{
+    color: #00C44C;
+}
+
+.titulo-form{
+    text-align: center;
+    margin: 15px;
+}
+
+
+.container-cadastro {
+    width: 60vw;
+    height: auto;
+    max-height: 57vh;
+    overflow-y: auto;
+    box-shadow: 0px 0px 10px rgba(63, 63, 63, 0.3);
+    background-color: #ffffff;
+    border: 1px solid #d8d8d8;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+
+.area-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+    margin-top: 5vh;
+    width: 100%;
+    height: auto;
+    gap: 0.5vw;
+}
+
+.form-login {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items:center;
+    margin-top: 5vh;
+    width: 100%;
+    height: auto;
+    gap: 0.5vw;
+}
+
+
+.secao {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+}
+
+.secao h3 {
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.grid {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0px 1vw;
+    font-size: 14px;
+}
+
+.full-width {
+    flex-grow: 2;
+}
+
+.seta-direita{
+    cursor: pointer;
+}
+
+
+.botao {
+    display: flex;
+    justify-content: center;
+}
+
+.botao-cadastrar {
+    padding: 8px;
+    width: 200px;
+    border-radius: 10px;
+    border: 0px;
+    background-color: #005B2A;
+    color: white;
+    align-self: center;
+}
+
+
+
+
+/* Estilo inicial da página */
+body {
+    opacity: 0; /* Inicia a página completamente transparente */
+}
+
+/* Animação de entrada */
+@keyframes fadeInAnimation {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+body.animate-page-enter {
+    animation: fadeInAnimation 0.3s forwards; /* Usa a animação para transitar a opacidade para 1 */
+}
+
+
+

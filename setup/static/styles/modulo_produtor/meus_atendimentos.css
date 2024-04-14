@@ -1,0 +1,62 @@
+/* CARD NOVO ATENDIMENTO TÉCNICO */
+.card-atendimento {
+    display: grid;
+    grid-template-columns: 30% 60%;
+    padding: 5px;
+    background-color: #e4e4e4;
+
+    border-radius: 10px;
+    
+}
+
+.image-card {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.image-card .material-symbols-outlined {
+    font-size: 16vw;
+    text-align: center;
+    color: var(--verde-capital);
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 500,
+  'GRAD' 0,
+  'opsz' 48
+}
+
+.textos-card {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin: 1.5vh;
+}
+
+.titulo-card {
+    font-weight: bold;
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 2vh;
+    color: var(--verde-capital);
+}
+
+.texto-card {
+    font-size: 1.5vh;
+    line-height: 1.1;
+}
+
+
+.lista-atendimentos {
+    margin-top: 2vh;
+}
+
+.carrossel-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    max-height: 55vh;
+    overflow-y: auto;
+
+}

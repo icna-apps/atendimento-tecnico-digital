@@ -1,0 +1,19 @@
+.subabas {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 2vw;
+}
+
+.subaba__item {
+    padding: 10px;
+    transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave */
+}
+  
+.subaba__item:hover {
+    transform: scale(1.02);
+}
+
+.ativa {
+    font-weight: bold;
+}

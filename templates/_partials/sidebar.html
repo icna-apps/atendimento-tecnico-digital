@@ -32,7 +32,7 @@
                 </div>
             </a>
 
-            <!-- Especialidades -->
+            <!-- Especialidades
             <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_especialidades' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">psychology</i>
@@ -40,10 +40,10 @@
                 <div class="tab-nome">
                     Especialidades
                 </div>
-            </a>
+            </a> -->
 
             <!-- Gestão de Horários -->
-            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_gestao_horarios' %}active-tab{% endif %}"  href="{% url 'dashboard' %}">
+            <a class="tab {% if request.resolver_match.url_name == 'meushorarios' %}active-tab{% endif %}"  href="{% url 'meushorarios' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">calendar_clock</i>
                 </div>

@@ -10,7 +10,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = []
+
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:3000']
+
+
 
 
 INSTALLED_APPS = [
@@ -23,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'apps.modulo_admin.apps.ModuloAdminConfig',
     'apps.modulo_tecnico.apps.ModuloTecnicoConfig',
+    'apps.modulo_produtor.apps.ModuloProdutorConfig',
 ]
 
 MIDDLEWARE = [
@@ -33,7 +38,10 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    # 'apps.modulo_admin.middleware.LoginRequiredMiddleware',
 ]
+
+LOGIN_URL = '/tecnico/'
 
 ROOT_URLCONF = 'setup.urls'
 
@@ -94,3 +102,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

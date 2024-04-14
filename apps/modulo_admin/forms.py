@@ -115,8 +115,8 @@ class LoginForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "class": "form-control",
-                'style': 'width: 160px',
-                "id": "loginCPF"
+                "id": "loginCPF",
+                "placeholder": "CPF"
             }
         )
     )
@@ -128,7 +128,7 @@ class LoginForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "id": "loginSenha",
-                'autocomplete': 'current-password'
+                "placeholder": "Senha"
             }
         )
     )

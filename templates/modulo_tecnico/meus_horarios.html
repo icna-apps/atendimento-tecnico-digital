@@ -1,0 +1,81 @@
+{% extends '_partials/base_main.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static '\styles\modulo_tecnico\meus_horarios.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
+{% endblock %}
+{% block content %}    
+    
+
+    <!-- Barra Superior -->
+    <div class="gestao-horarios">
+        <div class="titulo-gestao-horarios">
+            Selecione os seus Horários de Atendimento Técnico
+        </div>
+
+        <div class="barra-horarios">
+            <!-- Placar -->
+            <div class="placar__horarios">
+                
+            </div>
+
+            <!-- Legenda -->
+            <div class="legenda">
+                <div class="legenda-item">
+                    <span class="legenda-indisponivel"></span>Indisponível
+                </div>
+                <div class="legenda-item">
+                    <span class="legenda-disponivel"></span>Disponível
+                </div>
+                <div class="legenda-item">
+                    <span class="legenda-selecionado"></span>Selecionado
+                </div>
+            </div>
+
+            <div class="botao__salvar">
+                <button class="btn btn-primary me-md-2" type="submit" id="botaoSalvarHorarios" style="font-size: 12px;">
+                    <i class="fas fa-save me-1"></i> 
+                    Salvar
+                </button>
+            </div>
+        </div>
+
+        <!-- Tabela de Horários -->
+        <div class="dias-horarios">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Domingo</th>
+                        <th>Segunda</th>
+                        <th>Terça</th>
+                        <th>Quarta</th>
+                        <th>Quinta</th>
+                        <th>Sexta</th>
+                        <th>Sábado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        {% for dia, horarios in horarios_por_dia.items %}
+                            <td>
+                                {% for horario in horarios %}
+                                    <span class="horario-btn {% if horario.horario_disponivel %}disponivel{% elif horario.tecnico == usuario_logado %}ativo{% else %}indisponivel{% endif %}" id="{{ horario.id }}">{{ horario.horario }}</span><br>
+                                {% empty %}
+                                    <span>Sem horários</span>
+                                {% endfor %}
+                            </td>
+                        {% endfor %}
+                    </tr>
+                </tbody>
+            </table>
+            
+            
+        </div>
+
+    </div>
+
+    <script src="{% static 'js/meusHorarios.js' %}"></script>
+    
+
+
+{% endblock %}
