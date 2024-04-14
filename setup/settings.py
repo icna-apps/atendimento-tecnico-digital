@@ -1,8 +1,10 @@
 from pathlib import Path, os
 from dotenv import load_dotenv
-load_dotenv()	
+import django_heroku
+import dj_database_url
 SECRET_KEY = str(os.getenv('SECRET_KEY'))
 
+load_dotenv()	
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -38,10 +40,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    # 'apps.modulo_admin.middleware.LoginRequiredMiddleware',
 ]
 
-LOGIN_URL = '/tecnico/'
 
 ROOT_URLCONF = 'setup.urls'
 
@@ -64,12 +64,17 @@ TEMPLATES = [
 WSGI_APPLICATION = 'setup.wsgi.application'
 
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -104,3 +109,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
+django_heroku.settings(locals())
