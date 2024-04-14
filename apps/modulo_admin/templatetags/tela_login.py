@@ -6,7 +6,7 @@ from django.templatetags.static import static
 @register.simple_tag
 def tela_login(imagem, legenda):
     imagem_path = static(imagem)
-    logo_path = static('assets\logos\cna_arado.svg')
+    logo_path = static('assets/logos/cna_arado.svg')
     
     html_content = f"""
         <div class="container_login">
