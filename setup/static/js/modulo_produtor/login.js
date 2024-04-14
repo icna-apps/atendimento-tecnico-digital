@@ -16,4 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
     });
+
+    const botaoEntrar = document.querySelector('#botaoEntrar')
+    botaoEntrar.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.location.href='/produtor/meus-atendimentos/';
+    })
 });

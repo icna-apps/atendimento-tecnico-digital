@@ -34,8 +34,8 @@
 }
 
 .active {
-    color: #ffffff;
-    background-color: #00c44b;
+    color: var(--verde-capital);
+    /* background-color: #00c44b; */
     border-radius: 20px;
     
 }

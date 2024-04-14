@@ -22,3 +22,18 @@ body {
     overflow: hidden;
 }
 
+/* Estilo inicial da página */
+.container_pagina {
+    opacity: 0; /* Inicia a página completamente transparente */
+}
+
+/* Animação de entrada */
+@keyframes fadeInAnimation {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.container_pagina.animate-page-enter {
+    animation: fadeInAnimation 0.2s forwards;
+
+}
