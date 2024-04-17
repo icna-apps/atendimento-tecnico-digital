@@ -1,11 +1,10 @@
 /* CARD NOVO ATENDIMENTO TÉCNICO */
 
-.card-atendimento {
+.card-novo-atendimento {
     display: grid;
     grid-template-columns: 30% 60%;
     padding: 5px;
-    background-color: #e4e4e4;
-
+    background-color: var(--cinza-claro);
     border-radius: 10px;
     
 }
@@ -59,6 +58,6 @@
     gap: 5px;
     max-height: 53vh;
     overflow-y: auto;
-
+    padding-bottom: 15vh;
 }
 

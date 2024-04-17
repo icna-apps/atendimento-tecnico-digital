@@ -62,6 +62,9 @@ def produtor_novo_atendimento(request):
 
     return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
 
+def produtor_confirmacao_atendimento(request):
+    return render(request, 'modulo_produtor/confirmacao_agendamento.html')
+
 def produtor_meus_dados(request):
     return render(request, 'modulo_produtor/meus_dados.html')
 

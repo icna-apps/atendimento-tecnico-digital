@@ -1,0 +1,40 @@
+{% extends '_partials/base_main_produtor.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'styles\modulo_produtor\confirmacao_agendamento.css' %}">
+{% endblock %}
+
+{% block content %}    
+
+    <!-- Cabeçalho -->
+    <div class="cabecalho">
+        <div class="titulo-imagem">
+            <i class="material-symbols-outlined" style="font-size: 12vw;">event</i>
+        </div>
+        <div class="titulo-texto">
+            <b>Agendamento</b><br>realizdo com sucesso!
+        </div>
+    </div>
+
+    <!-- Card Atendimento -->
+    <div class="card-atendimento">
+        <div class="card-atendimento__informacoes">
+            <span><b>ID 0001/24</b></span>
+            <span>Status: <span class='status agendado'>Agendado</span></span>
+            <span>Atividade: Bovino  de Leite</span>
+            <span>Tópico: Ensilagem</span>
+            <span>Data: 14/05/2024</span>
+            <span>Hora: 15:00</span>
+            <span>Técnico: José da Silva</span>
+        </div>
+    </div>
+
+    <div class="botao_sair">
+        <button type="button" class="btn btn-secondary" id="btnSair" style="width: 40%;">Sair</button>
+    </div>
+    
+    
+
+        
+    <script src="{% static 'js/modulo_produtor/confirmacao_agendamento.js' %}"></script>
+{% endblock %}

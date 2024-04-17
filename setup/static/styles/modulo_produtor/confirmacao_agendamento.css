@@ -1,0 +1,29 @@
+.container_body {
+    grid-template-rows: 10% 90%;
+}
+
+.cabecalho {
+    width: 100%;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background-color: var(--verde-capital);
+    padding: 5vw;
+    border-radius: 10px;
+    color: white;
+}
+
+.titulo-texto {
+    line-height: 1.2;
+    font-size: 1.5rem;
+}
+
+.botao_sair {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 5vh;
+}
