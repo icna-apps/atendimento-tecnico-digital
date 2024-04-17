@@ -190,11 +190,11 @@ class AtendimentoForm(forms.ModelForm):
             'class': 'form-control auto-expand',
             'rows': 1,
             'line-height': 1.0,
-            'style': 'padding-top: 60px; height: 20vh;',
+            'style': 'padding-top: 10px; height: 30vh;',
             'id': 'id_mais_informacoes'
             }),
         required=False,
-        label='Fale sobre o problema ou dúvida a ser tratada no atendimento.'
+        # label='Fale sobre o problema ou dúvida a ser tratada no atendimento.'
     )
     imagem01 = forms.ImageField(
         widget=ClearableFileInput(attrs={
