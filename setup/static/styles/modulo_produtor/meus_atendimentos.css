@@ -50,12 +50,13 @@
 
 .lista-atendimentos {
     margin-top: 2vh;
+    
 }
 
 .carrossel-vertical {
     display: flex;
     flex-direction: column;
-    gap: 5px;
+    gap: 2vh;
     max-height: 53vh;
     overflow-y: auto;
     padding-bottom: 15vh;
