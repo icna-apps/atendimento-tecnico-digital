@@ -1,6 +1,16 @@
 from django import forms
-from apps.modulo_admin.models import Usuario
-from setup.choices import GENERO_SEXUAL
+from django.forms.widgets import ClearableFileInput
+from apps.modulo_admin.models import Usuario, Atendimento
+from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, STATUS_ATENDIMENTO, 
+                           LISTA_HORA_ATENDIMENTO, LISTA_DATAS)
+
+#Adicionando opção vazia
+opcao_vazia = [('', '')]
+ATIVIDADE_PRODUTIVA = opcao_vazia + ATIVIDADE_PRODUTIVA
+TOPICO_ATENDIMENTO = opcao_vazia + TOPICO_ATENDIMENTO
+LISTA_DATAS = opcao_vazia + LISTA_DATAS
+LISTA_HORA_ATENDIMENTO =  opcao_vazia + LISTA_HORA_ATENDIMENTO
+
 
 class CadastroForm(forms.ModelForm):
     cpf = forms.CharField(
@@ -132,3 +142,99 @@ class LoginForm(forms.Form):
             }
         )
     )
+
+
+class AtendimentoForm(forms.ModelForm):
+    atividade_produtiva = forms.ChoiceField(
+        choices=ATIVIDADE_PRODUTIVA,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_atividade_produtiva'
+        }),
+        label='Atividade Produtiva',
+        initial='',
+        required=True,
+    )
+    topico = forms.ChoiceField(
+        choices=TOPICO_ATENDIMENTO,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_topico'
+        }),
+        label='Tópico do atendimento',
+        initial='',
+        required=True,
+    )
+    data = forms.ChoiceField(
+        choices=LISTA_DATAS,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_data'
+        }),
+        required=True,
+        label='Data'
+    )
+    hora = forms.ChoiceField(
+        choices=LISTA_HORA_ATENDIMENTO,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_hora'
+        }),
+        label='Hora',
+        initial='',
+        required=True,
+    )
+    mais_informacoes = forms.CharField(
+        widget=forms.Textarea(attrs={
+            'class': 'form-control auto-expand',
+            'rows': 1,
+            'line-height': 1.0,
+            'style': 'padding-top: 60px; height: 20vh;',
+            'id': 'id_mais_informacoes'
+            }),
+        required=False,
+        label='Fale sobre o problema ou dúvida a ser tratada no atendimento.'
+    )
+    imagem01 = forms.ImageField(
+        widget=ClearableFileInput(attrs={
+            'class': 'form-control',
+            'id': 'id_imagem01'
+        }),
+        label='Imagem 01',
+        required=False,
+    )
+    imagem02 = forms.ImageField(
+        widget=ClearableFileInput(attrs={
+            'class': 'form-control',
+            'id': 'id_imagem02'
+        }),
+        label='Imagem 01',
+        required=False,
+    )
+    imagem03 = forms.ImageField(
+        widget=ClearableFileInput(attrs={
+            'class': 'form-control',
+            'id': 'id_imagem03'
+        }),
+        label='Imagem 01',
+        required=False,
+    )
+
+    status = forms.ChoiceField(
+        choices=STATUS_ATENDIMENTO,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_status'
+        }),
+        label='Status do atendimento',
+        initial='',
+        required=True,
+    )
+    
+    class Meta:
+        model = Atendimento
+        exclude = ['log_n_edicoes', 'del_status', 'del_data', 'del_usuario']
+
+    def clean_mais_informacoes(self):
+        mais_informacoes = self.cleaned_data.get('mais_informacoes')
+        return mais_informacoes or "Nada informado."

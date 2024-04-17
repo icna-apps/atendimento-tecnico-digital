@@ -85,6 +85,9 @@ body {
     width: 100%;
 }
 
+
+
+
 .login-form__inputs {
     display: flex;
     flex-direction: column;
@@ -130,6 +133,7 @@ body {
     justify-content: center;
     color: var(--cinza-escuro);
     height: 80%;
+    width: 50%;
     align-self: center;
 }
 
@@ -167,4 +171,15 @@ body {
 
 .como-funciona a {
     color: var(--cinza-primario);
+}
+
+
+
+
+.formulario {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    text-align: center;
+    background-color: pink !important;
 }

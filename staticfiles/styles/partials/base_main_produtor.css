@@ -1,0 +1,40 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 92vh;
+    padding: 20px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.container_body {
+    height: 90vh;
+    width: 90vw;
+    box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 10% 80% 10%;
+    padding: 0vw 6vw;
+}
+
+
+.container_pagina {    
+    overflow: hidden;
+}
+
+/* Estilo inicial da página */
+.container_pagina {
+    opacity: 0; /* Inicia a página completamente transparente */
+}
+
+/* Animação de entrada */
+@keyframes fadeInAnimation {
+    0% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+.container_pagina.animate-page-enter {
+    animation: fadeInAnimation 0.2s forwards;
+
+}

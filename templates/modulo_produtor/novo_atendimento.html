@@ -1,0 +1,161 @@
+{% extends '_partials/base_main_produtor.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'styles\modulo_produtor\novo_atendimento.css' %}">
+{% endblock %}
+
+{% block content %}    
+    
+    
+
+    <!-- Cabeçalho -->
+    <div class="container">
+        <div class="cabecalho">
+            <div class="titulo-imagem">
+                <i class="material-symbols-outlined" style="font-size: 12vw;">edit_calendar</i>
+            </div>
+            <div class="titulo-texto">
+                <b>Agendar</b><br>Novo Atendimento
+            </div>
+        </div>
+    </div>
+    
+
+    <!-- Formulário de Agendamento -->
+    <form class="formulario">
+
+        <div class="container_informacoes">
+            <div class="container_informacoes__titulo">
+                Selecione o tópico
+            </div>
+
+            <div class="container_informacoes__campos">
+                <div class="form-floating">
+                    {{ form.atividade_produtiva }}
+                    <label>{{ form.atividade_produtiva.label }}</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.topico }}
+                    <label>{{ form.topico.label }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="container_informacoes">
+            <div class="container_informacoes__titulo">
+                Selecione o horário para o atendimento
+            </div>
+
+            <div class="container_informacoes__campos">
+                <div class="form-floating">
+                    {{ form.data }}
+                    <label>{{ form.data.label }}</label>
+                </div>
+                <div class="form-floating">
+                    {{ form.hora }}
+                    <label>{{ form.hora.label }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="container_informacoes">
+            <div class="container_informacoes__titulo">
+                Detalhes sobre o tópico (opcional)
+            </div>
+
+            <div class="container_informacoes__campos">
+                <div class="form-floating">
+                    {{ form.mais_informacoes }}
+                    <label>{{ form.mais_informacoes.label }}</label>
+                </div>
+                
+            </div>
+        </div>
+
+        <div class="container_informacoes">
+            <div class="container_informacoes__titulo">
+                Imagens (opcional)
+            </div>
+
+            <div class="container_informacoes__campos">
+
+                <!-- Imagem 01 -->
+                <div class="form-control imagem">
+                    <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
+                    <button type="button" class="inserir-imagem" id="botao_imagem01" onclick="document.getElementById('id_imagem01').click();">
+                        <i class="material-symbols-outlined" style="font-size: 15vw;">image</i><br>Inserir imagem
+                    </button>
+                    <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; max-width: 200px;">
+                    <button type="button" class="btn btn-danger mt-2" id="delete-img01" onclick="deleteImage('01')" style="display: none;">Apagar Imagem</button>
+                </div>
+
+                <!-- Imagem 02 -->
+                <div class="form-control imagem">
+                    <input type="file" class="form-control" id="id_imagem02" name="imagem02" onchange="previewImage(this);" style="display: none;">
+                    <button type="button" class="inserir-imagem" id="botao_imagem02" onclick="document.getElementById('id_imagem02').click();">
+                        <i class="material-symbols-outlined" style="font-size: 15vw;">image</i><br>Inserir imagem
+                    </button>
+                    <img id="preview-img02" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; max-width: 200px;">
+                    <button type="button" class="btn btn-danger mt-2" id="delete-img02" onclick="deleteImage('02')" style="display: none;">Apagar Imagem</button>
+                </div>
+
+                <!-- Imagem 03 -->
+                <div class="form-control imagem">
+                    <input type="file" class="form-control" id="id_imagem03" name="imagem03" onchange="previewImage(this);" style="display: none;">
+                    <button type="button" class="inserir-imagem" id="botao_imagem03" onclick="document.getElementById('id_imagem03').click();">
+                        <i class="material-symbols-outlined" style="font-size: 15vw;">image</i><br>Inserir imagem
+                    </button>
+                    <img id="preview-img03" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; max-width: 200px;">
+                    <button type="button" class="btn btn-danger mt-2" id="delete-img03" onclick="deleteImage('03')" style="display: none;">Apagar Imagem</button>
+                </div>
+
+            </div>
+
+            <div class="container_informacoes__botoes">
+                <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-success" id="btnConfirmar">Confirmar</button>
+            </div>
+        </div>
+        
+    </form>
+
+    <script>
+
+        function previewImage(input) {
+            const baseId = input.id.replace('id_imagem', '');
+            const file = input.files[0];
+            const previewImg = document.getElementById(`preview-img${baseId}`);
+            const deleteBtn = document.getElementById(`delete-img${baseId}`);
+            const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+            
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImg.src = e.target.result;
+                    previewImg.style.display = 'block';
+                    deleteBtn.style.display = 'inline-block';
+                    inserirImgBtn.style.display = 'none';
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+        
+        function deleteImage(baseId) {
+            const input = document.getElementById(`id_imagem${baseId}`);
+            const previewImg = document.getElementById(`preview-img${baseId}`);
+            const deleteBtn = document.getElementById(`delete-img${baseId}`);
+            const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+            
+            input.value = "";
+            previewImg.style.display = 'none';
+            deleteBtn.style.display = 'none';
+            inserirImgBtn.style.display = 'block';
+            previewImg.src = "#";
+        }
+    </script>
+        
+        
+    <script src="{% static 'js/modulo_produtor/novo_atendimento.js' %}"></script>
+        
+
+{% endblock %}

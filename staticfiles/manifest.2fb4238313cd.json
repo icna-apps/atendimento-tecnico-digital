@@ -1,0 +1,22 @@
+{
+    "short_name": "CNA Digital",
+    "name": "CNA Digital",
+    "icons": [
+      {
+        "src": "/static/assets/imagens/icone.png",
+        "sizes": "192x192",
+        "type": "image/png"
+      },
+      {
+        "src": "/static/assets/imagens/splashscreen.png",
+        "sizes": "512x512",
+        "type": "image/png"
+      }
+    ],
+    "start_url": "/",
+    "background_color": "#00C44C",
+    "display": "standalone",
+    "scope": "/",
+    "theme_color": "#000000"
+  }
+  

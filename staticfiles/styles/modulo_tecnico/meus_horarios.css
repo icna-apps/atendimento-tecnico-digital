@@ -1,0 +1,142 @@
+.gestao-horarios{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+}
+
+.titulo-gestao-horarios {
+    font-size: 20px;
+    color: black;
+    padding: 10px;
+    margin: 20px;
+}
+
+.dias-horarios {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.horario-btn {
+    display: inline-block;
+    margin: 4px;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 15px;
+    
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.horario-btn:hover {
+    background-color: #005B2A;
+    border-color: #005B2A;
+    color: white;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+    
+}
+
+th, td {
+    border: 1px solid #ddd;
+    border-radius: 15px;
+    padding: 8px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+th {
+    background-color: #f2f2f2;
+    position: sticky;
+    top: 0;
+}
+
+td {
+    padding: 10px 0; /* Define o padding vertical para a célula */
+}
+
+
+.disponivel {
+    background-color: #93ff93a2;
+    color: black;
+}
+
+.indisponivel {
+    background-color: #c1c1c1;
+    color: black;
+}
+
+.ativo {
+    background-color: #005B2A;
+    border-color: #005B2A;
+    color: white;
+}
+
+.barra-horarios {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    width: 100%;
+    padding: 5px;
+}
+
+.placar__horarios {
+    width: 100%;
+}
+
+.botao__salvar {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.legenda {
+    display: flex;
+    flex-direction: row;
+    
+    justify-content: center;
+    align-items: center;
+    gap: 1vw;
+    margin-top: 1vh;
+}
+
+.legenda-item {
+    display: flex; /* Usa flexbox para alinhamento lado a lado */
+    align-items: center; /* Centraliza verticalmente */
+}
+  
+.legenda-indisponivel {
+    width: 15px; /* Tamanho da bolinha */
+    height: 15px; /* Tamanho da bolinha */
+    border-radius: 50%; /* Torna a div uma bolinha */
+    background-color: #a0a0a0; /* Cor da bolinha */
+    margin-right: 8px; /* Espaço entre a bolinha e o texto */
+}
+
+.legenda-disponivel {
+    width: 15px; /* Tamanho da bolinha */
+    height: 15px; /* Tamanho da bolinha */
+    border-radius: 50%; /* Torna a div uma bolinha */
+    background-color: #93ff93a2; /* Cor da bolinha */
+    margin-right: 8px; /* Espaço entre a bolinha e o texto */
+}
+
+.legenda-selecionado {
+    width: 15px; /* Tamanho da bolinha */
+    height: 15px; /* Tamanho da bolinha */
+    border-radius: 50%; /* Torna a div uma bolinha */
+    background-color: #005B2A; /* Cor da bolinha */
+    margin-right: 8px; /* Espaço entre a bolinha e o texto */
+}
+

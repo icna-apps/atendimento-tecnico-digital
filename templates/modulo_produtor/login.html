@@ -52,33 +52,40 @@
             </div>
 
             <!-- Login -->
-            <div class="login-form">
+            <form action="{% url 'login_produtor' %}" method="POST" class="formulario">
+            {% csrf_token %}
                 
-                <!-- Inputs -->
-                <div class="login-form__inputs">
-                    <!-- CPF -->
-                    <div class="input-box">
-                        <span class="material-symbols-outlined">person</span>
-                        <div class="form-floating">                            
-                            <input type="text" inputmode="numeric" class="form-control" id="loginCPF" placeholder="CPF" >
-                            <label>CPF</label>
+                <div class="login-form">
+        
+                    <div class="login-form__inputs">
+                        <div class="input-box">
+                            <span class="material-symbols-outlined">person</span>
+                            <div class="form-floating">                            
+                                {{ form.cpf }}
+                                <label>{{ form.cpf.label }}</label>
+                            </div>
                         </div>
+                        <div class="input-box">
+                            <span class="material-symbols-outlined">key</span>
+                            <div class="form-floating">                            
+                                {{ form.senha }}
+                                <label>{{ form.senha.label }}</label>
+                            </div>
+                        </div>                 
                     </div>
 
-                    <!-- Data de Nascimento -->
-                    <div class="input-box">
-                        <span class="material-symbols-outlined">event</span>
-                        <div class="form-floating">                            
-                            <input type="text" inputmode="numeric" class="form-control" id="loginDataNascimento" placeholder="CPF" >
-                            <label>Data de Nascimento</label>
-                        </div>
-                    </div>
+                    <!-- Botão Entrar -->
+                    <button type="submit" class="btn btn-success">Entrar</button>
+    
+                    <!-- Elemento para armazenar a mensagem de erro -->
+                    {% if mensagem %}
+                        <div id="error-message" data-message="{{ mensagem }}" style="display:none;"></div>
+                    {% endif %}
+                    
                 </div>
 
-                <!-- Botão Entrar -->
-                <button type="button" class="btn btn-success" id="botaoEntrar">Entrar</button>
-                
-            </div>
+            </form>
+            
 
             <!-- Como funciona -->
             <div class="como-funciona">

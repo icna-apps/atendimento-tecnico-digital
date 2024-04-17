@@ -1,0 +1,166 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 94vh;
+    padding: 20px;
+    overflow: hidden;
+    user-select: none;
+}
+
+.container_login {
+    height: 90vh;
+    width: 90vw;
+    box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 15% 30% 35% 20%;
+    padding: 0vw 6vw;
+}
+
+.logo {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-end;
+    /* background-color: blue; */
+}
+
+.logo img {
+    height: 80%;
+}
+
+.servico {
+    display: grid;
+    grid-template-columns: 35% 60%;
+    justify-content: center;
+    align-content: center;
+    padding: 5vh 0 5vh 0;
+    gap: 10px;
+    height: 100%;
+    width: 100%;
+    
+}
+
+.servico__imagem {
+    border-radius: 10px;
+    background-image: url('/static/assets/imagens/ateg_cleber.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center top;
+}
+
+.servico__texto {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.servico__texto__titulo {
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 1.8rem;
+    font-weight: bold;
+    line-height: 1 ;
+    color: var(--verde-capital)
+}
+
+.servico__texto_subtitulo {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.2rem;
+    font-weight: normal;
+    line-height: 1.1;
+    color: var(--cinza-primario)
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3vh;
+    width: 100%;
+}
+
+.login-form__inputs {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 1vh;
+    width: 100%;
+}
+
+.input-box {
+    box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    display: grid;
+    grid-template-columns: 20% 80%;
+    height: 70px;
+    width: 100%;
+}
+
+.input-box input {
+    border: none;
+
+}
+
+.input-box input:focus {
+    border: none;
+    outline: none;
+}
+
+.material-symbols-outlined {
+    font-size: 2.5rem;
+    align-self: center;
+    text-align: center;
+    color: var(--cinza-escuro);
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 400,
+        'GRAD' 0,
+        'opsz' 48;
+}
+
+.form-floating {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    color: var(--cinza-escuro);
+    height: 80%;
+    align-self: center;
+}
+
+.form-control {
+    background-color: rgba(0, 0, 0, 0);
+}
+
+.form-control:focus {
+    border-color: none; /* Isso define a cor da borda de volta ao padrão do Bootstrap, ou escolha sua própria cor */
+    box-shadow: none; /* Remove a sombra de foco */
+    background-color: rgba(0, 0, 0, 0);
+}
+
+
+.btn.btn-success{
+    width: 60%;
+    align-self: center;
+    height: 5vh;
+    background-color: var(--verde-capital);
+}
+
+.btn.btn-success:hover{
+    cursor: pointer;
+    background-color: #026e1d;
+}
+
+
+.como-funciona {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    
+}
+
+.como-funciona a {
+    color: var(--cinza-primario);
+}

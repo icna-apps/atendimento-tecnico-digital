@@ -1,9 +1,10 @@
 from django.db import models
+from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import date
-from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS
+from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS, ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, STATUS_ATENDIMENTO
 
 #admin_icna
 
@@ -61,6 +62,10 @@ class Usuario(models.Model):
             return vinculo.regional
         except ObjectDoesNotExist:
             return "Nenhum vínculo ativo encontrado"
+    
+    def vinculo_produtor_regional_ativo(self):
+        return self.vinculo_produtor_regional.filter(is_ativo=True).first()
+
 
 class UF_Municipio(models.Model):
     cod_ibge = models.CharField(max_length=10, null=False, blank=False)
@@ -104,3 +109,70 @@ class VinculoTecnicoRegional(models.Model):
 
     def __str__(self):
         return f"{self.usuario.nome_completo}/{self.regional}"
+
+
+class VinculoProdutorRegional(models.Model):
+    # relacionamento
+    usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, related_name='vinculo_produtor_regional', null=True)
+    
+    # log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+
+    # vínculo atual
+    regional = models.CharField(max_length=2, choices=LISTA_UFS_SIGLAS, null=False, blank=False)
+    data_inicio = models.DateField(default=date.today, null=False, blank=False)
+    data_fim = models.DateField(null=True, blank=True)
+    is_ativo = models.BooleanField(default=True, null=False, blank=False, db_index=True)
+
+    # delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def save(self, *args, **kwargs):
+        # Verifica se já existe um vínculo ativo para o usuário
+        if self.is_ativo:
+            vinculo_ativo = VinculoProdutorRegional.objects.filter(usuario=self.usuario, is_ativo=True).exclude(pk=self.pk)
+            if vinculo_ativo.exists():
+                raise ValidationError('Já existe um vínculo ativo com uma regional para este usuário.')
+
+        # Verifica se a data_fim está preenchida quando is_ativo é False
+        if not self.is_ativo and self.data_fim is None:
+            raise ValidationError('A data de fim é requerida quando o vínculo não está ativo.')
+
+        super(VinculoProdutorRegional, self).save(*args, **kwargs)  # Chamando o save original
+
+    def __str__(self):
+        return f"{self.usuario.nome_completo}/{self.regional}"
+
+
+class Atendimento(models.Model): 
+    #log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+    
+    #dados do agendamento
+    atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
+    topico = models.TextField(null=False, blank=False)
+    data = models.DateField(null=False, blank=False)
+    hora = models.CharField(max_length=5, choices=LISTA_HORA_ATENDIMENTO, null=False, blank=False)
+    mais_informacoes = models.TextField(null=True, blank=True)
+    imagem01 = models.ImageField(null=True)
+    imagem02 = models.ImageField(null=True)
+    imagem03 = models.ImageField(null=True)
+    status = models.CharField(max_length=15, choices=STATUS_ATENDIMENTO, null=False, blank=False)
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.id} - Data/Hora: {self.data} - {self.hora} - {self.atividade_produtiva} - Tópico(s): {self.topico}"
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
