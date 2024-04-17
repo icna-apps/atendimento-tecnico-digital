@@ -126,7 +126,8 @@ class LoginForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "id": "loginCPF",
-                "placeholder": "CPF"
+                "placeholder": "CPF",
+                "inputmode": 'numeric',
             }
         )
     )
