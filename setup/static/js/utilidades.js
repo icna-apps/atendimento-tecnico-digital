@@ -182,3 +182,10 @@ async function consultarCNPJ(cnpj) {
         return false; // Considerando false como padrão em caso de erro
     }
 }
+
+
+function getCSRFToken() {
+    const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+    console.log("CSRF Token:", token);  // Verifique se isso imprime o token correto no console
+    return token;
+  }

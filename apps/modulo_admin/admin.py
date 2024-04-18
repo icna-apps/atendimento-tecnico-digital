@@ -1,5 +1,5 @@
 from django.contrib import admin
-from apps.modulo_admin.models import Usuario, UF_Municipio, VinculoTecnicoRegional, VinculoProdutorRegional
+from apps.modulo_admin.models import Usuario, UF_Municipio, VinculoTecnicoRegional, VinculoProdutorRegional, Atendimento
 
 class ListandoUsuario(admin.ModelAdmin):
     list_display = ("cpf", "nome_completo", "data_nascimento", "sexo", "uf_municipio", "usuario_is_ativo")
@@ -31,6 +31,13 @@ class ListandoVinculoProdutorRegional(admin.ModelAdmin):
     list_filter = ("is_ativo", "regional")
     list_per_page = 100
 
+class ListandoAtendimentos(admin.ModelAdmin):
+    list_display = ("regional", "atividade_produtiva", "topico", "data", "hora", "status")
+    list_display_links = ("regional", "atividade_produtiva", "topico")
+    list_filter = ("regional", "atividade_produtiva", "topico", "status")
+    list_per_page = 100
+
 admin.site.register(Usuario, ListandoUsuario)
 admin.site.register(VinculoTecnicoRegional, ListandoVinculoTecnicoRegional)
 admin.site.register(VinculoProdutorRegional, ListandoVinculoProdutorRegional)
+admin.site.register(Atendimento, ListandoAtendimentos)

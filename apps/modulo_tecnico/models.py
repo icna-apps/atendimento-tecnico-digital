@@ -1,6 +1,11 @@
 from django.db import models
 from apps.modulo_admin.models import Usuario
 from setup.choices import LISTA_UFS_SIGLAS
+from django.db.models import Case, When, Value, CharField, DateField
+from django.db.models.functions import Now
+from setup.utils import get_next_week_days
+from datetime import datetime, timedelta
+
 
 class HorariosAtendimentos(models.Model):
     data_ultima_atualizacao = models.DateTimeField(auto_now_add=True)
@@ -14,8 +19,19 @@ class HorariosAtendimentos(models.Model):
     def __str__(self):
         return f"{self.id} - Data/Hora: {self.dia_semana}-{self.horario}, Regional: {self.regional}, Técnico: {self.tecnico}"
     
+    @property
     def horario_disponivel(self):
-        if self.tecnico:
-            return False
-        else:
-            return True
+        return self.tecnico is None
+
+    @staticmethod
+    def disponiveis():
+        return HorariosAtendimentos.objects.annotate(
+            disponivel=Case(
+                When(tecnico__isnull=True, then=Value('Sim')),
+                default=Value('Não'),
+                output_field=CharField(),
+            )
+        ).filter(disponivel='Sim')
+
+            
+    

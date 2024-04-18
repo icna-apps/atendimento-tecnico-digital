@@ -167,7 +167,6 @@ class AtendimentoForm(forms.ModelForm):
         required=True,
     )
     data = forms.ChoiceField(
-        choices=LISTA_DATAS,
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id':'id_data'
@@ -176,7 +175,6 @@ class AtendimentoForm(forms.ModelForm):
         label='Data'
     )
     hora = forms.ChoiceField(
-        choices=LISTA_HORA_ATENDIMENTO,
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id':'id_hora'
@@ -239,3 +237,8 @@ class AtendimentoForm(forms.ModelForm):
     def clean_mais_informacoes(self):
         mais_informacoes = self.cleaned_data.get('mais_informacoes')
         return mais_informacoes or "Nada informado."
+    
+    def __init__(self, data_choices=None, *args, **kwargs):
+        super(AtendimentoForm, self).__init__(*args, **kwargs)
+        if data_choices:
+            self.fields['data'].choices = data_choices

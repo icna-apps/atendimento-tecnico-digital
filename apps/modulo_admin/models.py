@@ -1,9 +1,12 @@
 from django.db import models
 from django.utils import timezone
+from django.db.models import Case, When, Value, CharField, DateField
+from django.db.models.functions import Now
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
-from datetime import date
+from datetime import date, datetime, timedelta
+
 from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS, ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, STATUS_ATENDIMENTO
 
 #admin_icna
@@ -65,6 +68,13 @@ class Usuario(models.Model):
     
     def vinculo_produtor_regional_ativo(self):
         return self.vinculo_produtor_regional.filter(is_ativo=True).first()
+    
+    def regional_senar_produtor(self):
+        try:
+            vinculo = self.vinculo_produtor_regional.get(is_ativo=True)
+            return vinculo.regional
+        except ObjectDoesNotExist:
+            return "Nenhum vínculo ativo encontrado"
 
 
 class UF_Municipio(models.Model):
@@ -153,14 +163,16 @@ class Atendimento(models.Model):
     data_ultima_atualizacao = models.DateTimeField(auto_now=True)
     
     #dados do agendamento
+    regional = models.CharField(max_length=2, choices=LISTA_UFS_SIGLAS, null=False, blank=False, default='MS')
+    tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_atendimento')
     atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
-    topico = models.TextField(null=False, blank=False)
+    topico = models.CharField(max_length=120, null=False, blank=False)
     data = models.DateField(null=False, blank=False)
     hora = models.CharField(max_length=5, choices=LISTA_HORA_ATENDIMENTO, null=False, blank=False)
     mais_informacoes = models.TextField(null=True, blank=True)
-    imagem01 = models.ImageField(null=True)
-    imagem02 = models.ImageField(null=True)
-    imagem03 = models.ImageField(null=True)
+    imagem01 = models.ImageField(null=True, blank=True)
+    imagem02 = models.ImageField(null=True, blank=True)
+    imagem03 = models.ImageField(null=True, blank=True)
     status = models.CharField(max_length=15, choices=STATUS_ATENDIMENTO, null=False, blank=False)
 
     #delete (del)
@@ -176,3 +188,23 @@ class Atendimento(models.Model):
         self.del_data = timezone.now()
         self.del_usuario = user
         self.save()
+
+    def atendimento_ativo(self):
+        return self.status != 'cancelado'
+
+    @classmethod
+    def proxima_semana_agendamentos(cls, regional):
+        data_inicio = timezone.now().date() + timedelta(days=1)
+        data_fim = data_inicio + timedelta(days=6)
+
+        agendamentos = cls.objects.filter(
+            regional=regional,
+            data__range=(data_inicio, data_fim),
+            del_status=False
+        ).exclude(
+            status='cancelado'
+        ).order_by('data', 'hora')
+
+        lista_agendamentos = [(ag.data.strftime('%d/%m/%Y'), ag.hora) for ag in agendamentos]
+
+        return lista_agendamentos

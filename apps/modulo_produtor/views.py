@@ -3,9 +3,12 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
-from apps.modulo_admin.models import Usuario
+from apps.modulo_admin.models import Usuario, Atendimento
+from apps.modulo_tecnico.models import HorariosAtendimentos
 from django.http import JsonResponse
-from datetime import datetime
+from datetime import datetime, timedelta
+from setup.utils import get_next_week_days
+
 
 def login_produtor(request):
     form = LoginForm(request.POST or None)
@@ -48,16 +51,37 @@ def login_produtor(request):
     return render(request, 'modulo_produtor/login.html', conteudo)
 
 
-
-
-
 def produtor_meus_atendimentos_lista(request):
     return render(request, 'modulo_produtor/meus_atendimentos_lista.html')
 
 def produtor_novo_atendimento(request):
 
+    #Regional do Produtor
+    regional_produtor = request.user.usuario_relacionado.regional_senar_produtor()
+
+    #Horários dos Técnicos
+    horarios_tecnicos_dias_semana = HorariosAtendimentos.disponiveis().filter(regional=regional_produtor).values_list('dia_semana', 'horario').distinct()
+    proxima_semana = get_next_week_days()
+    horarios_tecnicos_datas = [(proxima_semana[dia], horario)
+                             for dia, horario in horarios_tecnicos_dias_semana if dia in proxima_semana]
+
+    #Agendamentos
+    agendamentos = Atendimento.proxima_semana_agendamentos(regional_produtor)
+
+    #Horários disponíveis
+    horarios_disponiveis = [horario for horario in horarios_tecnicos_datas if horario not in agendamentos]
+    
+    #Lista de datas disponíveis
+    datas_unicas = sorted(set(data for data, _ in horarios_disponiveis))
+    datas_choices = [('', '')]
+    data_choices = datas_choices + [(data, data) for data in datas_unicas]
+    
+    #Formulário
+    form = AtendimentoForm(data_choices=data_choices)
+
     conteudo = {
-        'form': AtendimentoForm(),
+        'form': form,
+        'horarios_disponiveis': horarios_disponiveis,
     }
 
     return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
