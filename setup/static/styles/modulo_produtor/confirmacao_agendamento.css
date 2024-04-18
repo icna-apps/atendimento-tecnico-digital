@@ -5,13 +5,13 @@
 .container__page {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 3vh;
-    height: 100%;
 }
 
 .cabecalho {
     width: 100%;
+    margin-top: 5vh;
     align-content: center;
     display: flex;
     flex-direction: column;
