@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
 from django.contrib import auth
-from apps.modulo_admin.forms import LoginForm, AtendimentoForm
+from apps.modulo_admin.forms import LoginForm, AtendimentoForm, CadastroForm
 from apps.modulo_admin.models import Usuario, Atendimento
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from django.http import JsonResponse
@@ -90,7 +90,13 @@ def produtor_confirmacao_atendimento(request):
     return render(request, 'modulo_produtor/confirmacao_agendamento.html')
 
 def produtor_meus_dados(request):
-    return render(request, 'modulo_produtor/meus_dados.html')
+
+    form = CadastroForm(instance=request.user)
+    conteudo = {
+        'form': form,
+    }
+
+    return render(request, 'modulo_produtor/meus_dados.html', conteudo)
 
 def produtor_informacoes(request):
     return render(request, 'modulo_produtor/informacoes.html')

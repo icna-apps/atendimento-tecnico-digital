@@ -6,8 +6,32 @@
 
 {% block content %}    
     
+    <div class="container__page">
 
-    <a href="/">Sair</a>
+        <div class="container_usuario">
+            <div class="container_imagem">
+                <i class="material-symbols-outlined container_imagem__imagem">person</i>
+            </div>
+            <span>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</span>
+        </div>
+        
+        <div class="form-floating">
+            {{ form.cpf }}
+            <label>{{ form.cpf.label }}</label>
+        </div>
+
+        <a href="/">
+            <span class="material-symbols-outlined">logout</span>
+            <span>Sair</span>
+        </a>
+        
+
+
+    </div>
+
+
+
+    
 
 
 
