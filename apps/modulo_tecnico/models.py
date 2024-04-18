@@ -27,7 +27,7 @@ class HorariosAtendimentos(models.Model):
     def disponiveis():
         return HorariosAtendimentos.objects.annotate(
             disponivel=Case(
-                When(tecnico__isnull=True, then=Value('Sim')),
+                When(tecnico__isnull=False, then=Value('Sim')),
                 default=Value('Não'),
                 output_field=CharField(),
             )
