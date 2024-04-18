@@ -2,6 +2,14 @@
     grid-template-rows: 10% 90%;
 }
 
+.container__page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3vh;
+    height: 100%;
+}
+
 .cabecalho {
     width: 100%;
     align-content: center;
@@ -10,10 +18,14 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: var(--verde-capital);
-    padding: 5vw;
+    /* background-color: var(--verde-capital); */
+    
     border-radius: 10px;
-    color: white;
+    color: var(--verde-capital);
+}
+
+.card-atendimento {
+    margin-bottom: 0;
 }
 
 .titulo-texto {
@@ -25,5 +37,5 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    margin-top: 5vh;
+    align-content: center;
 }
