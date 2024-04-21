@@ -1,7 +1,9 @@
 from django import forms
+from django.core.exceptions import ValidationError
+from django.utils.dateparse import parse_date
 from django.forms.widgets import ClearableFileInput
 from apps.modulo_admin.models import Usuario, Atendimento
-from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, STATUS_ATENDIMENTO, 
+from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, STATUS_ATENDIMENTO, LISTA_UFS_SIGLAS,
                            LISTA_HORA_ATENDIMENTO, LISTA_DATAS)
 
 #Adicionando opção vazia
@@ -146,6 +148,20 @@ class LoginForm(forms.Form):
 
 
 class AtendimentoForm(forms.ModelForm):
+    tecnico = forms.ModelChoiceField(
+        queryset=Usuario.objects.filter(usuario_is_ativo=True),  # Filtrando técnicos ativos
+        required=False,
+    )
+    regional = forms.ChoiceField(
+        choices=LISTA_UFS_SIGLAS,
+        widget=forms.Select(attrs={
+            'class': 'form-select',
+            'id':'id_regional'
+        }),
+        label='Regional',
+        required=True,
+    )
+    
     atividade_produtiva = forms.ChoiceField(
         choices=ATIVIDADE_PRODUTIVA,
         widget=forms.Select(attrs={
@@ -153,7 +169,7 @@ class AtendimentoForm(forms.ModelForm):
             'id':'id_atividade_produtiva'
         }),
         label='Atividade Produtiva',
-        initial='',
+        initial='bovinocultura_leite',
         required=True,
     )
     topico = forms.ChoiceField(
@@ -166,7 +182,9 @@ class AtendimentoForm(forms.ModelForm):
         initial='',
         required=True,
     )
+    
     data = forms.ChoiceField(
+        choices=[],
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id':'id_data'
@@ -218,7 +236,6 @@ class AtendimentoForm(forms.ModelForm):
         label='Imagem 01',
         required=False,
     )
-
     status = forms.ChoiceField(
         choices=STATUS_ATENDIMENTO,
         widget=forms.Select(attrs={
@@ -227,7 +244,7 @@ class AtendimentoForm(forms.ModelForm):
         }),
         label='Status do atendimento',
         initial='',
-        required=True,
+        required=False,
     )
     
     class Meta:
@@ -240,5 +257,6 @@ class AtendimentoForm(forms.ModelForm):
     
     def __init__(self, data_choices=None, *args, **kwargs):
         super(AtendimentoForm, self).__init__(*args, **kwargs)
+        
         if data_choices:
             self.fields['data'].choices = data_choices

@@ -10,10 +10,10 @@ function sweetAlert(title, icon, iconColor='black', position='center', timer=250
     });
 }
 
-function sweetAlertPreenchimento({html, title = 'Atenção!', icon = 'warning', iconColor = 'red'}) {
+function sweetAlertPreenchimento({mensagem, title = 'Atenção!', icon = 'warning', iconColor = 'red'}) {
     Swal.fire({
         title: title,
-        html: html,
+        html: mensagem,
         icon: icon,
         iconColor: iconColor,
         confirmButtonText: 'Ok',

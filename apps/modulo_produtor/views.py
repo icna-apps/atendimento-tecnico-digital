@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import logout
+from django.http import JsonResponse
+from django.http import HttpResponse
 from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm, CadastroForm
 from apps.modulo_admin.models import Usuario, Atendimento
@@ -86,8 +88,72 @@ def produtor_novo_atendimento(request):
 
     return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
 
-def produtor_confirmacao_atendimento(request):
-    return render(request, 'modulo_produtor/confirmacao_agendamento.html')
+
+def produtor_realizar_agendamento(request):
+    
+    #Objeto POST
+    post_data = request.POST.copy()
+    
+    #Regional
+    regional = request.user.usuario_relacionado.regional_senar_produtor()
+
+    #Infos do atendimento
+    atividade_produtiva = post_data.get('atividade_produtiva', '')
+    topico = post_data.get('topico', '')
+    mais_informacoes = post_data.get('mais_informacoes', '')
+    imagem01 = request.FILES.get('imagem01')
+    imagem02 = request.FILES.get('imagem02')
+    imagem03 = request.FILES.get('imagem03')
+    status = 'agendado'  # Já definido diretamente
+
+    #Data e hora
+    data_str = post_data.get('data', '')
+    data = datetime.strptime(data_str, '%d/%m/%Y').date()
+    hora = post_data.get('hora', '')
+    
+
+    # #Encontrando o técnico
+    dia_semana_index = data.weekday()  # Retorna um inteiro de 0 a 6
+    nomes_dias = {0: 'Segunda', 1: 'Terça', 2: 'Quarta', 3: 'Quinta', 4: 'Sexta', 5: 'Sábado', 6: 'Domingo'}
+    dia_semana = nomes_dias[dia_semana_index]    
+    horario = HorariosAtendimentos.objects.filter(
+        dia_semana=dia_semana,
+        horario=hora,
+        regional=regional
+    ).first()
+    tecnico = horario.tecnico
+    
+    try:
+        novo_atendimento = Atendimento(
+            regional=regional,
+            tecnico=tecnico,
+            atendimento_retorno=False,  # Valor padrão ou dependendo do POST
+            atividade_produtiva=atividade_produtiva,
+            topico=topico,
+            data=data,
+            hora=hora,
+            mais_informacoes=mais_informacoes,
+            imagem01=imagem01,
+            imagem02=imagem02,
+            imagem03=imagem03,
+            status=status
+        )
+        novo_atendimento.save()
+        return JsonResponse({'agendado': "sim", 'id_agendamento': novo_atendimento.id})
+        
+    except ValueError:
+        return JsonResponse({'agendado': "nao"})
+
+def produtor_confirmacao_atendimento(request, id):
+    
+    atendimento = Atendimento.objects.get(id=id)
+
+    conteudo = {
+        'atendimento': atendimento,
+    }
+    
+
+    return render(request, 'modulo_produtor/confirmacao_agendamento.html', conteudo)
 
 def produtor_meus_dados(request):
 

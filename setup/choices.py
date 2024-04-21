@@ -27,7 +27,7 @@ GENERO_SEXUAL = [
 ]
 
 ATIVIDADE_PRODUTIVA = [
-    ('Bovinocultura de Leite', 'Bovinocultura de Leite'),
+    ('bovinocultura_leite', 'Bovinocultura de Leite'),
 ]
 
 LISTA_HORA_ATENDIMENTO = [
@@ -114,4 +114,3 @@ LISTA_DATAS = [
     ('09/03/2024', '09/03/2024'),
     ('10/03/2024', '10/03/2024'),
 ]
-

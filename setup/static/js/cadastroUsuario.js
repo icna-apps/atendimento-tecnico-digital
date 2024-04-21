@@ -168,8 +168,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }, []);
     
         if (mensagensErro.length > 0) {
-            const campos = mensagensErro.join('<br>')
-            sweetAlertPreenchimento(campos)
+            const mensagem = mensagensErro.join('<br>')
+            sweetAlertPreenchimento({mensagem})
             return false;
         }
     

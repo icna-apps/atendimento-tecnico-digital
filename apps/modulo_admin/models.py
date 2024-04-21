@@ -165,10 +165,12 @@ class Atendimento(models.Model):
     #dados do agendamento
     regional = models.CharField(max_length=2, choices=LISTA_UFS_SIGLAS, null=False, blank=False, default='MS')
     tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_atendimento')
+    atendimento_retorno = models.BooleanField(default=False)
+    atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
     atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
     topico = models.CharField(max_length=120, null=False, blank=False)
     data = models.DateField(null=False, blank=False)
-    hora = models.CharField(max_length=5, choices=LISTA_HORA_ATENDIMENTO, null=False, blank=False)
+    hora = models.CharField(max_length=5, null=False, blank=False)
     mais_informacoes = models.TextField(null=True, blank=True)
     imagem01 = models.ImageField(null=True, blank=True)
     imagem02 = models.ImageField(null=True, blank=True)
@@ -191,6 +193,11 @@ class Atendimento(models.Model):
 
     def atendimento_ativo(self):
         return self.status != 'cancelado'
+
+    def atendimento_id(self):
+        year_suffix = self.data.strftime('%y')
+        id_str = str(self.id).zfill(4)
+        return f"{id_str}/{year_suffix}"
 
     @classmethod
     def proxima_semana_agendamentos(cls, regional):

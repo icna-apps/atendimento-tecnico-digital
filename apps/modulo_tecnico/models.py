@@ -15,7 +15,6 @@ class HorariosAtendimentos(models.Model):
     horario = models.CharField(max_length=10, null=False, blank=False)
     tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_horario_atendimento')
 
-
     def __str__(self):
         return f"{self.id} - Data/Hora: {self.dia_semana}-{self.horario}, Regional: {self.regional}, Técnico: {self.tecnico}"
     

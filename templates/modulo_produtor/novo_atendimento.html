@@ -21,7 +21,7 @@
     
 
     <!-- Formulário de Agendamento -->
-    <form class="formulario">
+    <form class="formulario" id="formNovoAtendimento" enctype="multipart/form-data">
 
         <div class="container_informacoes">
             <div class="container_informacoes__titulo">
@@ -37,6 +37,7 @@
                     {{ form.topico }}
                     <label>{{ form.topico.label }}</label>
                 </div>
+
             </div>
         </div>
 
@@ -117,7 +118,7 @@
 
             <div class="container_informacoes__botoes">
                 <button type="button" class="btn btn-secondary" id="btnCancelar">Cancelar</button>
-                <button type="button" class="btn btn-success" id="btnConfirmar">Confirmar</button>
+                <button type="submit" class="btn btn-success" id="btnConfirmar">Agendar</button>
             </div>
         </div>
         
