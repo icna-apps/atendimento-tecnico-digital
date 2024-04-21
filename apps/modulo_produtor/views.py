@@ -54,7 +54,19 @@ def login_produtor(request):
 
 
 def produtor_meus_atendimentos_lista(request):
-    return render(request, 'modulo_produtor/meus_atendimentos_lista.html')
+
+    #Procurar agendamento
+    produtor = request.user.usuario_relacionado
+    try:
+        agendamento = Atendimento.objects.get(produtor=produtor, status='agendado')
+    except Atendimento.DoesNotExist:
+        agendamento = None
+
+    conteudo = {
+        'agendamento': agendamento,
+    }
+
+    return render(request, 'modulo_produtor/meus_atendimentos_lista.html', conteudo)
 
 def produtor_novo_atendimento(request):
 
@@ -94,7 +106,8 @@ def produtor_realizar_agendamento(request):
     #Objeto POST
     post_data = request.POST.copy()
     
-    #Regional
+    #Produtor e Regional
+    produtor = request.user.usuario_relacionado
     regional = request.user.usuario_relacionado.regional_senar_produtor()
 
     #Infos do atendimento
@@ -111,7 +124,6 @@ def produtor_realizar_agendamento(request):
     data = datetime.strptime(data_str, '%d/%m/%Y').date()
     hora = post_data.get('hora', '')
     
-
     # #Encontrando o técnico
     dia_semana_index = data.weekday()  # Retorna um inteiro de 0 a 6
     nomes_dias = {0: 'Segunda', 1: 'Terça', 2: 'Quarta', 3: 'Quinta', 4: 'Sexta', 5: 'Sábado', 6: 'Domingo'}
@@ -127,6 +139,7 @@ def produtor_realizar_agendamento(request):
         novo_atendimento = Atendimento(
             regional=regional,
             tecnico=tecnico,
+            produtor=produtor,
             atendimento_retorno=False,  # Valor padrão ou dependendo do POST
             atividade_produtiva=atividade_produtiva,
             topico=topico,
@@ -151,9 +164,18 @@ def produtor_confirmacao_atendimento(request, id):
     conteudo = {
         'atendimento': atendimento,
     }
-    
 
     return render(request, 'modulo_produtor/confirmacao_agendamento.html', conteudo)
+
+
+def produtor_ficha_atendimento(request, id):
+    atendimento = Atendimento.objects.get(id=id)
+
+    conteudo = {
+        'atendimento': atendimento,
+    }
+
+    return render(request, 'modulo_produtor/ficha_atendimento.html', conteudo)
 
 def produtor_meus_dados(request):
 

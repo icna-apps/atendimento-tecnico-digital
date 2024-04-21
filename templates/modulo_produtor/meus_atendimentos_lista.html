@@ -2,27 +2,52 @@
 {% load static %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'styles/modulo_produtor/meus_atendimentos.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/modulo_produtor/card_agendamento.css' %}">
 {% endblock %}
 
-{% block content %}    
-    
+{% block content %}       
 
-    <!-- Novo Atendimento -->
-    <div class="card-novo-atendimento" id="novoAtendimento" onclick="window.location.href='/produtor/novo-atendimento/'">
-        
-        <div class="image-card">
-            <i class="material-symbols-outlined">video_chat</i>
+    {% if agendamento %}
+
+        <!-- Agendamento -->
+        <div class="card-agendamento" id="cardAgendamento" data-id="{{ agendamento.id }}">
+            
+            <div class="image-card">
+                <i class="material-symbols-outlined">calendar_clock</i>
+            </div>
+
+            <div class="textos-card">
+                <div class="titulo-card">
+                    Atendimento Agendado 
+                </div>
+                <div class="texto-card" >
+                    <span>Atividade: {{ agendamento.get_atividade_produtiva_display }}</span>
+                    <span>Tópico: {{ agendamento.topico }}</span>
+                    <span>Data: <b>{{ agendamento.data|date:'d/m/Y' }}</b></span>
+                    <span>Hora: <b>{{ agendamento.hora }}</b></span>
+                    <span>Técnico: {{ agendamento.tecnico.primeiro_ultimo_nome }}</span>
+                </div>
+            </div>
         </div>
 
-        <div class="textos-card">
-            <div class="titulo-card">
-                Novo Atendimento
+    {% else %}
+        <!-- Novo Atendimento -->
+        <div class="card-novo-atendimento" id="novoAtendimento" onclick="window.location.href='/produtor/novo-atendimento/'">
+            
+            <div class="image-card">
+                <i class="material-symbols-outlined">video_chat</i>
             </div>
-            <div class="texto-card">
-                Faça o agendamento para falar com um técnico do Senar.<br>
+
+            <div class="textos-card">
+                <div class="titulo-card">
+                    Novo Atendimento
+                </div>
+                <div class="texto-card">
+                    Faça o agendamento para falar com um técnico do Senar.<br>
+                </div>
             </div>
         </div>
-    </div>
+    {% endif %}
 
 
     <!-- Lista de Atendimentos -->
@@ -91,5 +116,7 @@
             </div>
         </div>
     </div>
+
+    <script src="{% static 'js/modulo_produtor/meus_atendimentos.js' %}"></script>
 
 {% endblock %}

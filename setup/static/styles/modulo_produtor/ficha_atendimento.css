@@ -1,0 +1,86 @@
+.container_body {
+    grid-template-rows: 10% 90%;
+}
+
+.container__page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2vh;
+}
+
+.titulo_pagina {
+    text-align: center;
+
+}
+
+.titulo_pagina_id {
+    background-color: var(--verde-capital);
+    border-radius: 10px;
+    padding: 1px 10px;
+    font-weight: bold;
+    color: white;
+}
+
+.botao_sair {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+
+.card {
+    background-color: var(--cinza-claro);
+    border: none;
+    padding: 1vh;
+    gap: 0.75vh;
+}
+
+.card__titulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1vw;
+    font-weight: bold;
+}
+
+.material-symbols-outlined.card__imagem {
+    font-size: 1.5rem;
+}
+
+.card__conteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.imagens_enviadas {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: gray;
+}
+
+.imagens_enviadas__imagem {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+
+.status_atendimento {
+    font-weight: bold;
+}
+
+.atendimento_agendado {
+    color: var(--agendado);
+    background-color: none;
+}
+
+.atendimento_cancelado {
+    color: var(--cancelado);
+}
+
+.atendimento_realizado {
+    color: var(--verde-capital);
+}

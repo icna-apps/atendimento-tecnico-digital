@@ -165,6 +165,7 @@ class Atendimento(models.Model):
     #dados do agendamento
     regional = models.CharField(max_length=2, choices=LISTA_UFS_SIGLAS, null=False, blank=False, default='MS')
     tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_atendimento')
+    produtor = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtor_atendimento')
     atendimento_retorno = models.BooleanField(default=False)
     atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
     atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
@@ -201,8 +202,8 @@ class Atendimento(models.Model):
 
     @classmethod
     def proxima_semana_agendamentos(cls, regional):
-        data_inicio = timezone.now().date() + timedelta(days=1)
-        data_fim = data_inicio + timedelta(days=6)
+        data_inicio = timezone.now().date() 
+        data_fim = data_inicio + timedelta(days=7)
 
         agendamentos = cls.objects.filter(
             regional=regional,

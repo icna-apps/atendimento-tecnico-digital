@@ -85,7 +85,6 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.agendado === "sim") {
                 const idAgendamento = data.id_agendamento;
-                alert('Deu certo! ID do Agendamento: ' + idAgendamento);
                 window.location.href = `/produtor/confirmacao-atendimento/${idAgendamento}/`;
             } else {
                 sweetAlert('<span style="font-weight:normal">Erro! Agendamento <b style="color:red">não realizado!</b></span>', 'error', 'red');

@@ -1,0 +1,125 @@
+{% extends '_partials/base_main_produtor.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static 'styles\modulo_produtor\ficha_atendimento.css' %}">
+{% endblock %}
+
+{% block content %}    
+
+    <div class="container__page">
+
+        <div class="titulo_pagina">
+            <span><b>Ficha do Atendimento</b><br></span>
+            <span class="titulo_pagina_id">{{ atendimento.atendimento_id }}</span>
+        </div>
+
+        <!-- Identificação -->
+        <div class="card">
+            <div class="card__titulo">
+                <i class="material-symbols-outlined card__imagem">info</i>Identificação
+            </div>
+            <div class="card__conteudo">
+                <span>ID: {{ atendimento.atendimento_id }}</span>
+                <span>Data: {{ atendimento.data|date:'d/m/Y' }}</span>
+                <span>Hora: {{ atendimento.hora }}</span>
+                <span>Status: 
+                    {% if atendimento.status == 'agendado' %}
+                        <span class='status atendimento_agendado'>Agendado</span>
+                    {% endif %}
+                    {% if atendimento.status == 'realizado' %}
+                        <span class='status atendimento_realizado'>Realizado</span>
+                    {% endif %}
+                    {% if atendimento.status == 'cancelado' %}
+                        <span class='status atendimento_cancelado'>Cancelado</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Tópico do Atendimento -->
+        <div class="card">
+            <div class="card__titulo">
+                <i class="material-symbols-outlined card__imagem">target</i>Tópico do Atendimento
+            </div>
+            <div class="card__conteudo">
+                <span>Atividade: {{ atendimento.get_atividade_produtiva_display }}</span>
+                <span>Tópico: {{ atendimento.topico }}</span>
+                <span>Mais informações:
+                    {% if atendimento.mais_informacoes %}
+                        <br>{{ atendimento.mais_informacoes }}
+                    {% else %}
+                        não informado.
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <!-- Fotos -->
+        <div class="card">
+            <div class="card__titulo">
+                <i class="material-symbols-outlined card__imagem">image</i>Imagens
+            </div>
+            <div class="card__conteudo">
+                
+                <div class="imagens_enviadas">
+                    <span>
+                        {% if atendimento.imagem01 %}
+                            <img src="#" alt="Imagem 01">
+                        {% else %}
+                            <div class="imagens_enviadas__imagem">
+                                <i class="material-symbols-outlined">image</i>
+                                <span>Não enviada</span> 
+                            </div>
+                        {% endif %}
+                    </span>
+                    <span>
+                        {% if atendimento.imagem02 %}
+                            <img src="#" alt="Imagem 02">
+                        {% else %}
+                            <div class="imagens_enviadas__imagem">
+                                <i class="material-symbols-outlined">image</i>
+                                <span>Não enviada</span> 
+                            </div>
+                        {% endif %}
+                    </span>
+                    <span>
+                        {% if atendimento.imagem03 %}
+                            <img src="#" alt="Imagem 03">
+                        {% else %}
+                            <div class="imagens_enviadas__imagem">
+                                <i class="material-symbols-outlined">image</i>
+                                <span>Não enviada</span> 
+                            </div>
+                        {% endif %}
+                    </span>
+                </div>
+                
+                
+                
+            </div>
+        </div>
+
+
+        <!-- Avaliação -->
+        <div class="card">
+            <div class="card__titulo">
+                <i class="material-symbols-outlined card__imagem">star</i>Avalição
+            </div>
+            <div class="card__conteudo">
+                
+            </div>
+        </div>
+
+
+        <div class="botao_sair">
+            <button type="button" class="btn btn-secondary" id="btnSair" style="width: 40%;">Sair</button>
+        </div>
+
+    </div>
+    
+    
+    
+
+        
+    <script src="{% static 'js/modulo_produtor/ficha_atendimento.js' %}"></script>
+{% endblock %}
