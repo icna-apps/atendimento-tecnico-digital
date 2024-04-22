@@ -11,7 +11,23 @@
 
 .titulo_pagina {
     text-align: center;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    align-items: center;
+    
+}
 
+.titulo_pagina__item .material-symbols-outlined {
+    font-size: 6vw;
+    
+}
+
+#btnSair {
+    text-align: left;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 1vh;
 }
 
 .titulo_pagina_id {
@@ -22,12 +38,7 @@
     color: white;
 }
 
-.botao_sair {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-content: center;
-}
+
 
 .card {
     background-color: var(--cinza-claro);
@@ -83,4 +94,18 @@
 
 .atendimento_realizado {
     color: var(--verde-capital);
+}
+
+
+.botoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    margin-top: 2vh;
+}
+
+#btnEditar {
+    background-color: var(--editar);
+    border-color: var(--editar);
 }

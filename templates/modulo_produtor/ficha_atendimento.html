@@ -2,6 +2,7 @@
 {% load static %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'styles\modulo_produtor\ficha_atendimento.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}    
@@ -9,8 +10,16 @@
     <div class="container__page">
 
         <div class="titulo_pagina">
-            <span><b>Ficha do Atendimento</b><br></span>
-            <span class="titulo_pagina_id">{{ atendimento.atendimento_id }}</span>
+            <div class="titulo_pagina__item" id="btnSair">
+                <i class="material-symbols-outlined">arrow_back</i>
+                Voltar
+            </div>
+            
+            <div class="titulo_pagina__item">
+                <span><b>Ficha do Atendimento</b><br></span>
+                <span class="titulo_pagina_id">{{ atendimento.atendimento_id }}</span>
+            </div>
+            
         </div>
 
         <!-- Identificação -->
@@ -18,7 +27,7 @@
             <div class="card__titulo">
                 <i class="material-symbols-outlined card__imagem">info</i>Identificação
             </div>
-            <div class="card__conteudo">
+            <div class="card__conteudo" id="cardAtendimento" data-id="{{ atendimento.id }}">
                 <span>ID: {{ atendimento.atendimento_id }}</span>
                 <span>Data: {{ atendimento.data|date:'d/m/Y' }}</span>
                 <span>Hora: {{ atendimento.hora }}</span>
@@ -111,8 +120,9 @@
         </div>
 
 
-        <div class="botao_sair">
-            <button type="button" class="btn btn-secondary" id="btnSair" style="width: 40%;">Sair</button>
+        <div class="botoes">
+            <button type="button" class="btn btn-secondary"  style="width: 30%;" id="btnCancelar">Cancelar</button>
+            <button type="button" class="btn btn-success"  style="width: 30%;" id="btnEditar">Editar</button>
         </div>
 
     </div>

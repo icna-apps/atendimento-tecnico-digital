@@ -22,43 +22,41 @@ function sweetAlertPreenchimento({mensagem, title = 'Atenção!', icon = 'warnin
 }
 
 
-function sweetAlertDelete(mensagem, url_delete, csrfToken, url_apos_delete) {
+function sweetAlertConfirmacao(tittle, mensagem, textoConfirmacao, textoCancelar, url, csrfToken, url_apos) {
     Swal.fire({
-    title: "Você tem certeza?",
+    title: tittle,
     text: mensagem,
     icon: "warning",
     iconColor: 'red',
     showCancelButton: true,
     confirmButtonColor: "#d33",
-    cancelButtonColor: "#3085d6",
-    confirmButtonText: "Sim, deletar!"
+    cancelButtonColor: "#1AA33C",
+    confirmButtonText: textoConfirmacao,
+    cancelButtonText: textoCancelar,
     }).then((result) => {
-    if (result.isConfirmed) {
-        $.ajax({
-        url: url_delete,
-        method: 'POST',
-        headers: {
-            'X-CSRFToken': csrfToken
-        },
-        success: function(response) {
-            Swal.fire({
-                title: "Deletado!",
-                text: "Registro deletado com sucesso!",
-                icon: "success",
-                confirmButtonColor: 'green',
+        if (result.isConfirmed) {
+            $.ajax({
+                url: url,
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': csrfToken
+                },
+                success: function(response) {
+                    Swal.fire({
+                        title: "Cancelado!",
+                        text: "Agendamento cancelado com sucesso!",
+                        icon: "success",
+                        confirmButtonColor: 'green',
+                    });
+                    setTimeout(function() {
+                        window.location.href = url_apos;
+                    }, 1500);
+                },
+                error: function(error) {
+                    alert('Ocorreu um erro ao tentar cancelar. Por favor, tente novamente.');
+                }
             });
-            setTimeout(function() {
-                window.location.href = url_apos_delete;
-            }, 1500);
-        },
-        error: function(error) {
-            alert('Ocorreu um erro ao tentar deletar. Por favor, tente novamente.');
         }
-    });
-
-
-        
-    }
     });
 }
 

@@ -1,5 +1,8 @@
 from django.shortcuts import render, redirect
+from django.db import transaction
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
+from django.views.decorators.http import require_http_methods
 from django.contrib.auth import logout
 from django.http import JsonResponse
 from django.http import HttpResponse
@@ -176,6 +179,20 @@ def produtor_ficha_atendimento(request, id):
     }
 
     return render(request, 'modulo_produtor/ficha_atendimento.html', conteudo)
+
+
+@require_http_methods(["POST"]) 
+def produtor_cancelar_atendimento(request, id):
+    atendimento = get_object_or_404(Atendimento, id=id)
+
+    print('Atendimento: ', atendimento)
+
+    with transaction.atomic():
+        atendimento.status = 'cancelado'
+        atendimento.save()
+
+    return JsonResponse({'retorno': 'ok'})
+
 
 def produtor_meus_dados(request):
 
