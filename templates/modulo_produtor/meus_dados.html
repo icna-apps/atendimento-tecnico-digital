@@ -16,7 +16,7 @@
             <span>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</span>
         </div>
         
-        <form class="container_dados_usuario">
+        <form id="formDadosUsuario" class="container_dados_usuario">
             <div class="input-group mb-3">
                 <span class="input-group-text" style="width: 25vw;">CPF</span>
                 <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
@@ -29,21 +29,21 @@
     
             <div class="input-group mb-3">
                 <span class="input-group-text" style="width: 25vw;">Nome</span>
-                <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.nome_completo }}">
+                <input type="text" class="form-control" id="formNomeCompleto" name="nome_completo" value="{{ request.user.usuario_relacionado.nome_completo }}">
             </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text" style="width: 25vw;">Data Nasc.</span>
-                <input type="text" id="formDataNascimento" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.data_nascimento|date:'d/m/Y' }}">
+                <input type="text" id="formDataNascimento" name="data_nascimento" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.data_nascimento|date:'d/m/Y' }}">
             </div>
 
             <div class="input-group mb-3">
                 <span class="input-group-text" style="width: 25vw;">Whatsapp</span>
-                <input type="text" id="formCelular" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.celular }}">
+                <input type="text" id="formCelular" name="celular" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.celular }}">
             </div>
             <div class="input-group mb-3">
                 <span class="input-group-text" style="width: 25vw;">Email</span>
-                <input type="text" id="formEmail" class="form-control" value="{{ request.user.usuario_relacionado.email }}">
+                <input type="text" id="formEmail" name="email" class="form-control" value="{{ request.user.usuario_relacionado.email }}">
             </div>
 
             <div class="botao">

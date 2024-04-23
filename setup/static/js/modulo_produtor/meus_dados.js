@@ -1,7 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    //Verificar se há mensagem de salvamento com sucesso
+    if (localStorage.getItem('confirmacaoAlteracao') === 'true') {
+        sweetAlert('<span style="font-weight:normal">Alteraçõoes realizadas com <b style="color:green">sucesso!</b></span>', 'success', 'top-end');
+        localStorage.removeItem('confirmacaoAlteracao');
+    }
+
     $('#formCelular').mask('(00) 00000-0000');
     $('#formDataNascimento').mask('00/00/0000');
+
+    const formNomeCompleto = document.querySelector('#formNomeCompleto')
+    formNomeCompleto.addEventListener('change', function() {
+        if (formNomeCompleto.value.length < 10) {
+            sweetAlert(
+                tittle='Informe o seu Nome Completo!',
+                icon='warning',
+                iconColor='red',
+            )
+            formNomeCompleto.value = '';
+        }
+    });
 
     const formDataNascimento = document.querySelector('#formDataNascimento')
     formDataNascimento.addEventListener('change', function() {
@@ -21,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnSalvar = document.querySelector('#btnSalvar')
     btnSalvar.addEventListener('click', function(event) {
         event.preventDefault();
-        alert('teste')
+        salvarDadosPessoais();
     })
 
     function salvarDadosPessoais(){
@@ -33,10 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         //Enviar para o backend
             //definir o caminho
-            postURL = '/produtor/realizar-agendamento/'
+            postURL = '/produtor/meus-dados/alterar/'
     
             //pegar os dados
-            let formData = new FormData(document.getElementById('formNovoAtendimento'));
+            let formData = new FormData(document.getElementById('formDadosUsuario'));
     
             //enviar 
             fetch(postURL, {
@@ -51,17 +69,17 @@ document.addEventListener('DOMContentLoaded', function() {
         //Retorno do Servidor
         .then(response => {
             if (!response.ok) {
-                sweetAlert('<span style="font-weight:normal">Erro! Agendamento <b style="color:red">não realizado!</b></span>', 'error', 'red');
+                sweetAlert('<span style="font-weight:normal">Erro! Alterações <b style="color:red">não realizadas!</b></span>', 'error', 'red');
                 throw new Error('Server response was not ok: ' + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            if (data.agendado === "sim") {
-                const idAgendamento = data.id_agendamento;
-                window.location.href = `/produtor/confirmacao-atendimento/${idAgendamento}/`;
+            if (data.alterado === "sim") {
+                localStorage.setItem('confirmacaoAlteracao', 'true');
+                window.location.href = `/produtor/meus-dados/`;
             } else {
-                sweetAlert('<span style="font-weight:normal">Erro! Agendamento <b style="color:red">não realizado!</b></span>', 'error', 'red');
+                sweetAlert('<span style="font-weight:normal">Erro! Alterações <b style="color:red">não realizadas!</b></span>', 'error', 'red');
             }
         })
         .catch(error => {
@@ -72,10 +90,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function verificarCampos() {
         const campos = [
-            { id: 'formDataNascimento', mensagem: 'Informe a <b>Atividade Produtiva</b>!' },
-            { id: 'formCelular', mensagem: 'Informe o <b>Tópico do Atendimento</b>!' },
-            { id: 'id_data', mensagem: 'Informe a <b>Data</b>!' },
-            { id: 'id_hora', mensagem: 'Informe a <b>Hora</b>!' },
+            { id: 'formNomeCompleto', mensagem: 'Informe o seu <b>Nome Completo</b>!'},
+            { id: 'formDataNascimento', mensagem: 'Informe a sua <b>Data de Nascimento</b>!' },
+            { id: 'formCelular', mensagem: 'Informe o seu <b>Whatsapp</b>!' },
         ];
     
         let mensagensErro = campos.reduce((mensagens, campo) => {

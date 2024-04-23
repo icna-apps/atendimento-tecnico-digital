@@ -204,5 +204,33 @@ def produtor_cancelar_atendimento(request, id):
 def produtor_meus_dados(request):
     return render(request, 'modulo_produtor/meus_dados.html')
 
+def produtor_meus_dados_alterar(request):
+    try:
+        #Produtor
+        produtor = request.user.usuario_relacionado
+        
+        #Objeto POST
+        post_data = request.POST.copy()
+        
+        #Infos do usuário
+        nome_completo = post_data.get('nome_completo', '')
+        data_str = post_data.get('data_nascimento', '')
+        celular = post_data.get('celular', '')
+        email = post_data.get('email', '')
+
+        #Converter data
+        data_nascimento = datetime.strptime(data_str, "%d/%m/%Y").date()
+
+        produtor.nome_completo = nome_completo
+        produtor.data_nascimento = data_nascimento
+        produtor.celular = celular
+        produtor.email = email
+        produtor.save()
+
+        return JsonResponse({'alterado': "sim"})
+        
+    except ValueError:
+        return JsonResponse({'alterado': "nao"})
+
 def produtor_informacoes(request):
     return render(request, 'modulo_produtor/informacoes.html')
