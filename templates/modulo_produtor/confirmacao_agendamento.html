@@ -21,13 +21,13 @@
         <!-- Card Atendimento -->
         <div class="card-atendimento">
             <div class="card-atendimento__informacoes">
-                <span><b>ID {{ atendimento.atendimento_id }}</b></span>
-                <span>Status: <span class='status agendado'>{{ atendimento.get_status_display }}</span></span>
+                <span><b>Atendimento {{ atendimento.atendimento_id }}</b></span>
                 <span>Atividade: {{ atendimento.get_atividade_produtiva_display }}</span>
                 <span>Tópico: {{ atendimento.topico }}</span>
                 <span>Data: <b>{{ atendimento.data|date:'d/m/Y' }}</b></span>
                 <span>Hora: <b>{{ atendimento.hora }}</b></span>
                 <span>Técnico: {{ atendimento.tecnico.primeiro_ultimo_nome }}</span>
+                <span>Status: <span class='status agendado'>{{ atendimento.get_status_display }}</span></span>
             </div>
         </div>
 

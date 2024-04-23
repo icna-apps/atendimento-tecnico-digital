@@ -25,9 +25,13 @@
 }
 
 .agendado {
-    background-color: orangered;
-    padding: 3px;
-    border-radius: 5px;
-    color: white;
-    font-weight: normal;
+    color: var(--agendado);
+}
+
+.cancelado {
+    color: var(--cancelado);
+}
+
+.realizado {
+    color: var(--realizado);
 }

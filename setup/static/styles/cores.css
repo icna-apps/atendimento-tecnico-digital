@@ -3,7 +3,11 @@
     --cinza-primario: #6A6A6A;
     --cinza-escuro: #484848;
     --cinza-claro: #e4e4e4;
+
+    /* Status do Atendimento */
     --agendado: #ff2200;
-    --cancelado: #7b0000;
+    --cancelado: #b80000;
+    --realizado: var(--verde-capital);
+
     --editar: #f5840b;
   }

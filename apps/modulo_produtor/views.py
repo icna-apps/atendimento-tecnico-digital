@@ -60,13 +60,20 @@ def produtor_meus_atendimentos_lista(request):
 
     #Procurar agendamento
     produtor = request.user.usuario_relacionado
-    try:
-        agendamento = Atendimento.objects.get(produtor=produtor, status='agendado')
-    except Atendimento.DoesNotExist:
-        agendamento = None
+    atendimentos = Atendimento.objects.filter(produtor=produtor)
+
+    
+    agendamento = atendimentos.filter(status='agendado').first()
+    atendimentos = atendimentos.exclude(status='agendado')
 
     conteudo = {
         'agendamento': agendamento,
+        'atendimentos': atendimentos,
+    }
+
+    conteudo = {
+        'agendamento': agendamento,
+        'atendimentos': atendimentos,
     }
 
     return render(request, 'modulo_produtor/meus_atendimentos_lista.html', conteudo)
