@@ -56,6 +56,24 @@ class Usuario(models.Model):
             except UF_Municipio.DoesNotExist:
                 return "Código IBGE não encontrado"
         return "Código IBGE não informado"
+    
+    def uf(self):
+        if self.reside_cod_ibge:
+            try:
+                uf_municipio = UF_Municipio.objects.get(cod_ibge=self.reside_cod_ibge)
+                return f"{uf_municipio.uf_sigla}"
+            except UF_Municipio.DoesNotExist:
+                return "Código IBGE não encontrado"
+        return "Código IBGE não informado"
+    
+    def municipio(self):
+        if self.reside_cod_ibge:
+            try:
+                uf_municipio = UF_Municipio.objects.get(cod_ibge=self.reside_cod_ibge)
+                return f"{uf_municipio.municipio}"
+            except UF_Municipio.DoesNotExist:
+                return "Código IBGE não encontrado"
+        return "Código IBGE não informado"
 
     def vinculo_regional_ativo(self):
         return self.vinculo_tecnico_regional.filter(is_ativo=True).first()

@@ -21,7 +21,8 @@ document.addEventListener('DOMContentLoaded', () => {
         // Impede a seleção se o horário está indisponível
         if (this.classList.contains('indisponivel')) {
             sweetAlertPreenchimento({
-                html: '<p style="font-size: 1.25rem">Este horário não está disponível para seleção.</p>',
+                title: 'Atenção!',
+                mensagem: '<p style="font-size: 1.25rem">Este horário não está disponível para seleção.</p>',
                 iconColor: 'red'
             });
             return; // Retorna cedo para não executar o resto do código
@@ -44,12 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
                 updateSelectedCount();
             } else if (activeCountDay >= 6) {
                 sweetAlertPreenchimento({
-                    html: '<p style="font-size: 1.25rem">Você pode selecionar até <b>6 horários por dia</b>.</p>',
+                    mensagem: '<p style="font-size: 1.25rem">Você pode selecionar até <b>6 horários por dia</b>.</p>',
                     iconColor: 'red'
                 });
             } else if (totalActiveCount >= 30) {
                 sweetAlertPreenchimento({
-                    html: '<p style="font-size: 1.25rem">Você pode selecionar até <b>30 horários por semana</b>.</p>',
+                    mensagem: '<p style="font-size: 1.25rem">Você pode selecionar até <b>30 horários por semana</b>.</p>',
                     iconColor: 'red'
                 });
             }

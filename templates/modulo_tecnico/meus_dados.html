@@ -5,16 +5,117 @@
 {% endblock %}
 {% block content %}    
     
-    <div class="subabas">
+    <div class="container_page">
+        
+        
+            
+        <form id="formDadosUsuario" class="secao_dados">
+            
+            <div class="secao_dados_subsecao">
 
-        <div class="subaba__item ativa">
-            Dados Pessoais
-        </div>
+                <div class="secao_dados_subsecao_titulo">
+                    Dados Pessoais
+                </div>
 
-        <div class="subaba__item">
-            Dados do CNPJ
-        </div>
+                <div class="secao_dados_subsecao_itens">
+                    <div class="form-floating mb-3" style="width: 150px;">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
+                        <label>CPF</span>
+                    </div>
+                    <div class="form-floating mb-3" style="min-width: 350px;">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.nome_completo }}">
+                        <label>Nome Completo</span>
+                    </div>
+        
+                    <div class="form-floating mb-3" style="width: 200px;">
+                        <input type="date" class="form-control" value="{{ request.user.usuario_relacionado.data_nascimento|date:'Y/m/d' }}">
+                        <label>Data de Nascimento</span>
+                    </div>
+    
+                    <div class="form-floating mb-3" style="width: 100px;">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.uf }}">
+                        <label>UF</span>
+                    </div>
+        
+                    <div class="form-floating mb-3" style="width: 300px;">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.municipio }}">
+                        <label>Município</span>
+                    </div>
+                </div>
 
+            </div>
+            
+            <div class="secao_dados_subsecao">
+
+                <div class="secao_dados_subsecao_titulo">
+                    Contato
+                </div>
+
+                <div class="secao_dados_subsecao_itens">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.celular }}">
+                        <label>Celular</span>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.email_pessoal }}">
+                        <label>Email</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="secao_dados_subsecao">
+
+                <div class="secao_dados_subsecao_titulo">
+                    CNPJ
+                </div>
+
+                <div class="secao_dados_subsecao_itens">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="">
+                        <label>CNPJ</span>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" readonly>
+                        <label>Razão Social</span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="secao_dados_subsecao">
+
+                <div class="secao_dados_subsecao_titulo">
+                    Dados Bancários do CNPJ
+                </div>
+
+                <div class="secao_dados_subsecao_itens">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" value="">
+                        <label>Banco</span>
+                    </div>
+        
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control">
+                        <label>Agência</span>
+                    </div>
+
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control">
+                        <label>Conta</span>
+                    </div>
+                </div>
+
+            </div>
+            
+            
+
+            <div class="botao">
+                <button type="submit" class="btn btn-primary" id="btnSalvar">Salvar</button>
+            </div>
+        </form>
 
     </div>
 

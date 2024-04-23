@@ -121,3 +121,7 @@ def meus_horarios_salvar(request):
 def logout_tecnico(request):
     logout(request)
     return redirect('login_tecnico')
+
+
+def tecnico_meus_dados(request):
+    return render(request, 'modulo_tecnico/meus_dados.html')

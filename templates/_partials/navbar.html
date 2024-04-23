@@ -1,8 +1,9 @@
 {% load static %}
+{% load saudacoes_filters %}
 
         
 <div class="saudacao">
-    <span style="color:gray; font-weight: normal !important;">Bom dia,</span> <b>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</b>
+    <span style="color:gray; font-weight: normal !important;">{{ user|saudacao }}, &nbsp;</span> <b>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</b>
 </div>
 
 <div class="botoes__navbar">

@@ -1,19 +1,28 @@
-.subabas {
+.container_page{
+    width: 96%;
+    height: 100%;
+}
+
+.secao_dados{
+    display: flex;
+    flex-direction: column;
+}
+
+.secao_dados_subsecao {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.secao_dados_subsecao_titulo {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.secao_dados_subsecao_itens {
     display: flex;
     flex-direction: row;
-    justify-content: flex-start;
-    gap: 2vw;
-}
-
-.subaba__item {
-    padding: 10px;
-    transition: transform 0.3s ease-in-out; /* Adiciona uma transição suave */
-}
-  
-.subaba__item:hover {
-    transform: scale(1.02);
-}
-
-.ativa {
-    font-weight: bold;
+    row-gap: 0.5vh;
+    column-gap: 1vw;
+    flex-wrap: wrap;
 }
