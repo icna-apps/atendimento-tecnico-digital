@@ -202,13 +202,7 @@ def produtor_cancelar_atendimento(request, id):
 
 
 def produtor_meus_dados(request):
-
-    form = CadastroForm(instance=request.user)
-    conteudo = {
-        'form': form,
-    }
-
-    return render(request, 'modulo_produtor/meus_dados.html', conteudo)
+    return render(request, 'modulo_produtor/meus_dados.html')
 
 def produtor_informacoes(request):
     return render(request, 'modulo_produtor/informacoes.html')

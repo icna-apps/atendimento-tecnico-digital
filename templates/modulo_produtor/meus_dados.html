@@ -2,6 +2,7 @@
 {% load static %}
 {% block extra_head %}
     <link rel="stylesheet" href="{% static 'styles/modulo_produtor/meus_dados.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 {% endblock %}
 
 {% block content %}    
@@ -15,17 +16,49 @@
             <span>{{ user.usuario_relacionado.primeiro_ultimo_nome }}</span>
         </div>
         
-        <div class="form-floating">
-            {{ form.cpf }}
-            <label>{{ form.cpf.label }}</label>
+        <div class="container_dados_usuario">
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">CPF</span>
+                <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">Regional</span>
+                <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.regional_senar_produtor }}" readonly>
+            </div>
+    
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">Nome</span>
+                <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.nome_completo }}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">Data Nasc.</span>
+                <input type="text" id="formDataNascimento" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.data_nascimento|date:'d/m/Y' }}">
+            </div>
+
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">Whatsapp</span>
+                <input type="text" id="formCelular" inputmode="numeric" class="form-control" value="{{ request.user.usuario_relacionado.celular }}">
+            </div>
+            <div class="input-group mb-3">
+                <span class="input-group-text" style="width: 25vw;">Email</span>
+                <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.email }}">
+            </div>
+
+            <div class="botao">
+                <button type="button" class="btn btn-primary">Salvar</button>
+            </div>
+        </div>
+        
+        <div class="botao_sair">
+            <a href="/">
+                <span class="material-symbols-outlined sair">logout</span>
+                <span>Sair</span>
+            </a>
         </div>
 
-        <a href="/">
-            <span class="material-symbols-outlined">logout</span>
-            <span>Sair</span>
-        </a>
-        
-
+        <script src="{% static 'js/modulo_produtor/meus_dados.js' %}"></script>
 
     </div>
 
