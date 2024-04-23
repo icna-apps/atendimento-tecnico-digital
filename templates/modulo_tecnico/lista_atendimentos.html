@@ -19,13 +19,13 @@
                 <div class="listagem_item">
                     <div class="listagem_item_icone">
                         {% if atendimento.status == 'agendado' %}
-                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--agendado)">event</i>
+                            <i class="material-symbols-outlined" style="font-size: 3vw; color: var(--agendado)">event</i>
                             <span style="color: var(--agendado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
                         {% elif atendimento.status == 'cancelado' %}
-                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--cancelado)">event_busy</i>
+                            <i class="material-symbols-outlined" style="font-size: 3vw; color: var(--cancelado)">event_busy</i>
                             <span style="color: var(--cancelado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
                         {% elif atendimento.status == 'realizado' %}
-                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--realizado)">event_available</i>
+                            <i class="material-symbols-outlined" style="font-size: 3vw; color: var(--realizado)">event_available</i>
                             <span style="color: var(--realizado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
                         {% endif %}
                         

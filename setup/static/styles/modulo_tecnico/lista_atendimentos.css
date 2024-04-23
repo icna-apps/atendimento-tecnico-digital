@@ -14,7 +14,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    gap: 1vh;
+    gap: 1.5vh;
     padding-top: 1vh;
 }
 
@@ -26,6 +26,12 @@
     grid-template-columns: 10% 90%;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Adiciona transição suave para o efeito de transformação */
+}
+
+.listagem_item:hover {
+    transform: scale(1.01); /* Aumenta o tamanho do item em 5% quando o mouse está sobre ele */
 }
 
 .listagem_item_icone {
@@ -41,11 +47,11 @@
 .listagem_item_informacoes {
     display: flex;
     flex-direction: column;
-    cursor: pointer;
+    
 }
 
 .listagem_item_informacoes_titulo {
-    font-size: 1.25rem;
+    font-size: 1rem;
 }
 
 .listagem_item_informacoes_container {
@@ -56,4 +62,5 @@
 .listagem_item_informacoes_container_parte {
     display: flex;
     flex-direction: column;
+    font-size: 0.8rem;
 }

@@ -1,12 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
 
     const cardAgendamento = document.getElementById('cardAgendamento');
-    const agendamentoId = cardAgendamento.getAttribute('data-id');
-
-    cardAgendamento.addEventListener('click', function(){
-        window.location.href = `/produtor/ficha-atendimento/${agendamentoId}/`
-    })
-
+    if (cardAgendamento) {
+        const agendamentoId = cardAgendamento.getAttribute('data-id');
+    
+        cardAgendamento.addEventListener('click', function(){
+            window.location.href = `/produtor/ficha-atendimento/${agendamentoId}/`
+        });
+    }
 
     const cards = document.querySelectorAll('.card-atendimento');
     cards.forEach(card => {
