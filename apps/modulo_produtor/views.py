@@ -208,7 +208,7 @@ def produtor_meus_dados_alterar(request):
     try:
         #Produtor
         produtor = request.user.usuario_relacionado
-        
+
         #Objeto POST
         post_data = request.POST.copy()
         
@@ -224,7 +224,7 @@ def produtor_meus_dados_alterar(request):
         produtor.nome_completo = nome_completo
         produtor.data_nascimento = data_nascimento
         produtor.celular = celular
-        produtor.email = email
+        produtor.email_pessoal = email
         produtor.save()
 
         return JsonResponse({'alterado': "sim"})

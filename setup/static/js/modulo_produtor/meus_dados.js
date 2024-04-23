@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     //Verificar se há mensagem de salvamento com sucesso
     if (localStorage.getItem('confirmacaoAlteracao') === 'true') {
-        sweetAlert('<span style="font-weight:normal">Alteraçõoes realizadas com <b style="color:green">sucesso!</b></span>', 'success', 'top-end');
+        sweetAlert('<span style="font-weight:normal">Alterações realizadas com <b style="color:green">sucesso!</b></span>', 'success', 'top-end');
         localStorage.removeItem('confirmacaoAlteracao');
     }
 
