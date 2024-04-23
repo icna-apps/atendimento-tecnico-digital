@@ -119,11 +119,12 @@
             </div>
         </div>
 
-
-        <div class="botoes">
-            <button type="button" class="btn btn-secondary"  style="width: 30%;" id="btnCancelar">Cancelar</button>
-            <button type="button" class="btn btn-success"  style="width: 30%;" id="btnEditar">Editar</button>
-        </div>
+        {% if atendimento.status == 'agendado' %}
+            <div class="botoes">
+                <button type="button" class="btn btn-secondary"  style="width: 30%;" id="btnCancelar">Cancelar</button>
+                <button type="button" class="btn btn-success"  style="width: 30%;" id="btnEditar">Editar</button>
+            </div>
+        {% endif %}
 
     </div>
     

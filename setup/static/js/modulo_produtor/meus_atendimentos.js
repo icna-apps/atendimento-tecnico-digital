@@ -4,9 +4,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const agendamentoId = cardAgendamento.getAttribute('data-id');
 
     cardAgendamento.addEventListener('click', function(){
-        url = `/produtor/ficha-atendimento/${agendamentoId}/`
         window.location.href = `/produtor/ficha-atendimento/${agendamentoId}/`
     })
+
+
+    const cards = document.querySelectorAll('.card-atendimento');
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            const atendimentoId = this.getAttribute('data-id');
+            window.location.href = `/produtor/ficha-atendimento/${atendimentoId}/`
+        });
+    });
 
 
 });
