@@ -82,7 +82,7 @@ def meus_horarios(request):
 
     regional = request.user.usuario_relacionado.regional_senar()
 
-    horarios = HorariosAtendimentos.objects.filter(regional=regional)
+    horarios = HorariosAtendimentos.objects.filter(regional=regional).order_by('id')
     horarios_por_dia = {
         'Domingo': horarios.filter(dia_semana='Domingo'),
         'Segunda': horarios.filter(dia_semana='Segunda'),
@@ -108,14 +108,10 @@ def meus_horarios_salvar(request):
         data = json.loads(request.body)
         horariosAtivos = data.get('horariosAtivos', [])
         horariosDesmarcados = data.get('horariosDesmarcados', [])
-        print('Usuário: ', request.user)
-        print('Horários: ',horariosAtivos)
-        print('Horários: ', horariosDesmarcados)
         
         HorariosAtendimentos.objects.filter(id__in=horariosAtivos).update(tecnico=request.user.usuario_relacionado)
         HorariosAtendimentos.objects.filter(id__in=horariosDesmarcados).update(tecnico=None)
 
-        
         return JsonResponse({"success": True, "message": "Horários atualizados com sucesso!"}, status=200)
     except Exception as e:
         logger.error("Erro ao processar a requisição: %s", str(e))  # Logando o erro
@@ -124,5 +120,4 @@ def meus_horarios_salvar(request):
 
 def logout_tecnico(request):
     logout(request)
-    # Redireciona para a página de login ou para a home após o logout
     return redirect('login_tecnico')
