@@ -9,7 +9,7 @@ body {
 }
 
 .container_body {
-    height: 98%;
+    height: 95vh;
     width: 90vw;
     box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
