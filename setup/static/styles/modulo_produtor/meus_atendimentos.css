@@ -60,5 +60,9 @@
     max-height: 53vh;
     overflow-y: auto;
     padding-bottom: 15vh;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
 }
 
