@@ -5,6 +5,8 @@
     align-items: center;
     gap: 2vh;
     height: 100%;
+
+    overflow-y: auto;
 }
 
 .container_usuario {
@@ -47,19 +49,24 @@
     text-align: right;
 }
 
+
+
 .botao_sair a {
     font-size: 1rem;
+    width: 100%;
     text-decoration: none;
     color: black;
 
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: flex-end;
 
     margin-top: 1vh;
+    margin-bottom: 2vh;
+
 }
 
 .material-symbols-outlined.sair {
-    font-size: 5vh;
+    font-size: 4vh;
 }
