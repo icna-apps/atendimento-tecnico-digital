@@ -6,6 +6,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta
+from datetime import datetime
 
 from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS, ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, STATUS_ATENDIMENTO
 
@@ -75,7 +76,16 @@ class Usuario(models.Model):
             return vinculo.regional
         except ObjectDoesNotExist:
             return "Nenhum vínculo ativo encontrado"
-
+        
+    def idade(self):
+        if self.data_nascimento:
+            hoje = date.today()  # Usando 'date.today()' corretamente
+            idade = hoje.year - self.data_nascimento.year
+            # Verifica se ainda não chegou o aniversário deste ano
+            if (hoje.month, hoje.day) < (self.data_nascimento.month, self.data_nascimento.day):
+                idade -= 1
+            return idade
+        return "Data de nascimento não informada"
 
 class UF_Municipio(models.Model):
     cod_ibge = models.CharField(max_length=10, null=False, blank=False)

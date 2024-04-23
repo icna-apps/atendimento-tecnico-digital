@@ -6,7 +6,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm
-from apps.modulo_admin.models import Usuario
+from apps.modulo_admin.models import Usuario, Atendimento
 from apps.modulo_tecnico.models import HorariosAtendimentos
 import json
 import logging
@@ -64,6 +64,18 @@ def login_tecnico(request):
 
 def dashboard(request):
     return render(request, 'modulo_tecnico/dashboard.html')
+
+
+def atendimentos(request):
+
+    tecnico = request.user.usuario_relacionado
+    atendimentos = Atendimento.objects.filter(tecnico=tecnico).order_by('-id')
+
+    conteudo = {
+        'atendimentos': atendimentos,
+    }
+
+    return render(request, 'modulo_tecnico/lista_atendimentos.html', conteudo)
 
 
 def meus_horarios(request):

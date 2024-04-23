@@ -22,7 +22,7 @@
 
             <!-- Atendimentos -->
             {% with current_url=request.resolver_match.url_name %}
-            <a class="tab {% if current_url in 'web_tecnico_atendimentos,web_tecnico_atendimento_ficha' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+            <a class="tab {% if current_url in 'atendimentos' %}active-tab{% endif %}" href="{% url 'atendimentos' %}">
             {% endwith %}
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">support_agent</i>

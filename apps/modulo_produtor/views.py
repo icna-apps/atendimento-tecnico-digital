@@ -58,11 +58,9 @@ def login_produtor(request):
 
 def produtor_meus_atendimentos_lista(request):
 
-    #Procurar agendamento
     produtor = request.user.usuario_relacionado
     atendimentos = Atendimento.objects.filter(produtor=produtor).order_by('-id')
-
-    
+     
     agendamento = atendimentos.filter(status='agendado').first()
     atendimentos = atendimentos.exclude(status='agendado')
 

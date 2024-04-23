@@ -1,0 +1,67 @@
+{% extends '_partials/base_main.html' %}
+{% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/lista_atendimentos.css' %}">
+{% endblock %}
+
+{% block content %}    
+    
+
+    <div class="container_page">
+        
+        <div class="container_filtros">
+            Filtros
+        </div>
+
+        <div class="container_listagem">
+            
+            {% for atendimento in atendimentos %}
+                <div class="listagem_item">
+                    <div class="listagem_item_icone">
+                        {% if atendimento.status == 'agendado' %}
+                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--agendado)">event</i>
+                            <span style="color: var(--agendado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
+                        {% elif atendimento.status == 'cancelado' %}
+                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--cancelado)">event_busy</i>
+                            <span style="color: var(--cancelado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
+                        {% elif atendimento.status == 'realizado' %}
+                            <i class="material-symbols-outlined" style="font-size: 4vw; color: var(--realizado)">event_available</i>
+                            <span style="color: var(--realizado); font-weight: bold;">{{ atendimento.get_status_display }}</span>
+                        {% endif %}
+                        
+                    </div>
+                    <div class="listagem_item_informacoes">
+                        <span class="listagem_item_informacoes_titulo"><b>Atendimento {{ atendimento.atendimento_id }}</b></span>
+                        
+                        <div class="listagem_item_informacoes_container">
+                            
+                            <div class="listagem_item_informacoes_container_parte">
+                                <span>Data/Hora: <b>{{ atendimento.data|date:'d/m/Y' }} - {{ atendimento.hora }}</b></span>
+                                <span>Atividade: {{ atendimento.get_atividade_produtiva_display }}</span>
+                                <span>Tópico: {{ atendimento.topico }}</span>
+                            </div>
+
+                            <div class="listagem_item_informacoes_container_parte">
+                                <span>Produtor: <b>{{ atendimento.produtor.primeiro_ultimo_nome }}</b></span>
+                                <span>Idade: {{ atendimento.produtor.idade }} anos</span>
+                                <span>Município: {{ atendimento.produtor.uf_municipio }}</span>
+                            </div>
+                            
+                            <div class="listagem_item_informacoes_container_parte">
+                                Botões
+                            </div>
+                            
+                        </div>
+                        
+                    </div>
+                </div>
+            {% endfor %}
+
+        </div>
+
+
+    </div>
+
+
+
+{% endblock %}
