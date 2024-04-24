@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const horariosAtualmenteAtivos = new Set(Array.from(document.querySelectorAll('.horario-btn.ativo')).map(btn => btn.id));
     const horariosParaDesmarcar = Array.from(horariosInicialmenteAtivos).filter(id => !horariosAtualmenteAtivos.has(id));
     
-    fetch('/meushorarios/salvar/', {
+    fetch('tecnico/meushorarios/salvar/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',

@@ -10,7 +10,6 @@ from datetime import datetime
 
 from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS, ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, STATUS_ATENDIMENTO
 
-#admin_icna
 
 class Usuario(models.Model): 
     #relacionamento
@@ -112,7 +111,6 @@ class UF_Municipio(models.Model):
     municipio = models.CharField(max_length=35, null=False, blank=False)
     municipio_uf = models.CharField(max_length=40, null=False, blank=False)
 
-
 class VinculoTecnicoRegional(models.Model):
     # relacionamento
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, related_name='vinculo_tecnico_regional', null=True)
@@ -148,7 +146,6 @@ class VinculoTecnicoRegional(models.Model):
     def __str__(self):
         return f"{self.usuario.nome_completo}/{self.regional}"
 
-
 class VinculoProdutorRegional(models.Model):
     # relacionamento
     usuario = models.ForeignKey(Usuario, on_delete=models.DO_NOTHING, related_name='vinculo_produtor_regional', null=True)
@@ -183,7 +180,6 @@ class VinculoProdutorRegional(models.Model):
 
     def __str__(self):
         return f"{self.usuario.nome_completo}/{self.regional}"
-
 
 class Atendimento(models.Model): 
     #log

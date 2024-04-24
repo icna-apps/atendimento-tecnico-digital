@@ -11,7 +11,7 @@
         <div class="tabs">
             
             <!-- Dashboard -->
-            <a class="tab {% if request.resolver_match.url_name == 'dashboard' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+            <a class="tab {% if request.resolver_match.url_name == 'tecnico_dashboard' %}active-tab{% endif %}" href="{% url 'tecnico_dashboard' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">space_dashboard</i>
                 </div>
@@ -22,7 +22,7 @@
 
             <!-- Atendimentos -->
             {% with current_url=request.resolver_match.url_name %}
-            <a class="tab {% if current_url in 'atendimentos' %}active-tab{% endif %}" href="{% url 'atendimentos' %}">
+            <a class="tab {% if current_url in 'tecnico_atendimentos, tecnico_ficha_atendimento' %}active-tab{% endif %}" href="{% url 'tecnico_atendimentos' %}">
             {% endwith %}
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">support_agent</i>
@@ -33,7 +33,7 @@
             </a>
 
             <!-- Especialidades
-            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_especialidades' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_especialidades' %}active-tab{% endif %}" href="{% url 'tecnico_dashboard' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">psychology</i>
                 </div>
@@ -43,7 +43,7 @@
             </a> -->
 
             <!-- Gestão de Horários -->
-            <a class="tab {% if request.resolver_match.url_name == 'meushorarios' %}active-tab{% endif %}"  href="{% url 'meushorarios' %}">
+            <a class="tab {% if request.resolver_match.url_name == 'tecnico_meushorarios' %}active-tab{% endif %}"  href="{% url 'tecnico_meushorarios' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">calendar_clock</i>
                 </div>
@@ -53,7 +53,7 @@
             </a>
 
             <!-- Pagamento -->
-            <a class="tab {% if request.resolver_match.url_name == 'web_tecnico_pagamentos' %}active-tab{% endif %}" href="{% url 'dashboard' %}">
+            <a class="tab {% if request.resolver_match.url_name == 'tecnico_pagamentos' %}active-tab{% endif %}" href="{% url 'tecnico_dashboard' %}">
                 <div class="tab-icone">
                     <i class="material-symbols-outlined" style="font-size: 1.3vw;">monetization_on</i>
                 </div>

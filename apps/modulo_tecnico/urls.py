@@ -1,21 +1,22 @@
 from django.urls import path
-from apps.modulo_tecnico.views import (login_tecnico, dashboard, 
-                                       atendimentos,
+from apps.modulo_tecnico.views import (login_tecnico, tecnico_dashboard, 
+                                       tecnico_atendimentos,
                                        logout_tecnico, 
-                                       tecnico_meus_dados,
-                                       meus_horarios, meus_horarios_salvar)
+                                       tecnico_meus_dados, tecnico_ficha_atendimento,
+                                       tecnico_meus_horarios, tecnico_meus_horarios_salvar)
 
 urlpatterns = [
     path('tecnico/', login_tecnico, name='login_tecnico'),
     path('logout/', logout_tecnico, name='logout'),
    
 
-    path('dashboard/', dashboard, name='dashboard'),
+    path('tecnico/dashboard/', tecnico_dashboard, name='tecnico_dashboard'),
 
-    path('atendimentos/', atendimentos, name='atendimentos'),
+    path('tecnico/atendimentos/', tecnico_atendimentos, name='tecnico_atendimentos'),
+    path('tecnico/atendimentos/atendimento/<int:id>/', tecnico_ficha_atendimento, name='tecnico_ficha_atendimento'),
+
+    path('tecnico/meushorarios/', tecnico_meus_horarios, name='tecnico_meushorarios'),
+    path('tecnico/meushorarios/salvar/', tecnico_meus_horarios_salvar, name='tecnico_meus_horarios_salvar'),
 
     path('tecnico/meus-dados/', tecnico_meus_dados, name='tecnico_meus_dados'),
-
-    path('meushorarios/', meus_horarios, name='meushorarios'),
-    path('meushorarios/salvar/', meus_horarios_salvar, name='meus_horarios_salvar'),
 ]

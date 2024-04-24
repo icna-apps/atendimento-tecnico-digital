@@ -16,7 +16,7 @@
         <div class="container_listagem">
             
             {% for atendimento in atendimentos %}
-                <div class="listagem_item">
+                <div class="listagem_item" data-id="{{ atendimento.id }}">
                     <div class="listagem_item_icone">
                         {% if atendimento.status == 'agendado' %}
                             <i class="material-symbols-outlined" style="font-size: 3vw; color: var(--agendado)">event</i>
@@ -62,6 +62,6 @@
 
     </div>
 
-
+    <script src="{% static 'js/modulo_tecnico/lista_atendimentos.js' %}"></script>
 
 {% endblock %}

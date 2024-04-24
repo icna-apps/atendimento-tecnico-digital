@@ -37,7 +37,7 @@ def login_tecnico(request):
             else:
                 # Todas as verificações passaram, então podemos logar o usuário
                 auth.login(request, usuario)
-                return redirect('dashboard')
+                return redirect('tecnico_dashboard')
         
         # Se qualquer uma das verificações falhar, setar o valor inicial de 'cpf' e renderizar novamente
         form.fields['cpf'].initial = cpf
@@ -62,11 +62,11 @@ def login_tecnico(request):
 
 
 
-def dashboard(request):
+def tecnico_dashboard(request):
     return render(request, 'modulo_tecnico/dashboard.html')
 
 
-def atendimentos(request):
+def tecnico_atendimentos(request):
 
     tecnico = request.user.usuario_relacionado
     atendimentos = Atendimento.objects.filter(tecnico=tecnico).order_by('-id')
@@ -78,7 +78,7 @@ def atendimentos(request):
     return render(request, 'modulo_tecnico/lista_atendimentos.html', conteudo)
 
 
-def meus_horarios(request):
+def tecnico_meus_horarios(request):
 
     regional = request.user.usuario_relacionado.regional_senar()
 
@@ -103,7 +103,7 @@ def meus_horarios(request):
 
 
 @require_http_methods(["POST"])
-def meus_horarios_salvar(request):
+def tecnico_meus_horarios_salvar(request):
     try:
         data = json.loads(request.body)
         horariosAtivos = data.get('horariosAtivos', [])
@@ -125,3 +125,14 @@ def logout_tecnico(request):
 
 def tecnico_meus_dados(request):
     return render(request, 'modulo_tecnico/meus_dados.html')
+
+
+def tecnico_ficha_atendimento(request, id):
+
+    atendimento = Atendimento.objects.get(id=id)
+
+    conteudo = {
+        'atendimento': atendimento,
+    }
+
+    return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)

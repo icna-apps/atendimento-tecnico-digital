@@ -1,0 +1,261 @@
+.container_page{
+    width: 96%;
+    height: 100%;
+
+    display: grid;
+    grid-template-rows: 6% 8% 84%;
+    gap: 1%;
+
+}
+
+.barra_identificacao {
+    display: grid;
+    grid-template-columns: 10% 80% 10%;
+}
+
+.barra_identificacao_parte {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a:hover{
+    color: black;
+}
+
+.botao_voltar {
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.botao_voltar:hover{
+    transform: scale(1.02);
+}
+
+.barra_identificacao_parte span {
+    font-size: 1.25rem;
+    color: white;
+    background-color: var(--verde-capital);
+    padding: 5px 10px;
+    border-radius: 10px;
+}
+
+
+.barra_funcionalidades {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 2vw;
+    align-items: center;
+}
+
+.funcionalidade {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.funcionalidade:hover{
+    transform: scale(1.05);
+    background-color: var(--cinza-claro);
+}
+
+
+.container_atendimento {
+    display: grid;
+    grid-template-columns: 30% 68%;
+    gap: 2%;
+
+    
+}
+
+.container_atendimento_infos {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    font-size: 0.8rem;
+    gap: 2vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.atendimento_produtor {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--cinza-claro);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.atendimento_dados {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    background-color: var(--cinza-claro);
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.atendimento_agendado {
+    color: var(--agendado);
+    background-color: none;
+}
+
+.atendimento_cancelado {
+    color: var(--cancelado);
+}
+
+.atendimento_realizado {
+    color: var(--verde-capital);
+}
+
+.atendimento_dados_imagens {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 10px;
+}
+
+.atendimento_dados_imagens__card {
+    border-radius: 10px;
+    background-color: rgb(191, 191, 191);
+    width: 100%;
+    height: 12vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: rgb(108, 108, 108);
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.atendimento_dados_imagens__card:hover{
+    transform: scale(1.05);
+}
+
+.avaliacao__atendimento__estrelas {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-self: center;
+}
+
+.avaliacao__atendimento__estrelas .estrela {
+    color: gray; /* Cor das estrelas não preenchidas */
+    font-size: 40px; /* Tamanho das estrelas */
+}
+
+.avaliacao__atendimento__estrelas .estrela.preenchida {
+    color: #0caf00; /* Cor das estrelas preenchidas */
+}
+
+
+
+
+
+
+
+
+.container_atendimento_relatorio {
+    display: grid;
+    grid-template-rows: 5% 86% 5%;
+    gap: 1%;
+    
+}
+
+.area_relatorio {
+    height: 90%;
+}
+
+.relatorio_botoes {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1vw;
+    align-items: center;
+}
+
+.ql-editor {
+    text-align: justify;
+    font-size: 16px;
+    background-color: #ffffff7e;
+  }
+
+
+.form-check-input:checked {
+    background-color: #008000; /* Cor de fundo quando ativado */
+    border-color: #008000; /* Cor da borda */
+}
+
+.form-check-input:focus:checked {
+    box-shadow: none;
+}
+
+/* Cor do foco ao redor do switch quando está ativo */
+.form-check-input:focus {
+    border-color: none;
+    box-shadow: none;
+}
+
+
+.conteudo_whatsapp {
+    display: flex;
+    flex-direction: column;
+    gap: 2vh;
+}
+
+
+.container_mensagem {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.container_mensagem__cabecalho {
+    display: flex;
+    flex: row;
+    justify-content: space-between;
+}
+
+.botao_copiar_texto {
+    cursor: pointer;
+}
+
+.container_mensagem__mensagem {
+    border-radius: 10px;
+    background-color: var(--cinza-claro);
+    padding: 10px;
+}
+
+.container_mensagem__cabecalho__botao {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
