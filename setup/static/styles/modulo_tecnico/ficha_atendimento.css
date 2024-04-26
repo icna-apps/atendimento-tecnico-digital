@@ -189,11 +189,11 @@ a:hover{
 }
 
 .area_relatorio {
-    height: 90%;
+    height: 100%;
 }
 
 #editor {
-    height: 400px !important;
+    height: 100% !important;
 }
 
 .ql-editor {
