@@ -182,26 +182,26 @@ a:hover{
 
 
 .container_atendimento_relatorio {
-    display: grid;
-    grid-template-rows: auto 1fr auto;
-    gap: 1%;
-    
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Ocupa 100% da altura disponível do container_atendimento */
+    gap: 10px; /* Espaço entre os elementos dentro do container */
 }
 
 .area_relatorio {
-    height: 100%;
+    flex-grow: 1; /* Permite que a área de relatório cresça e ocupe a maior parte do espaço */
 }
 
 #editor {
-    height: 100% !important;
+    height: 90% !important;
 }
 
 .ql-editor {
     text-align: justify;
     font-size: 16px;
     background-color: #ffffff7e;
-    height: 500px; /* Ajusta para preencher a área designada */
-    overflow-y: auto; /* Garante que o conteúdo seja rolável dentro do editor */
+    max-height: 55vh;
+    overflow-y: auto;
     padding: 10px;
   }
 
