@@ -1,0 +1,91 @@
+{% load static %}
+
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasConfirmarAtendimento">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Confirmar Atendimento</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body conteudo_offcanvas">
+        
+        <div class="form-control imagem">
+            <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
+            <button type="button" class="inserir-imagem" id="botao_imagem01" onclick="document.getElementById('id_imagem01').click();">
+                <i class="material-symbols-outlined" style="font-size: 5vh;">image</i><br>Print do Atendimento
+            </button>
+            <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; width: 20vh;">
+            <!-- <button type="button" class="btn btn-danger mt-2" id="delete-img01" onclick="deleteImage('01')" style="display: none;">Apagar Imagem</button> -->
+            
+            <div class="botoes__offcanvas">
+                <div class="funcionalidade">
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
+                </div>
+                <div class="funcionalidade" id="delete-img01" onclick="deleteImage('01')">
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">delete</i>
+                </div>
+            </div>
+            
+        </div>
+
+        <div class="form-floating mb-3">
+            <input type="text" class="form-control" inputmode="numeric" style="text-align: right;" id="duracaoMinutos">
+            <label>Duração (minutos)</span>
+        </div>
+
+        <!-- Forma de atendimento -->
+        <div class="form-floating mb-3">
+            <select class="form-select">
+                <option value="apenas_audio"></option>
+                <option value="apenas_audio">Apenas áudio</option>
+                <option value="audio_video">Áudio e vídeo</option>
+            </select>
+            <label>Forma de Atendimento</label>
+        </div>
+        
+        <!-- Qualidade da internet -->
+        <div class="form-floating mb-3 qualidade_internet form-control">
+            <div>
+                <span style="font-size: 0.9rem; color: gray">Qualidade da conexão de internet</span><br>
+                <span style="font-size: 0.8rem; font-style: italic; color: gray">1 - Muito Ruim -- 5 - Muito Bom</span>
+            </div>
+            
+            <div class="qualidade_internet_radios">
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="internet_quality" id="quality1" value="1">
+                    <label class="form-check-label" for="quality1">1</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="internet_quality" id="quality2" value="2">
+                    <label class="form-check-label" for="quality2">2</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="internet_quality" id="quality3" value="3">
+                    <label class="form-check-label" for="quality3">3</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="internet_quality" id="quality4" value="4">
+                    <label class="form-check-label" for="quality4">4</label>
+                </div>
+                <div class="form-check">
+                    <input class="form-check-input" type="radio" name="internet_quality" id="quality5" value="5">
+                    <label class="form-check-label" for="quality5">5</label>
+                </div>
+            </div>
+            
+            <!-- <label>Qualidade da conexão de internet</label> -->
+        </div>
+
+
+        <div class="form-floating mb-3">
+            <textarea class="form-control" id="comentarios" style="min-height: 150px;"></textarea>
+            <label for="comments">Comentários</label>
+        </div>
+        
+
+        <div>
+            <button class="btn btn-success">Salvar Relatório</button>
+            <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
+        </div>
+
+    </div>
+</div>

@@ -55,7 +55,6 @@ def login_produtor(request):
 
     return render(request, 'modulo_produtor/login.html', conteudo)
 
-
 def produtor_meus_atendimentos_lista(request):
 
     produtor = request.user.usuario_relacionado
@@ -107,7 +106,6 @@ def produtor_novo_atendimento(request):
     }
 
     return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
-
 
 def produtor_realizar_agendamento(request):
     
@@ -175,7 +173,6 @@ def produtor_confirmacao_atendimento(request, id):
 
     return render(request, 'modulo_produtor/confirmacao_agendamento.html', conteudo)
 
-
 def produtor_ficha_atendimento(request, id):
     atendimento = Atendimento.objects.get(id=id)
 
@@ -184,7 +181,6 @@ def produtor_ficha_atendimento(request, id):
     }
 
     return render(request, 'modulo_produtor/ficha_atendimento.html', conteudo)
-
 
 @require_http_methods(["POST"]) 
 def produtor_cancelar_atendimento(request, id):
@@ -197,7 +193,6 @@ def produtor_cancelar_atendimento(request, id):
         atendimento.save()
 
     return JsonResponse({'retorno': 'ok'})
-
 
 def produtor_meus_dados(request):
     return render(request, 'modulo_produtor/meus_dados.html')

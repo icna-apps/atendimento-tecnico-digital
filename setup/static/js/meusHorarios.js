@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const horariosAtualmenteAtivos = new Set(Array.from(document.querySelectorAll('.horario-btn.ativo')).map(btn => btn.id));
     const horariosParaDesmarcar = Array.from(horariosInicialmenteAtivos).filter(id => !horariosAtualmenteAtivos.has(id));
     
-    fetch('tecnico/meushorarios/salvar/', {
+    fetch('/tecnico/meushorarios/salvar/', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -88,10 +88,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     })
     .then(data => {
-        sweetAlertPreenchimento({
-            html: `<p style="font-size: 1.25rem">${data.message}</p>`,
-            iconColor: 'green',
+
+        Swal.fire({
+            // title: 'Atenção!',
+            html: `<p style="font-size: 1.5rem">Horários salvos com <b style:"color: green">sucesso!</b></p>`,
             icon: 'success',
+            iconColor: 'green',
+            timer: 2500,
+            showConfirmButton: false,
         });
         console.log('Sucesso:', data);
     })

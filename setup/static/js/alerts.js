@@ -7,6 +7,8 @@ function sweetAlert(title, icon, iconColor='black', position='center', timer=250
         timer: timer,
         iconColor: iconColor,
         backdrop: false,
+        confirmButtonText: 'Ok',
+        confirmButtonColor: 'green',
     });
 }
 

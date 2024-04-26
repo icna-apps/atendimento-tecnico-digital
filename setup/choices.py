@@ -55,9 +55,14 @@ TOPICO_ATENDIMENTO = [
 STATUS_ATENDIMENTO = [
     ('agendado', 'Agendado'),
     ('cancelado', 'Cancelado'),
-    ('realizado', 'Realizado'),
+    ('atendido', 'Atendido'),
+    ('finalizado', 'Finalizado'),
 ]
 
+FORMA_ATENDIMENTO = [
+    ('apenas_audio', 'Apenas áudio'),
+    ('audio_video', 'Áudio e vídeo'),
+]
 
 CNPJ_PORTE = [
     ('mei', 'MEI'),

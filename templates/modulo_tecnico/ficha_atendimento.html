@@ -1,8 +1,9 @@
 {% extends '_partials/base_main.html' %}
 {% load static %}
-{% load saudacoes_filters %}
+
 {% block extra_head %}
     <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/ficha_atendimento.css' %}">
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
     <!-- Quill -->
     <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
@@ -33,19 +34,23 @@
         <div class="barra_funcionalidades">
             <div class="funcionalidade" id="abrirOffcanvasWhatsapp">
                 <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle; color: black"></i>
-                Whatsapp
+                Atender
             </div>
-            <div class="funcionalidade">
+            <div class="funcionalidade" id="abrirOffcanvasCancelarAtendimento">
                 <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">cancel</i>
                 Cancelar
             </div>
-            <div class="funcionalidade">
+            <div class="funcionalidade" id="abrirOffcanvasConfirmarAtendimento">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">check</i>
+                Confirmar Atend.
+            </div>
+            <div class="funcionalidade" id="abrirOffcanvasFinalizarAtendimento">
                 <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">done_all</i>
                 Finalizar
             </div>
-            <div class="funcionalidade">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">picture_as_pdf</i>
-                Relatório
+            <div class="funcionalidade" id="abrirOffcanvasAgendarRetorno">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">event_upcoming</i>
+                Agendar Retorno
             </div>
         </div>
 
@@ -58,8 +63,7 @@
                 <!-- Produtor -->
                 <div class="atendimento_produtor">
                     <span><b>Produtor</b></span>
-                    <span>Nome: {{ atendimento.produtor.primeiro_ultimo_nome }}</span>
-                    <span>Idade: {{ atendimento.produtor.idade }} anos</span>
+                    <span>Nome: <b>{{ atendimento.produtor.primeiro_ultimo_nome }}</b> ({{ atendimento.produtor.idade }} anos)</span>
                     <span>Município: {{ atendimento.produtor.uf_municipio }}</span>
                     <span>Celular: {{ atendimento.produtor.celular }}</span>
                 </div>
@@ -149,20 +153,28 @@
                 <span><b>Relatório Técnico do Atendimento</b></span>
 
                 <div class="area_relatorio">
-                    <div id="editor" style="height: 100%;"></div>
-                </div>
+                    <div id="editor" data-id="{{ atendimento.id }}" style="height: 100%;"></div>
+                    <script type="text/plain" id="relatorioInicial">
+                        {{ atendimento.relatorio|safe }}
+                    </script>
+                </div>                
 
                 <div class="relatorio_botoes">
 
-                    <div>
-                        <div class="form-check form-switch" style="font-size: 20px; vertical-align: center;">
-                            <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-                            <label class="form-check-label" for="flexSwitchCheckDefault">Editar</label>
-                        </div>
+                    <div class="relatorio_botoes__infos">
+                        <span id="contadorPalavras">Total de palavras: {totalPalavras}</span>
+                        <span id="dataRelatorio">
+                            Última atualização:
+                            {% if atendimento.relatorio_atualizacao %}
+                                {{ atendimento.relatorio_atualizacao|date:'d/m/Y h:i:s' }}
+                            {% else %}
+                                -
+                            {% endif %}
+                        </span>
                     </div>
                     
                     <div>
-                        <button class="btn btn-success">Salvar Relatório</button>
+                        <button class="btn btn-success" id="btnSalvarRelatorio">Salvar Relatório</button>
                         <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
                     </div>
                     
@@ -173,95 +185,56 @@
         </div>
 
 
-        <!-- offcanvas -->
-        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasWhatsapp">
-            <!-- <div class="offcanvas-header">
-              <h5 class="offcanvas-title">Whatsapp</h5>
-              <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-            </div> -->
-            <div class="offcanvas-body conteudo_whatsapp">
-                
-                <div class="funcionalidade" id="iniciarAtendimento" data-id="{{ atendimento.produtor.celular }}">
-                    <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle; color: black"></i>
-                    Iniciar Atendimento
-                </div>
+        <!-- offcanvas whatsapp -->
+        {% include 'modulo_tecnico/offcanvas_iniciar_atendimento.html' %}
 
-                <!-- Mensagem Inicial -->
-                <div class="container_mensagem">
+        <!-- offcanvas cancelar -->
+        {% include 'modulo_tecnico/offcanvas_cancelar_atendimento.html' %}
 
-                    <div class="container_mensagem__cabecalho">
-                        <span>Mensagem inicial</span>
-                        <span class="container_mensagem__cabecalho__botao" id="copiarMensagemInicial">
-                            <span class="material-symbols-outlined botao_copiar_texto">content_copy</span>
-                        </span>
-                        
-                    </div>
+        <!-- offcanvas confirmar atendimento -->
+        {% include 'modulo_tecnico/offcanvas_confirmar_atendimento.html' %}
 
-                    <div class="container_mensagem__mensagem" id="mensagemInicial">
-                        <i>
-                            {{ user|saudacao }}, Sr(a). {{ atendimento.produtor.primeiro_ultimo_nome }}<br>
-                            Me chamo {{ atendimento.tecnico.primeiro_ultimo_nome }} e sou o técnico do *Senar* responsável
-                            pelo seu atendimento.<br>
-                            <br>
-                            
-                            *Atendimento {{ atendimento.atendimento_id }}*<br>
-                            Atividade Produtiva: {{ atendimento.get_atividade_produtiva_display }}<br>
-                            Tópico: {{ atendimento.topico }}<br>
-                            Data: *{{ atendimento.data|date:'d/m/Y' }}*<br>
-                            Hora: *{{ atendimento.hora }}*
-                            <br><br>
-                            *Podemos dar início à nossa videochamada?*<br>
-                        </i>
-                    </div>
+        <!-- offcanvas finalizar atendimento -->
+        {% include 'modulo_tecnico/offcanvas_finalizar_atendimento.html' %}
 
-                </div>
-
-                <!-- Mensagem Final -->
-                <div class="container_mensagem">
-
-                    <div class="container_mensagem__cabecalho">
-                        <span>Mensagem final</span>
-                        <span class="container_mensagem__cabecalho__botao" id="copiarMensagemFinal">
-                            <span class="material-symbols-outlined botao_copiar_texto">content_copy</span>
-                        </span>
-                        
-                    </div>
-
-                    <div class="container_mensagem__mensagem" id="mensagemFinal">
-                        <i>
-                            Sr(a). {{ atendimento.produtor.primeiro_ultimo_nome }},<br>
-                            O *Atendimento {{ atendimento.atendimento_id }}* foi encerrado.<br>
-                            Em breve o relatório deste atendimento estará disponível em seu aplicativo.<br>
-                            
-                            Caso o/a Sr.(a) precise de um novo atendimento, faça o agendamento pelo aplicativo CNA Digital.<br>
-
-                            {{ user|saudacao }} e até a próxima. 
-                            
-                        </i>
-                    </div>
-
-                </div>
-                
-                
-
-            </div>
-          </div>
+        <!-- offcanvas agendar retorno -->
+        {% include 'modulo_tecnico/offcanvas_agendar_retorno.html' %}
           
 
-        <!-- Quill -->
         <script>
-            var quill = new Quill('#editor', {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                ['bold', 'italic', 'underline'],        // toggled buttons
-                [{'list': 'ordered'}, {'list': 'bullet'}, 'link'],
-                ['clean']                           
-                ]
-            }
-            });
-        </script>
 
+            function previewImage(input) {
+                const baseId = input.id.replace('id_imagem', '');
+                const file = input.files[0];
+                const previewImg = document.getElementById(`preview-img${baseId}`);
+                const deleteBtn = document.getElementById(`delete-img${baseId}`);
+                const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+                
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        previewImg.src = e.target.result;
+                        previewImg.style.display = 'block';
+                        deleteBtn.style.display = 'inline-block';
+                        inserirImgBtn.style.display = 'none';
+                    }
+                    reader.readAsDataURL(file);
+                }
+            }
+            
+            function deleteImage(baseId) {
+                const input = document.getElementById(`id_imagem${baseId}`);
+                const previewImg = document.getElementById(`preview-img${baseId}`);
+                const deleteBtn = document.getElementById(`delete-img${baseId}`);
+                const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+                
+                input.value = "";
+                previewImg.style.display = 'none';
+                deleteBtn.style.display = 'none';
+                inserirImgBtn.style.display = 'block';
+                previewImg.src = "#";
+            }
+        </script>
 
         <script src="{% static 'js/modulo_tecnico/ficha_atendimento.js' %}"></script>
 

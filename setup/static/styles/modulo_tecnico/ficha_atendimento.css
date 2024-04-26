@@ -10,13 +10,13 @@
 
 .barra_identificacao {
     display: grid;
-    grid-template-columns: 10% 80% 10%;
+    grid-template-columns: 80px 80% 10%;
 }
 
 .barra_identificacao_parte {
     display: flex;
     flex-direction: row;
-    justify-content: center;
+    justify-content: left;
     align-items: center;
 }
 
@@ -40,10 +40,12 @@ a:hover{
 
 .barra_identificacao_parte span {
     font-size: 1.25rem;
+    font-weight: bold;
     color: white;
     background-color: var(--verde-capital);
     padding: 5px 10px;
     border-radius: 10px;
+    
 }
 
 
@@ -75,9 +77,7 @@ a:hover{
 .container_atendimento {
     display: grid;
     grid-template-columns: 30% 68%;
-    gap: 2%;
-
-    
+    gap: 2%;    
 }
 
 .container_atendimento_infos {
@@ -183,7 +183,7 @@ a:hover{
 
 .container_atendimento_relatorio {
     display: grid;
-    grid-template-rows: 5% 86% 5%;
+    grid-template-rows: auto 1fr auto;
     gap: 1%;
     
 }
@@ -191,6 +191,19 @@ a:hover{
 .area_relatorio {
     height: 90%;
 }
+
+#editor {
+    height: 400px !important;
+}
+
+.ql-editor {
+    text-align: justify;
+    font-size: 16px;
+    background-color: #ffffff7e;
+    height: 500px; /* Ajusta para preencher a área designada */
+    overflow-y: auto; /* Garante que o conteúdo seja rolável dentro do editor */
+    padding: 10px;
+  }
 
 .relatorio_botoes {
     width: 100%;
@@ -201,11 +214,13 @@ a:hover{
     align-items: center;
 }
 
-.ql-editor {
-    text-align: justify;
-    font-size: 16px;
-    background-color: #ffffff7e;
-  }
+
+.relatorio_botoes__infos {
+    display: flex;
+    flex-direction: column;
+}
+
+
 
 
 .form-check-input:checked {
@@ -224,10 +239,10 @@ a:hover{
 }
 
 
-.conteudo_whatsapp {
+.conteudo_offcanvas {
     display: flex;
     flex-direction: column;
-    gap: 2vh;
+    gap: 1vh;
 }
 
 
@@ -258,4 +273,59 @@ a:hover{
     flex-direction: row;
     justify-content: center;
     align-items: center;
+}
+
+
+
+.form-control.imagem {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 2vh;
+}
+
+.imagem-estilo {
+    border-radius: 10px;
+    border: none;
+    width: 10%;
+}
+
+.inserir-imagem {
+    border: none;
+    background-color: rgba(255, 255, 255, 0);
+    padding: 2vh;
+    color: gray;
+}
+
+.botoes__offcanvas {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.qualidade_internet {
+    display: flex;
+    flex-direction: column;
+}
+
+.qualidade_internet_radios {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.offcanvas {
+    min-width: 400px !important;
+}
+
+
+.finalizar_atendimento {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 20px;
+    gap: 1vw;
+    
 }

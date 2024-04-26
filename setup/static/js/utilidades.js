@@ -189,3 +189,8 @@ function getCSRFToken() {
     console.log("CSRF Token:", token);  // Verifique se isso imprime o token correto no console
     return token;
   }
+
+  function limparParagrafosVazios(html) {
+    // Remove variações de parágrafos vazios como <p></p> ou <p><br></p>
+    return html.replace(/<p>(<br\s*\/?>)?<\/p>/gi, '');
+}

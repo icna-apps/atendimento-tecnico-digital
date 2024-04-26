@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.utils.dateparse import parse_date
 from django.forms.widgets import ClearableFileInput
-from apps.modulo_admin.models import Usuario, Atendimento
+from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao
 from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, STATUS_ATENDIMENTO, LISTA_UFS_SIGLAS,
                            LISTA_HORA_ATENDIMENTO, LISTA_DATAS)
 

@@ -1,0 +1,31 @@
+{% load static %}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasFinalizarAtendimento">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Finalizar Atendimento</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body conteudo_offcanvas">
+        
+      <!-- Confirmação do Atendimento -->
+      <div class="finalizar_atendimento form-control">
+
+          <span class="material-symbols-outlined" style="font-size: 4vh;" id="finalizarConfirmacaoAtendimento">check_circle</span>
+          Confirmação do atendimento
+
+      </div>
+
+      <!-- Relatório do Atendimento -->
+      <div class="finalizar_atendimento form-control">
+          <span class="material-symbols-outlined" style="font-size: 4vh;" id="finalizarRelatorioAtendimento">error</span>
+          <span>Relatório do atendimento</span>
+      </div>
+
+      <div style="text-align: right;">
+        <button class="btn btn-success">Finalizar Atendimento</button>
+      </div>
+
+
+
+    </div>
+</div>

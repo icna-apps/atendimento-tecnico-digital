@@ -1,0 +1,35 @@
+{% load static %}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCancelarAtendimento">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Cancelar Atendimento</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body conteudo_offcanvas">
+        
+        <!-- Forma de atendimento -->
+        <div class="form-floating mb-3">
+          <select class="form-select">
+              <option value=""></option>
+              <option value="produtor_nao_deu_retorno">Produtor não deu retorno</option>
+              <option value="produtor_nao_podia_atender">Produtor não podia atender</option>
+              <option value="assunto_particular_tecnico">Assuntos particulares (técnico)</option>
+              <option value="outro">Outro motivo</option>
+          </select>
+          <label>Motivo do cancelamento</label>
+      </div>
+
+      <!-- Comentários -->
+      <div class="form-floating mb-3">
+        <textarea class="form-control" id="comentarios" style="min-height: 250px;"></textarea>
+        <label for="comments">Observações</label>
+      </div>
+
+
+      <div style="width: 100%; text-align: right;">
+        <button class="btn btn-danger">Confirmar Cancelamento</button>
+        <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
+      </div>
+
+    </div>
+</div>

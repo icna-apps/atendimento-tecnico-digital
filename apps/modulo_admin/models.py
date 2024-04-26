@@ -8,7 +8,9 @@ from django.contrib.auth.models import User
 from datetime import date, datetime, timedelta
 from datetime import datetime
 
-from setup.choices import GENERO_SEXUAL, LISTA_UFS_SIGLAS, ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, STATUS_ATENDIMENTO
+from setup.choices import (GENERO_SEXUAL, LISTA_UFS_SIGLAS, 
+                           ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, 
+                           STATUS_ATENDIMENTO, FORMA_ATENDIMENTO)
 
 
 class Usuario(models.Model): 
@@ -186,21 +188,35 @@ class Atendimento(models.Model):
     data_registro = models.DateTimeField(auto_now_add=True)
     data_ultima_atualizacao = models.DateTimeField(auto_now=True)
     
-    #dados do agendamento
+    #regional
     regional = models.CharField(max_length=2, choices=LISTA_UFS_SIGLAS, null=False, blank=False, default='MS')
+
+    #técnico e produtor
     tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_atendimento')
     produtor = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtor_atendimento')
+
+    #tipo de atendimento
     atendimento_retorno = models.BooleanField(default=False)
     atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
-    atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
-    topico = models.CharField(max_length=120, null=False, blank=False)
+
+    #data, hora e status
     data = models.DateField(null=False, blank=False)
     hora = models.CharField(max_length=5, null=False, blank=False)
+    status = models.CharField(max_length=15, choices=STATUS_ATENDIMENTO, null=False, blank=False)
+
+    #dados do agendamento
+    atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
+    topico = models.CharField(max_length=120, null=False, blank=False)
     mais_informacoes = models.TextField(null=True, blank=True)
+    
+    #imagens enviadas pelo produtor
     imagem01 = models.ImageField(null=True, blank=True)
     imagem02 = models.ImageField(null=True, blank=True)
     imagem03 = models.ImageField(null=True, blank=True)
-    status = models.CharField(max_length=15, choices=STATUS_ATENDIMENTO, null=False, blank=False)
+    
+    #relatório
+    relatorio = models.TextField(null=True, blank=True)
+    relatorio_atualizacao = models.DateTimeField(null=True, blank=True)
 
     #delete (del)
     del_status = models.BooleanField(default=False)
@@ -240,3 +256,33 @@ class Atendimento(models.Model):
         lista_agendamentos = [(ag.data.strftime('%d/%m/%Y'), ag.hora) for ag in agendamentos]
 
         return lista_agendamentos
+
+
+class AtendimentoConfirmacao(models.Model): 
+    #log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+    
+    #atendimento
+    atendimento = models.ForeignKey(Atendimento, on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimento_confirmacao')
+
+    #confirmação do atendimento
+    imagem = models.ImageField(null=True, blank=True)
+    forma_atendimento = models.CharField(max_length=60, choices=FORMA_ATENDIMENTO, null=False, blank=False)
+    duracao_minutos = models.PositiveIntegerField(null=False, blank=False)
+    qualidade_internet = models.PositiveIntegerField(null=False, blank=False)
+    observacoes = models.TextField(null=True, blank=True)
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def __str__(self):
+        return f"ID da Confirmação: {self.id} - ID Atendimento: {self.atendimento.id}"
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()

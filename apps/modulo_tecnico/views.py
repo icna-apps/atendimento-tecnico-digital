@@ -1,4 +1,6 @@
 from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.decorators import method_decorator
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
@@ -8,8 +10,11 @@ from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm
 from apps.modulo_admin.models import Usuario, Atendimento
 from apps.modulo_tecnico.models import HorariosAtendimentos
+from django.utils.dateformat import format
 import json
 import logging
+from django.utils import timezone 
+from datetime import timedelta
 
 logger = logging.getLogger(__name__)
 
@@ -136,3 +141,26 @@ def tecnico_ficha_atendimento(request, id):
     }
 
     return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)
+
+
+
+def tecnico_atendimento_salvar_relatorio(request, id):
+    if request.method == 'POST':
+        import json
+        data = json.loads(request.body)
+        relatorio = data.get('relatorio')
+        try:
+            atendimento = Atendimento.objects.get(id=id)
+            atendimento.relatorio = relatorio
+            atendimento.relatorio_atualizacao = timezone.now()
+            atendimento.save()
+            
+            data_ajustada = atendimento.relatorio_atualizacao - timedelta(hours=3)
+            data_formatada = format(data_ajustada, 'd/m/Y H:i:s')
+            
+
+            return JsonResponse({'salvo': "sim", 'dataRelatorio': data_formatada })
+        except Atendimento.DoesNotExist:
+            return JsonResponse({'salvo': "nao"}, status=404)
+    return JsonResponse({'salvo': "nao"}, status=405)
+

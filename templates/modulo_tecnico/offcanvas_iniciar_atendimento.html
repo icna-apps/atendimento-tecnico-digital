@@ -1,0 +1,73 @@
+{% load static %}
+{% load saudacoes_filters %}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasWhatsapp">
+    <!-- <div class="offcanvas-header">
+      <h5 class="offcanvas-title">Whatsapp</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div> -->
+    <div class="offcanvas-body conteudo_offcanvas">
+        
+        <div class="funcionalidade" id="iniciarAtendimento" data-id="{{ atendimento.produtor.celular }}">
+            <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle; color: black"></i>
+            Iniciar Atendimento
+        </div>
+
+        <!-- Mensagem Inicial -->
+        <div class="container_mensagem">
+
+            <div class="container_mensagem__cabecalho">
+                <span>Mensagem inicial</span>
+                <span class="container_mensagem__cabecalho__botao" id="copiarMensagemInicial">
+                    <span class="material-symbols-outlined botao_copiar_texto">content_copy</span>
+                </span>
+                
+            </div>
+
+            <div class="container_mensagem__mensagem" id="mensagemInicial">
+                <i>
+                    {{ user|saudacao }}, Sr(a). {{ atendimento.produtor.primeiro_ultimo_nome }}<br>
+                    Me chamo {{ atendimento.tecnico.primeiro_ultimo_nome }} e sou o técnico do *Senar* responsável
+                    pelo seu atendimento.<br>
+                    <br>
+                    
+                    *Atendimento {{ atendimento.atendimento_id }}*<br>
+                    Atividade Produtiva: {{ atendimento.get_atividade_produtiva_display }}<br>
+                    Tópico: {{ atendimento.topico }}<br>
+                    Data: *{{ atendimento.data|date:'d/m/Y' }}*<br>
+                    Hora: *{{ atendimento.hora }}*
+                    <br><br>
+                    *Podemos dar início à nossa videochamada?*<br>
+                </i>
+            </div>
+
+        </div>
+
+        <!-- Mensagem Final -->
+        <div class="container_mensagem">
+
+            <div class="container_mensagem__cabecalho">
+                <span>Mensagem final</span>
+                <span class="container_mensagem__cabecalho__botao" id="copiarMensagemFinal">
+                    <span class="material-symbols-outlined botao_copiar_texto" id="botaoFinal">content_copy</span>
+                </span>
+                
+            </div>
+
+            <div class="container_mensagem__mensagem" id="mensagemFinal">
+                <i>
+                    Sr(a). {{ atendimento.produtor.primeiro_ultimo_nome }},<br>
+                    O *Atendimento {{ atendimento.atendimento_id }}* foi encerrado.<br>
+                    Em breve o relatório deste atendimento estará disponível em seu aplicativo.<br>
+                    
+                    Caso o/a Sr.(a) precise de um novo atendimento, faça o agendamento pelo aplicativo CNA Digital.<br>
+
+                    {{ user|saudacao }} e até a próxima. 
+                    
+                </i>
+            </div>
+
+        </div>
+
+    </div>
+</div>
