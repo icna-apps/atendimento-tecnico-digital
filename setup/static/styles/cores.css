@@ -7,7 +7,8 @@
     /* Status do Atendimento */
     --agendado: #ff2200;
     --cancelado: #b80000;
-    --realizado: var(--verde-capital);
+    --atendido: #00528d;
+    --finalizado: var(--verde-capital);
 
     --editar: #f5840b;
   }

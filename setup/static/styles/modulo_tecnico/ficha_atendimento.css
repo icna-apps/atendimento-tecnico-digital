@@ -66,11 +66,25 @@ a:hover{
     cursor: pointer;
     padding: 10px;
     border-radius: 10px;
+    font-size: 0.8rem;
+    
 }
+
+
 
 .funcionalidade:hover{
     transform: scale(1.05);
     background-color: var(--cinza-claro);
+}
+
+.funcionalidade_inativa {
+    color: gray;
+}
+
+.funcionalidade_inativa:hover{
+    transform: none;
+    background-color: transparent;
+    cursor: default;
 }
 
 
@@ -117,19 +131,25 @@ a:hover{
 
 .status {
     font-weight: bold;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
 }
 
 .atendimento_agendado {
-    color: var(--agendado);
-    background-color: none;
+    background-color: var(--agendado);
 }
 
 .atendimento_cancelado {
-    color: var(--cancelado);
+    background-color: var(--cancelado);
 }
 
-.atendimento_realizado {
-    color: var(--verde-capital);
+.atendimento_atendido {
+    background-color: var(--atendido);
+}
+
+.atendimento_finalizado {
+    background-color: var(--finalizado);
 }
 
 .atendimento_dados_imagens {
@@ -194,11 +214,12 @@ a:hover{
 
 #editor {
     height: 90% !important;
+    background-color: #ffffff7e;
 }
 
 .ql-editor {
     text-align: justify;
-    font-size: 16px;
+    font-size: 0.8rem;
     background-color: #ffffff7e;
     max-height: 55vh;
     overflow-y: auto;
@@ -208,6 +229,7 @@ a:hover{
 .relatorio_botoes {
     width: 100%;
     display: flex;
+    font-size: 0.8rem;
     flex-direction: row;
     justify-content: space-between;
     gap: 1vw;
@@ -250,6 +272,7 @@ a:hover{
     display: flex;
     flex-direction: column;
     gap: 5px;
+    margin-top: 20px;
 }
 
 .container_mensagem__cabecalho {
@@ -318,6 +341,11 @@ a:hover{
 
 .offcanvas {
     min-width: 400px !important;
+    font-size: 0.8rem;
+}
+
+.offcanvas-title {
+    font-size: 1rem !important;
 }
 
 

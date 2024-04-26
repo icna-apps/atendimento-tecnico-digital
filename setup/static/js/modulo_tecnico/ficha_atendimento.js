@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+    const idAtendimento = document.querySelector('#idAtendimentoTecnico').innerText
+
     var editorDiv = document.getElementById('editor');
     var quill = new Quill(editorDiv, {
         theme: 'snow',
@@ -28,9 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
         wordCountSpan.textContent = 'Total de palavras: ' + words;
     }
 
-    editor.addEventListener('input', updateWordCount);
+    editor.addEventListener('input', function() {
+        updateWordCount();
+    });
     // Inicializa a contagem de palavras ao carregar a página
     updateWordCount();
+
+
+
 
     //Abrir Offcanvas Whatsapp
     const abrirOffcanvasWhatsapp = document.querySelector("#abrirOffcanvasWhatsapp")
@@ -195,6 +202,102 @@ document.addEventListener('DOMContentLoaded', function() {
         offcanvasCancelarAtendimento.show()
     })
 
+    const cancelamentoMotivo = document.querySelector('#cancelamentoMotivo');
+    const cancelamentoImagem = document.querySelector('#cancelamentoImagem');
+    cancelamentoMotivo.addEventListener('change', function() {
+        if (cancelamentoMotivo.value === 'produtor_nao_compareceu') {
+            cancelamentoImagem.style.display = 'block'; // Usar 'block' para mostrar
+        } else {
+            cancelamentoImagem.style.display = 'none'; // Usar 'none' para esconder
+        }
+    });
+
+    const botaoCancelarAtendimento = document.querySelector('#botaoCancelarAtendimento')
+    botaoCancelarAtendimento.addEventListener('click', function(event){
+        event.preventDefault();
+        alert('Cancelar atendimento')
+        cancelarAtendimento();
+    })
+
+    function cancelarAtendimento() {
+
+        //Verificar preenchimento dos campos
+        let preenchimento_incorreto = verificarCamposCancelarAtendimento()
+        if (preenchimento_incorreto === false) {
+            return;
+        }
+
+        
+        //Enviar para o backend
+            //definir o caminho
+            postURL = `/tecnico/atendimentos/atendimento/confirmar-atendimento/${idAtendimento}/`
+    
+            //pegar os dados
+            let formData = new FormData(document.getElementById('formConfirmacaoAtendimento'));
+    
+            //enviar 
+            fetch(postURL, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCSRFToken(),
+                }
+            })
+        
+        //Retorno do Servidor
+        .then(response => {
+            if (!response.ok) {
+                sweetAlert('<span style="font-weight:normal">Erro!<br> Confirmação de atendimento <b style="color:red">não realizada!</b></span>', 'error', 'red');
+                throw new Error('Server response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.confirmado === "sim") {
+                sweetAlert('<span style="font-weight:normal">Confirmação do atendimento realizada com <b style="color:green">sucesso!</b></span>', 'success', 'green');
+            } else {
+                sweetAlert('<span style="font-weight:normal">Erro!<br> Confirmação de atendimento <b style="color:red">não realizada!</b></span>', 'error', 'red');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch operation error:', error);
+        });
+    }
+
+    function verificarCamposCancelarAtendimento() {
+        const campos = [
+            { id: 'cancelamentoMotivo', mensagem: 'Informe o <b>Motivo do Cancelamento</b>!' },
+            { id: 'duracaoMinutos', mensagem: 'Informe a <b>Duração do Atendimento</b>!' },
+            { id: 'formaAtendimento', mensagem: 'Informe a <b>Forma do Atendimento</b>!' },
+            { id: 'internet_quality', mensagem: 'Avalie a <b>Qualidade da Conexão de Internet</b>!', tipo: 'radio' }
+        ];
+    
+        let mensagensErro = campos.reduce((mensagens, campo) => {
+            const elemento = document.getElementById(campo.id);
+            if (campo.tipo === 'radio') {
+                // Verifica se algum rádio está selecionado
+                const selecionado = document.querySelector(`input[name="${campo.id}"]:checked`);
+                if (!selecionado) {
+                    mensagens.push(campo.mensagem);
+                }
+            } else if (!elemento || elemento.value === '') {
+                mensagens.push(campo.mensagem);
+            }
+            return mensagens;
+        }, []);
+    
+        if (mensagensErro.length > 0) {
+            const mensagem = mensagensErro.join('<br>');
+            sweetAlertPreenchimento({ mensagem });
+            return false;
+        }
+    
+        return true;
+    }
+
+
+
 
     //Abrir Offcanvas Confirmar Atendimento
     const abrirOffcanvasConfirmarAtendimento = document.querySelector("#abrirOffcanvasConfirmarAtendimento")
@@ -203,7 +306,119 @@ document.addEventListener('DOMContentLoaded', function() {
         offcanvasConfirmarAtendimento.show()
     })
 
+
+    $('#duracaoMinutos').mask('##');
+
+    const duracaoMinutos = document.querySelector('#duracaoMinutos')
+    duracaoMinutos.addEventListener('change', function() {
+        let mensagem = ''
+
+        if (duracaoMinutos.value == 0) {
+            mensagem = '<span style="font-weight:normal"><b>Erro!</b><br>A duração não pode ser de<br> <b>0 minutos</b>.</span>'
+        }
+
+        if (duracaoMinutos.value > 60) {
+            mensagem = '<span style="font-weight:normal;font-size: 1.5rem"><b>Erro!</b><br>A duração não pode ser superior a<br> <b>60 minutos</b>.</span>'
+        }
+
+        if (mensagem != '') {
+            Swal.fire({
+                title: mensagem,
+                icon: 'error',
+                iconColor: 'red',
+                timer: 2750,
+                showConfirmButton: false,
+            });
+            duracaoMinutos.value = ''
+        }
+    })
+
+    const salvarConfirmacaoAtendimento = document.querySelector('#salvarConfirmacaoAtendimento')
+    salvarConfirmacaoAtendimento.addEventListener('click', function(event) {
+        event.preventDefault();
+        confirmarAtendimento();
+    })
+
+    function confirmarAtendimento() {
+
+        //Verificar preenchimento dos campos
+        let preenchimento_incorreto = verificarCamposConfirmacaoAtendimento()
+        if (preenchimento_incorreto === false) {
+            return;
+        }
+
+        
+        //Enviar para o backend
+            //definir o caminho
+            postURL = `/tecnico/atendimentos/atendimento/confirmar-atendimento/${idAtendimento}/`
     
+            //pegar os dados
+            let formData = new FormData(document.getElementById('formConfirmacaoAtendimento'));
+    
+            //enviar 
+            fetch(postURL, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRFToken': getCSRFToken(),
+                }
+            })
+        
+        //Retorno do Servidor
+        .then(response => {
+            if (!response.ok) {
+                sweetAlert('<span style="font-weight:normal">Erro!<br> Confirmação de atendimento <b style="color:red">não realizada!</b></span>', 'error', 'red');
+                throw new Error('Server response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(data => {
+            if (data.confirmado === "sim") {
+                sweetAlert('<span style="font-weight:normal">Confirmação do atendimento realizada com <b style="color:green">sucesso!</b></span>', 'success', 'green');
+            } else {
+                sweetAlert('<span style="font-weight:normal">Erro!<br> Confirmação de atendimento <b style="color:red">não realizada!</b></span>', 'error', 'red');
+            }
+        })
+        .catch(error => {
+            console.error('Fetch operation error:', error);
+        });
+    }
+
+    function verificarCamposConfirmacaoAtendimento() {
+        const campos = [
+            { id: 'id_imagem01', mensagem: 'Insira o <b>Comprovante do Atendimento</b>!' },
+            { id: 'duracaoMinutos', mensagem: 'Informe a <b>Duração do Atendimento</b>!' },
+            { id: 'formaAtendimento', mensagem: 'Informe a <b>Forma do Atendimento</b>!' },
+            { id: 'internet_quality', mensagem: 'Avalie a <b>Qualidade da Conexão de Internet</b>!', tipo: 'radio' }
+        ];
+    
+        let mensagensErro = campos.reduce((mensagens, campo) => {
+            const elemento = document.getElementById(campo.id);
+            if (campo.tipo === 'radio') {
+                // Verifica se algum rádio está selecionado
+                const selecionado = document.querySelector(`input[name="${campo.id}"]:checked`);
+                if (!selecionado) {
+                    mensagens.push(campo.mensagem);
+                }
+            } else if (!elemento || elemento.value === '') {
+                mensagens.push(campo.mensagem);
+            }
+            return mensagens;
+        }, []);
+    
+        if (mensagensErro.length > 0) {
+            const mensagem = mensagensErro.join('<br>');
+            sweetAlertPreenchimento({ mensagem });
+            return false;
+        }
+    
+        return true;
+    }
+    
+
+
+
 
     //Finalizar atendimento
     const abrirOffcanvasFinalizarAtendimento = document.querySelector("#abrirOffcanvasFinalizarAtendimento")
@@ -213,14 +428,14 @@ document.addEventListener('DOMContentLoaded', function() {
         const relatorio = quill.getText().trim();
         const finalizarRelatorioAtendimento = document.querySelector('#finalizarRelatorioAtendimento')
 
+        let texto = editor.innerText.trim();
+        let palavras = texto.length > 0 ? texto.match(/\S+/g).length : 0;
 
-        if (relatorio === '' || /^\s*$/.test(relatorio)) {
-            finalizarRelatorioAtendimento.textContent = 'error'
+        if (palavras > 100 && palavras < 500) {
+            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 4vh; color: green;">check_circle</span> Relatório do atendimento';
         } else {
-            finalizarRelatorioAtendimento.textContent = 'check_circle'
+            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 4vh; color: red;">error</span> Relatório do atendimento';
         }
-
-
 
         offcanvasFinalizarAtendimento.show()
     })

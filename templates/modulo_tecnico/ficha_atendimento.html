@@ -32,13 +32,14 @@
 
         <!-- Funcionalidades -->
         <div class="barra_funcionalidades">
+            
+            <div class="funcionalidade" id="abrirOffcanvasCancelarAtendimento">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">cancel</i>
+                Cancelar
+            </div>
             <div class="funcionalidade" id="abrirOffcanvasWhatsapp">
                 <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle; color: black"></i>
                 Atender
-            </div>
-            <div class="funcionalidade" id="abrirOffcanvasCancelarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">cancel</i>
-                Cancelar
             </div>
             <div class="funcionalidade" id="abrirOffcanvasConfirmarAtendimento">
                 <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">check</i>
@@ -66,6 +67,7 @@
                     <span>Nome: <b>{{ atendimento.produtor.primeiro_ultimo_nome }}</b> ({{ atendimento.produtor.idade }} anos)</span>
                     <span>Município: {{ atendimento.produtor.uf_municipio }}</span>
                     <span>Celular: {{ atendimento.produtor.celular }}</span>
+                    <span id="idAtendimentoTecnico" style="display: none;">{{ atendimento.id }}</span>
                 </div>
 
                 <!-- Identificação do Atendimento -->
@@ -78,12 +80,18 @@
                         {% if atendimento.status == 'agendado' %}
                             <span class='status atendimento_agendado'>Agendado</span>
                         {% endif %}
-                        {% if atendimento.status == 'realizado' %}
-                            <span class='status atendimento_realizado'>Realizado</span>
-                        {% endif %}
                         {% if atendimento.status == 'cancelado' %}
                             <span class='status atendimento_cancelado'>Cancelado</span>
                         {% endif %}
+                        {% if atendimento.status == 'atendido' %}
+                            <span class='status atendimento_atendido'>Atendido</span>
+                        {% endif %}
+                        {% if atendimento.status == 'finalizado' %}
+                            <span class='status atendimento_finalizado'>Finalizado</span>
+                        {% endif %}
+                    </span>
+                    <span>Substatus:
+                        {{ atendimento.get_substatus_display }}
                     </span>
                 </div>
 
@@ -174,8 +182,7 @@
                     </div>
                     
                     <div>
-                        <button class="btn btn-success" id="btnSalvarRelatorio">Salvar Relatório</button>
-                        <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
+                        <button class="btn btn-success" id="btnSalvarRelatorio" style="font-size: 0.8rem;">Salvar Relatório</button>
                     </div>
                     
                 </div>
@@ -201,40 +208,7 @@
         {% include 'modulo_tecnico/offcanvas_agendar_retorno.html' %}
           
 
-        <script>
-
-            function previewImage(input) {
-                const baseId = input.id.replace('id_imagem', '');
-                const file = input.files[0];
-                const previewImg = document.getElementById(`preview-img${baseId}`);
-                const deleteBtn = document.getElementById(`delete-img${baseId}`);
-                const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
-                
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        previewImg.src = e.target.result;
-                        previewImg.style.display = 'block';
-                        deleteBtn.style.display = 'inline-block';
-                        inserirImgBtn.style.display = 'none';
-                    }
-                    reader.readAsDataURL(file);
-                }
-            }
-            
-            function deleteImage(baseId) {
-                const input = document.getElementById(`id_imagem${baseId}`);
-                const previewImg = document.getElementById(`preview-img${baseId}`);
-                const deleteBtn = document.getElementById(`delete-img${baseId}`);
-                const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
-                
-                input.value = "";
-                previewImg.style.display = 'none';
-                deleteBtn.style.display = 'none';
-                inserirImgBtn.style.display = 'block';
-                previewImg.src = "#";
-            }
-        </script>
+       
 
         <script src="{% static 'js/modulo_tecnico/ficha_atendimento.js' %}"></script>
 

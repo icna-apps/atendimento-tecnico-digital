@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm
-from apps.modulo_admin.models import Usuario, Atendimento
+from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from django.utils.dateformat import format
 import json
@@ -64,7 +64,6 @@ def login_tecnico(request):
     }
     logout(request)
     return render(request, 'modulo_tecnico/login.html', conteudo)
-
 
 
 def tecnico_dashboard(request):
@@ -135,9 +134,15 @@ def tecnico_meus_dados(request):
 def tecnico_ficha_atendimento(request, id):
 
     atendimento = Atendimento.objects.get(id=id)
+    
+    try:
+        atendimentoConfirmacao = AtendimentoConfirmacao.objects.get(atendimento=atendimento)
+    except AtendimentoConfirmacao.DoesNotExist:
+        atendimentoConfirmacao = None
 
     conteudo = {
         'atendimento': atendimento,
+        'atendimentoConfirmacao': atendimentoConfirmacao,
     }
 
     return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)
@@ -164,3 +169,36 @@ def tecnico_atendimento_salvar_relatorio(request, id):
             return JsonResponse({'salvo': "nao"}, status=404)
     return JsonResponse({'salvo': "nao"}, status=405)
 
+def tecnico_confirmar_atendimento(request, id):
+    #Objeto POST
+    post_data = request.POST.copy()
+
+    #Atendimento
+    atendimento = Atendimento.objects.get(id=id)
+
+    #dados da confirmação
+    imagem = ''
+    forma_atendimento = post_data.get('formaAtendimento', '')
+    duracao_minutos = post_data.get('duracaoMinutos', '')
+    qualidade_internet = post_data.get('internet_quality', '')
+    observacoes = post_data.get('observacoes', '')
+    
+    try:
+        confirmacao = AtendimentoConfirmacao(
+            imagem = imagem,
+            atendimento = atendimento,
+            forma_atendimento = forma_atendimento,
+            duracao_minutos = duracao_minutos,
+            qualidade_internet = qualidade_internet,
+            observacoes = observacoes
+        )
+        confirmacao.save()
+
+        atendimento.status = 'atendido'
+        atendimento.substatus = 'aguardando_relatorio'
+        atendimento.save()
+
+        return JsonResponse({'confirmado': "sim"})
+        
+    except ValueError:
+        return JsonResponse({'agendado': "nao"})

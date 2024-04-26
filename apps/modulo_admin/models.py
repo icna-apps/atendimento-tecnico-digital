@@ -9,7 +9,8 @@ from datetime import date, datetime, timedelta
 from datetime import datetime
 
 from setup.choices import (GENERO_SEXUAL, LISTA_UFS_SIGLAS, 
-                           ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, 
+                           ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, SUBSTATUS_ATENDIMENTO,
+                           MOTIVO_CANCELAMENTO, 
                            STATUS_ATENDIMENTO, FORMA_ATENDIMENTO)
 
 
@@ -199,10 +200,13 @@ class Atendimento(models.Model):
     atendimento_retorno = models.BooleanField(default=False)
     atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
 
-    #data, hora e status
+    #data, hora
     data = models.DateField(null=False, blank=False)
     hora = models.CharField(max_length=5, null=False, blank=False)
+    
+    #status
     status = models.CharField(max_length=15, choices=STATUS_ATENDIMENTO, null=False, blank=False)
+    substatus = models.CharField(max_length=60, choices=SUBSTATUS_ATENDIMENTO, null=True, blank=True)
 
     #dados do agendamento
     atividade_produtiva = models.CharField(max_length=120, choices=ATIVIDADE_PRODUTIVA, null=False, blank=False)
@@ -280,6 +284,34 @@ class AtendimentoConfirmacao(models.Model):
 
     def __str__(self):
         return f"ID da Confirmação: {self.id} - ID Atendimento: {self.atendimento.id}"
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+
+class AtendimentoCancelado(models.Model): 
+    #log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+    
+    #atendimento
+    atendimento = models.ForeignKey(Atendimento, on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimento_cancelado')
+
+    #atendimento cancelado
+    motivo_cancelamento = models.CharField(max_length=100, choices=MOTIVO_CANCELAMENTO, null=False, blank=False)
+    imagem = models.ImageField(null=True, blank=True)
+    observacoes = models.TextField(null=True, blank=True)
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def __str__(self):
+        return f"ID do Cancelamento: {self.id} - ID Atendimento: {self.atendimento.id}"
 
     def soft_delete(self, user):
         self.del_status = True

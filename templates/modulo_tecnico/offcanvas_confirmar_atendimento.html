@@ -3,89 +3,163 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasConfirmarAtendimento">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title">Confirmar Atendimento</h5>
+      <h5 class="offcanvas-title" style="font-size: 1rem;">Confirmar Atendimento</h5>
       <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body conteudo_offcanvas">
         
-        <div class="form-control imagem">
-            <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
-            <button type="button" class="inserir-imagem" id="botao_imagem01" onclick="document.getElementById('id_imagem01').click();">
-                <i class="material-symbols-outlined" style="font-size: 5vh;">image</i><br>Print do Atendimento
-            </button>
-            <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; width: 20vh;">
-            <!-- <button type="button" class="btn btn-danger mt-2" id="delete-img01" onclick="deleteImage('01')" style="display: none;">Apagar Imagem</button> -->
-            
-            <div class="botoes__offcanvas">
-                <div class="funcionalidade">
-                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
+        <!-- Form -->
+        <form id="formConfirmacaoAtendimento">
+
+            <!-- Imagem -->
+            <div class="form-control imagem">
+                <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do Atendimento</label>
+                <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
+                <button type="button" class="inserir-imagem" id="botao_imagem01" name="imagemConfirmacao" onclick="document.getElementById('id_imagem01').click();">
+                    <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
+                </button>
+                <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; width: 20vh;">
+                <!-- <button type="button" class="btn btn-danger mt-2" id="delete-img01" onclick="deleteImage('01')" style="display: none;">Apagar Imagem</button> -->
+                
+                <div class="botoes__offcanvas">
+                    <div class="funcionalidade" id="imagemExpandir" style="display: none;">
+                        <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
+                    </div>
+                    <div class="funcionalidade" id="imagemDelete" onclick="deleteImage('01')" style="display: none;">
+                        <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
+                    </div>
                 </div>
-                <div class="funcionalidade" id="delete-img01" onclick="deleteImage('01')">
-                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">delete</i>
-                </div>
+                
+            </div>
+
+            <!-- Duração do atendimento -->
+            <div class="form-floating mb-3">
+                <input 
+                    type="text"
+                    class="form-control"
+                    style="text-align: right; font-size: 0.8rem;" 
+                    id="duracaoMinutos" 
+                    name="duracaoMinutos"
+                    value="{% if atendimentoConfirmacao %}{{ atendimentoConfirmacao.duracao_minutos }}{% endif %}"
+                    {% if atendimentoConfirmacao %}readonly{% endif %}
+                >
+                <label for="duracaoMinutos">Duração (minutos)</label>
             </div>
             
-        </div>
-
-        <div class="form-floating mb-3">
-            <input type="text" class="form-control" inputmode="numeric" style="text-align: right;" id="duracaoMinutos">
-            <label>Duração (minutos)</span>
-        </div>
-
-        <!-- Forma de atendimento -->
-        <div class="form-floating mb-3">
-            <select class="form-select">
-                <option value="apenas_audio"></option>
-                <option value="apenas_audio">Apenas áudio</option>
-                <option value="audio_video">Áudio e vídeo</option>
-            </select>
-            <label>Forma de Atendimento</label>
-        </div>
-        
-        <!-- Qualidade da internet -->
-        <div class="form-floating mb-3 qualidade_internet form-control">
-            <div>
-                <span style="font-size: 0.9rem; color: gray">Qualidade da conexão de internet</span><br>
-                <span style="font-size: 0.8rem; font-style: italic; color: gray">1 - Muito Ruim -- 5 - Muito Bom</span>
-            </div>
             
-            <div class="qualidade_internet_radios">
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="internet_quality" id="quality1" value="1">
-                    <label class="form-check-label" for="quality1">1</label>
+            <!-- Forma de atendimento -->
+            <div class="form-floating mb-3">
+                <select class="form-select" style="font-size: 0.8rem;" id="formaAtendimento" name="formaAtendimento"
+                        {% if atendimentoConfirmacao %}disabled{% endif %}>
+                    <option value=""></option>
+                    <option value="apenas_audio" {% if atendimentoConfirmacao.forma_atendimento == "apenas_audio" %}selected{% endif %}>Apenas áudio</option>
+                    <option value="audio_video" {% if atendimentoConfirmacao.forma_atendimento == "audio_video" %}selected{% endif %}>Áudio e vídeo</option>
+                </select>
+                <label for="formaAtendimento">Forma de Atendimento</label>
+            </div>
+
+            
+            <!-- Qualidade da internet -->
+            <div class="form-floating mb-3 qualidade_internet form-control">
+                <div>
+                    <span style="font-size: 0.7rem; color: gray">Qualidade da conexão de internet</span><br>
+                    <span style="font-size: 0.6rem; font-style: italic; color: gray">1 - Muito Ruim -- 5 - Muito Bom</span>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="internet_quality" id="quality2" value="2">
-                    <label class="form-check-label" for="quality2">2</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="internet_quality" id="quality3" value="3">
-                    <label class="form-check-label" for="quality3">3</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="internet_quality" id="quality4" value="4">
-                    <label class="form-check-label" for="quality4">4</label>
-                </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" name="internet_quality" id="quality5" value="5">
-                    <label class="form-check-label" for="quality5">5</label>
+                
+                <div class="qualidade_internet_radios">
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="internet_quality" id="quality1" value="1" {% if atendimentoConfirmacao.qualidade_internet == 1 %}checked{% endif %} {% if atendimentoConfirmacao %}disabled{% endif %}>
+                        <label class="form-check-label" for="quality1">1</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="internet_quality" id="quality2" value="2" {% if atendimentoConfirmacao.qualidade_internet == 2 %}checked{% endif %} {% if atendimentoConfirmacao %}disabled{% endif %}>
+                        <label class="form-check-label" for="quality2">2</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="internet_quality" id="quality3" value="3" {% if atendimentoConfirmacao.qualidade_internet == 3 %}checked{% endif %} {% if atendimentoConfirmacao %}disabled{% endif %}>
+                        <label class="form-check-label" for="quality3">3</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="internet_quality" id="quality4" value="4" {% if atendimentoConfirmacao.qualidade_internet == 4 %}checked{% endif %} {% if atendimentoConfirmacao %}disabled{% endif %}>
+                        <label class="form-check-label" for="quality4">4</label>
+                    </div>
+                    <div class="form-check">
+                        <input class="form-check-input" type="radio" name="internet_quality" id="quality5" value="5" {% if atendimentoConfirmacao.qualidade_internet == 5 %}checked{% endif %} {% if atendimentoConfirmacao %}disabled{% endif %}>
+                        <label class="form-check-label" for="quality5">5</label>
+                    </div>
                 </div>
             </div>
+
+
+            <!-- Observações -->
+            <div class="form-floating mb-3">
+                <textarea class="form-control" id="observacoesConfimarcaoAtendimento" name="observacoes" style="min-height: 130px; font-size: 0.8rem;"
+                    {% if atendimentoConfirmacao %}readonly{% endif %}>
+                    {% if atendimentoConfirmacao %}
+                        {{ atendimentoConfirmacao.observacoes }}
+                    {% endif %}
+                </textarea>
+                <label for="observacoesConfimarcaoAtendimento">Observações</label>
+            </div>
+
             
-            <!-- <label>Qualidade da conexão de internet</label> -->
-        </div>
+            <!-- Botão Salvar -->
+            {% if not atendimentoConfirmacao %}
+                <div style="text-align: right;">
+                    <button type="submit" class="btn btn-success" style="font-size: 0.8rem;" id="salvarConfirmacaoAtendimento">Salvar</button>
+                </div>
+            {% else %}
+                <div>
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">check</i>
+                    Atendimento confirmado!
+                </div>
 
-
-        <div class="form-floating mb-3">
-            <textarea class="form-control" id="comentarios" style="min-height: 150px;"></textarea>
-            <label for="comments">Comentários</label>
-        </div>
-        
-
-        <div>
-            <button class="btn btn-success">Salvar Relatório</button>
-            <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
-        </div>
+                <div style="text-align: right; display: none;">
+                    <button type="submit" class="btn btn-success" style="font-size: 0.8rem;" id="salvarConfirmacaoAtendimento">Salvar</button>
+                </div>
+            {% endif %}
+            
+        </form>
 
     </div>
 </div>
+
+
+<script>
+
+    function previewImage(input) {
+        const baseId = input.id.replace('id_imagem', '');
+        const file = input.files[0];
+        const previewImg = document.getElementById(`preview-img${baseId}`);
+        const deleteBtn = document.getElementById(`imagemDelete`);
+        const expandirBtn = document.getElementById(`imagemExpandir`);
+        const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+        
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                previewImg.src = e.target.result;
+                previewImg.style.display = 'block';
+                deleteBtn.style.display = 'inline-block';
+                // expandirBtn.style.display = 'inline-block';
+                inserirImgBtn.style.display = 'none';
+            }
+            reader.readAsDataURL(file);
+        }
+    }
+    
+    function deleteImage(baseId) {
+        const input = document.getElementById(`id_imagem${baseId}`);
+        const previewImg = document.getElementById(`preview-img${baseId}`);
+        const deleteBtn = document.getElementById(`imagemDelete`);
+        const expandirBtn = document.getElementById(`imagemExpandir`);
+        const inserirImgBtn = document.getElementById(`botao_imagem${baseId}`);
+        
+        input.value = "";
+        previewImg.style.display = 'none';
+        deleteBtn.style.display = 'none';
+        // expandirBtn.style.display = 'none';
+        inserirImgBtn.style.display = 'block';
+        previewImg.src = "#";
+    }
+</script>

@@ -186,8 +186,6 @@ def produtor_ficha_atendimento(request, id):
 def produtor_cancelar_atendimento(request, id):
     atendimento = get_object_or_404(Atendimento, id=id)
 
-    print('Atendimento: ', atendimento)
-
     with transaction.atomic():
         atendimento.status = 'cancelado'
         atendimento.save()

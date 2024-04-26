@@ -9,27 +9,89 @@
         
         <!-- Forma de atendimento -->
         <div class="form-floating mb-3">
-          <select class="form-select">
+          <select class="form-select" style="font-size: 0.8rem;" id="cancelamentoMotivo">
               <option value=""></option>
-              <option value="produtor_nao_deu_retorno">Produtor não deu retorno</option>
-              <option value="produtor_nao_podia_atender">Produtor não podia atender</option>
-              <option value="assunto_particular_tecnico">Assuntos particulares (técnico)</option>
-              <option value="outro">Outro motivo</option>
+              <option value="produtor_nao_compareceu">Produtor não compareceu</option>
+              <option value="tecnico_nao_podia_atender">Técnico não podia atender</option>
+              <option value="outro_motivo">Outro motivo</option>
           </select>
           <label>Motivo do cancelamento</label>
       </div>
 
+      <!-- Imagem -->
+      <div class="form-control imagem" style="display: none;" id="cancelamentoImagem">
+        <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do cancelamento</label>
+        <!-- Área da imagem -->
+        <input type="file" class="form-control" id="imagemCancelamento" name="imagemCancelamento" onchange="previewImageCancelamento();" style="display: none;">
+        <button type="button" class="inserir-imagem" id="botao_imagemCancelamento" onclick="document.getElementById('imagemCancelamento').click();">
+            <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
+        </button>
+        <img id="preview-imgCancelamento" src="#" alt="Preview Image" style="display: none; width: 20vh;">
+
+        <!-- Botões -->
+        <div class="botoes__offcanvas">
+            <div class="funcionalidade" id="imagemCancelamentoExpandir" style="display: none;">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
+            </div>
+            <div class="funcionalidade" id="imagemCancelamentoDelete" onclick="deleteImageCancelamento()" style="display: none;">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
+            </div>
+        </div>
+      </div>
+
+
+
       <!-- Comentários -->
       <div class="form-floating mb-3">
-        <textarea class="form-control" id="comentarios" style="min-height: 250px;"></textarea>
+        <textarea class="form-control" id="comentarios" style="min-height: 250px; font-size: 0.8rem;"></textarea>
         <label for="comments">Observações</label>
       </div>
 
 
-      <div style="width: 100%; text-align: right;">
-        <button class="btn btn-danger">Confirmar Cancelamento</button>
+      <div style="width: 100%; text-align: right;" id="botaoCancelarAtendimento">
+        <button class="btn btn-danger" style="font-size: 0.8rem;">Confirmar Cancelamento</button>
         <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
       </div>
 
     </div>
 </div>
+
+
+<script>
+  function previewImageCancelamento() {
+      const input = document.getElementById('imagemCancelamento');
+      const file = input.files[0];
+      const previewImg = document.getElementById('preview-imgCancelamento');
+      const deleteCancelamentoBtn = document.getElementById('imagemCancelamentoDelete');
+      const expandirCancelamentoBtn = document.getElementById('imagemCancelamentoExpandir');
+      const inserirImgBtn = document.getElementById('botao_imagemCancelamento');
+
+      if (file) {
+          const reader = new FileReader();
+          reader.onload = function(e) {
+              previewImg.src = e.target.result;
+              previewImg.style.display = 'block';
+              deleteCancelamentoBtn.style.display = 'inline-block';
+              // expandirCancelamentoBtn.style.display = 'inline-block';
+              inserirImgBtn.style.display = 'none';
+          }
+          reader.readAsDataURL(file);
+      }
+  }
+  
+  function deleteImageCancelamento() {
+      const input = document.getElementById('imagemCancelamento');
+      const previewImg = document.getElementById('preview-imgCancelamento');
+      const deleteCancelamentoBtn = document.getElementById('imagemCancelamentoDelete');
+      const expandirBtn = document.getElementById('imagemCancelamentoExpandir');
+      const inserirImgBtn = document.getElementById('botao_imagemCancelamento');
+
+      input.value = "";
+      previewImg.style.display = 'none';
+      deleteCancelamentoBtn.style.display = 'none';
+      // expandirBtn.style.display = 'none';
+      inserirImgBtn.style.display = 'block';
+      previewImg.src = "#";
+  }
+</script>
+

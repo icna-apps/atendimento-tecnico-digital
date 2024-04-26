@@ -59,6 +59,23 @@ STATUS_ATENDIMENTO = [
     ('finalizado', 'Finalizado'),
 ]
 
+SUBSTATUS_ATENDIMENTO = [
+    ('aguardando_atendimento', 'Aguardando atendimento'),
+    ('cancelado_produtor', 'Cancelado pelo produtor'),
+    ('cancelado_tecnico', 'Cancelado pelo técnico'),
+    ('aguardando_relatorio', 'Aguardando o relatório'),
+    ('aguardando_finalizar', 'Aguardando o técnico finalizar'),
+    ('produtor_avaliar', 'Produtor ainda não avaliou'),
+    ('produtor_nao_abriu_relatorio', 'Produtor não abriu o relatório'),
+    ('produtor_abriu_relatorio', 'Produtor abriu o relatório')
+]
+
+MOTIVO_CANCELAMENTO = [
+    ('produtor_nao_compareceu', 'Produtor não compareceu'),
+    ('tecnico_nao_podia_atender', 'Técnico não podia atender'),
+    ('outro_motivo', 'Outro motivo'),
+]
+
 FORMA_ATENDIMENTO = [
     ('apenas_audio', 'Apenas áudio'),
     ('audio_video', 'Áudio e vídeo'),

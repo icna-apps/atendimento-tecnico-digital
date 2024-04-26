@@ -9,16 +9,17 @@
         
       <!-- Confirmação do Atendimento -->
       <div class="finalizar_atendimento form-control">
-
-          <span class="material-symbols-outlined" style="font-size: 4vh;" id="finalizarConfirmacaoAtendimento">check_circle</span>
+          {% if atendimentoConfirmacao %}
+            <span class="material-symbols-outlined" style="font-size: 4vh; color: green">check_circle</span>
+          {% else %}
+            <span class="material-symbols-outlined" style="font-size: 4vh; color:red">error</span>
+          {% endif %}
           Confirmação do atendimento
-
       </div>
 
       <!-- Relatório do Atendimento -->
-      <div class="finalizar_atendimento form-control">
-          <span class="material-symbols-outlined" style="font-size: 4vh;" id="finalizarRelatorioAtendimento">error</span>
-          <span>Relatório do atendimento</span>
+      <div class="finalizar_atendimento form-control" id="finalizarRelatorioAtendimento">
+            Teste
       </div>
 
       <div style="text-align: right;">
