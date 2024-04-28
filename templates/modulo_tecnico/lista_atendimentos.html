@@ -45,13 +45,15 @@
                             </div>
 
                             <div class="listagem_item_informacoes_container_parte">
-                                <span>Produtor: <b>{{ atendimento.produtor.primeiro_ultimo_nome }}</b></span>
-                                <span>Idade: {{ atendimento.produtor.idade }} anos</span>
-                                <span>Município: {{ atendimento.produtor.uf_municipio }}</span>
+                                <span>Status: {{ atendimento.get_status_display }}</span>
+                                <span>Substatus: {{ atendimento.get_substatus_display }}</span>
+                                <span>Pagamento: Não pago</span>
                             </div>
                             
                             <div class="listagem_item_informacoes_container_parte">
-                                Botões
+                                <span>Produtor: <b>{{ atendimento.produtor.primeiro_ultimo_nome }}</b></span>
+                                <span>Idade: {{ atendimento.produtor.idade }} anos</span>
+                                <span>Município: {{ atendimento.produtor.uf_municipio }}</span>
                             </div>
                             
                         </div>

@@ -2,6 +2,7 @@
     font-family: 'Manrope', sans-serif;
     font-size: 2.2vh;
     font-weight: bold;
+    padding-left: 1vw;
 }
 
 .botoes__navbar {
@@ -9,7 +10,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding-right: 1vw;
+    padding-right: 0.5vw;
     cursor: pointer;
 }
 

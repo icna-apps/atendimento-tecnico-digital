@@ -8,7 +8,7 @@ from django.contrib.auth import logout
 from django.contrib.auth.models import User
 from django.contrib import auth
 from apps.modulo_admin.forms import LoginForm
-from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao
+from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao, AtendimentoCancelado
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from django.utils.dateformat import format
 import json
@@ -202,3 +202,37 @@ def tecnico_confirmar_atendimento(request, id):
         
     except ValueError:
         return JsonResponse({'agendado': "nao"})
+
+
+def tecnico_cancelar_atendimento(request, id):
+    #Objeto POST
+    post_data = request.POST.copy()
+
+    #Atendimento
+    atendimento = Atendimento.objects.get(id=id)
+
+    #dados da confirmação
+    imagem = ''
+    motivo_cancelamento = post_data.get('cancelamentoMotivo', '')
+    observacoes = post_data.get('cancelamentoObservacoes', '')
+    
+    try:
+        cancelamento = AtendimentoCancelado(
+            atendimento = atendimento,
+            motivo_cancelamento = motivo_cancelamento,
+            imagem = imagem,
+            observacoes = observacoes,
+        )
+        cancelamento.save()
+
+        atendimento.status = 'cancelado'
+        if motivo_cancelamento == 'produtor_nao_compareceu':
+            atendimento.substatus = 'cancelado_produtor'
+        else:
+            atendimento.substatus = 'cancelado_tecnico'
+        atendimento.save()
+
+        return JsonResponse({'cancelado': "sim"})
+        
+    except ValueError:
+        return JsonResponse({'cancelado': "nao"})

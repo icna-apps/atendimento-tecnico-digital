@@ -69,6 +69,7 @@
                         {% else %}
                             <span>Status: <span class='status realizado'>Realizado</span></span>
                         {% endif %}
+                        <span>Substatus: {{ atendimento.get_substatus_display }}</span>
                     </div>
                 </div>
             {% endfor %}

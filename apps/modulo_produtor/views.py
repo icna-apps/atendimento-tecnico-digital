@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+import re
 from django.db import transaction
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404
@@ -13,6 +14,7 @@ from apps.modulo_tecnico.models import HorariosAtendimentos
 from django.http import JsonResponse
 from datetime import datetime, timedelta
 from setup.utils import get_next_week_days
+from apps.modulo_admin.services  import enviar_sms
 
 
 def login_produtor(request):
@@ -155,9 +157,41 @@ def produtor_realizar_agendamento(request):
             imagem01=imagem01,
             imagem02=imagem02,
             imagem03=imagem03,
-            status=status
+            status=status,
+            substatus='aguardando_atendimento'
         )
         novo_atendimento.save()
+
+        #enviar notificação para o técnico
+        id = novo_atendimento.atendimento_id()
+        data_formatada = novo_atendimento.data.strftime('%d/%m/%Y')
+        hora_formatada = novo_atendimento.hora
+        detalhes_atividade = novo_atendimento.get_atividade_produtiva_display()
+        detalhes_topico = novo_atendimento.topico
+        produtor = novo_atendimento.produtor.primeiro_ultimo_nome()
+        municipio = novo_atendimento.produtor.uf_municipio()
+
+        # Compõe a mensagem
+        mensagem = (
+            f"CNA Digital - {id}\n"
+            f"Novo atendimento agendado!\n"
+            f"-----------\n"
+            f"Data: {data_formatada}\n"
+            f"Hora: {hora_formatada}\n"
+            f"-----------\n"
+            f"Atividade: {detalhes_atividade}\n"
+            f"Tópico: {detalhes_topico}\n"
+            f"-----------\n"
+            f"Produtor: {produtor}\n"
+            f"Município-UF: {municipio}"
+        )
+
+        enviar_sms(
+            novo_atendimento.id, 
+            mensagem,
+            tecnico.celular
+        )
+
         return JsonResponse({'agendado': "sim", 'id_agendamento': novo_atendimento.id})
         
     except ValueError:

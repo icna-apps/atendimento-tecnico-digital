@@ -38,19 +38,19 @@
                 Cancelar
             </div>
             <div class="funcionalidade" id="abrirOffcanvasWhatsapp">
-                <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle; color: black"></i>
+                <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle;"></i>
                 Atender
             </div>
             <div class="funcionalidade" id="abrirOffcanvasConfirmarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">check</i>
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">check</i>
                 Confirmar Atend.
             </div>
             <div class="funcionalidade" id="abrirOffcanvasFinalizarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">done_all</i>
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">done_all</i>
                 Finalizar
             </div>
             <div class="funcionalidade" id="abrirOffcanvasAgendarRetorno">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">event_upcoming</i>
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">event_upcoming</i>
                 Agendar Retorno
             </div>
         </div>
@@ -76,7 +76,7 @@
                     <span>ID: {{ atendimento.atendimento_id }}</span>
                     <span>Data: <b>{{ atendimento.data|date:'d/m/Y' }}</b></span>
                     <span>Hora: <b>{{ atendimento.hora }}</b></span>
-                    <span>Status: 
+                    <span id="statusAtendimento" data-status="{{ atendimento.status }}">Status:
                         {% if atendimento.status == 'agendado' %}
                             <span class='status atendimento_agendado'>Agendado</span>
                         {% endif %}
@@ -163,8 +163,9 @@
                 <div class="area_relatorio">
                     <div id="editor" data-id="{{ atendimento.id }}" style="height: 100%;"></div>
                     <script type="text/plain" id="relatorioInicial">
-                        {{ atendimento.relatorio|safe }}
+                        {{ atendimento.relatorio|default_if_none:"" |safe }}
                     </script>
+                    
                 </div>                
 
                 <div class="relatorio_botoes">
@@ -207,11 +208,9 @@
         <!-- offcanvas agendar retorno -->
         {% include 'modulo_tecnico/offcanvas_agendar_retorno.html' %}
           
-
-       
-
-        <script src="{% static 'js/modulo_tecnico/ficha_atendimento.js' %}"></script>
-
     </div>
+
+    <script src="{% static 'js/modulo_tecnico/ficha_atendimento.js' %}"></script>
+    <script src="{% static 'js/modulo_tecnico/ficha_atendimento_status.js' %}"></script>
 
 {% endblock %}

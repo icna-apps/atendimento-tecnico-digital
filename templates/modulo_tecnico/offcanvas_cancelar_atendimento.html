@@ -7,51 +7,53 @@
     </div>
     <div class="offcanvas-body conteudo_offcanvas">
         
-        <!-- Forma de atendimento -->
+      <form id="formCancelamentoAtendimento">
+          <!-- Forma de atendimento -->
         <div class="form-floating mb-3">
-          <select class="form-select" style="font-size: 0.8rem;" id="cancelamentoMotivo">
+          <select class="form-select" style="font-size: 0.8rem;" id="cancelamentoMotivo" name="cancelamentoMotivo">
               <option value=""></option>
               <option value="produtor_nao_compareceu">Produtor não compareceu</option>
               <option value="tecnico_nao_podia_atender">Técnico não podia atender</option>
               <option value="outro_motivo">Outro motivo</option>
           </select>
           <label>Motivo do cancelamento</label>
-      </div>
+        </div>
 
-      <!-- Imagem -->
-      <div class="form-control imagem" style="display: none;" id="cancelamentoImagem">
-        <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do cancelamento</label>
-        <!-- Área da imagem -->
-        <input type="file" class="form-control" id="imagemCancelamento" name="imagemCancelamento" onchange="previewImageCancelamento();" style="display: none;">
-        <button type="button" class="inserir-imagem" id="botao_imagemCancelamento" onclick="document.getElementById('imagemCancelamento').click();">
-            <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
-        </button>
-        <img id="preview-imgCancelamento" src="#" alt="Preview Image" style="display: none; width: 20vh;">
+        <!-- Imagem -->
+        <div class="form-control imagem" style="display: none;" id="cancelamentoImagem">
+          <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do cancelamento</label>
+          <!-- Área da imagem -->
+          <input type="file" class="form-control" id="imagemCancelamento" name="imagemCancelamento" onchange="previewImageCancelamento();" style="display: none;">
+          <button type="button" class="inserir-imagem" id="botao_imagemCancelamento" onclick="document.getElementById('imagemCancelamento').click();">
+              <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
+          </button>
+          <img id="preview-imgCancelamento" src="#" alt="Preview Image" style="display: none; width: 20vh;">
+
+          <!-- Botões -->
+          <div class="botoes__offcanvas">
+              <div class="funcionalidade" id="imagemCancelamentoExpandir" style="display: none;">
+                  <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
+              </div>
+              <div class="funcionalidade" id="imagemCancelamentoDelete" onclick="deleteImageCancelamento()" style="display: none;">
+                  <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
+              </div>
+          </div>
+        </div>
+
+
+        <!-- Comentários -->
+        <div class="form-floating mb-3">
+          <textarea class="form-control" id="cancelamentoObservacoes" name="cancelamentoObservacoes" style="min-height: 250px; font-size: 0.8rem;"></textarea>
+          <label for="comments">Justificativa</label>
+        </div>
 
         <!-- Botões -->
-        <div class="botoes__offcanvas">
-            <div class="funcionalidade" id="imagemCancelamentoExpandir" style="display: none;">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
-            </div>
-            <div class="funcionalidade" id="imagemCancelamentoDelete" onclick="deleteImageCancelamento()" style="display: none;">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
-            </div>
+        <div style="width: 100%; text-align: right;">
+          <button class="btn btn-danger" style="font-size: 0.8rem;" id="botaoCancelarAtendimento">Confirmar Cancelamento</button>
         </div>
-      </div>
 
-
-
-      <!-- Comentários -->
-      <div class="form-floating mb-3">
-        <textarea class="form-control" id="comentarios" style="min-height: 250px; font-size: 0.8rem;"></textarea>
-        <label for="comments">Observações</label>
-      </div>
-
-
-      <div style="width: 100%; text-align: right;" id="botaoCancelarAtendimento">
-        <button class="btn btn-danger" style="font-size: 0.8rem;">Confirmar Cancelamento</button>
-        <!-- <button class="btn btn-success" style="margin-left: 20px;">Baixar Relatório</button> -->
-      </div>
+      </form>
+        
 
     </div>
 </div>
@@ -95,3 +97,4 @@
   }
 </script>
 
+<script src="{% static 'js/modulo_tecnico/cancelar_atendimento.js' %}"></script>

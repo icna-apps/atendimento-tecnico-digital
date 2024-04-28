@@ -1,12 +1,247 @@
 {% extends '_partials/base_main.html' %}
 {% load static %}
+{% block extra_head %}
+    <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/dashboard.css' %}">
+    <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/dashboard_numerosgerais.css' %}">
+    <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/dashboard_graficos.css' %}">
+    
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels"></script>
 
+    <!-- Google Charts -->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+{% endblock %}
 
 {% block content %}    
+
+    <div class="page_dashboard">
+        <div class="numeros_gerais">
+
+            <div class="numeros_gerais_box">
+                <span class="numeros_gerais_box_titulo">
+                    Score de Avaliação
+                </span>
     
+                <!-- Score geral -->
+                <div class="score_geral">
+                    <span class="numeros_gerais_box_score">
+                        <span>
+                            4,55
+                            <span style="font-size: 1.5rem; color:gray">/5,0</span>
+                        </span>
+                        <span style="font-size: 1rem; color:gray">Média geral: 4,25</span>
+                    </span>
+                </div>
+    
+            </div>
+    
+            <div class="numeros_gerais_box">
+                
+                <span class="numeros_gerais_box_titulo">
+                    Atendimentos Técnicos
+                </span>
+    
+                <div class="numeros_gerais_box_cards">
+                    <!-- Total de atendimentos -->
+                    <span class="numeros_gerais_box_card">
+                        <span class="numeros_gerais_box_card_titulo">total</span>
+                        <span class="numeros_gerais_box_card_valor">120</span>
+                    </span>
+        
+                    <!-- Cancelados -->
+                    <span class="numeros_gerais_box_card" style="color: gray">
+                        <span class="numeros_gerais_box_card_titulo">cancelados</span>
+                        <span class="numeros_gerais_box_card_valor">19</span>
+                    </span>
+    
+                    <!-- Agendados -->
+                    <span class="numeros_gerais_box_card" style="color: gray">
+                        <span class="numeros_gerais_box_card_titulo">agendados</span>
+                        <span class="numeros_gerais_box_card_valor">11</span>
+                    </span>
+    
+                    <!-- Atendidos -->
+                    <span class="numeros_gerais_box_card" style="color: gray">
+                        <span class="numeros_gerais_box_card_titulo">atendidos</span>
+                        <span class="numeros_gerais_box_card_valor">16</span>
+                    </span>
+    
+                    <!-- Finalizados -->
+                    <span class="numeros_gerais_box_card" style="color: var(--verde-capital)">
+                        <span class="numeros_gerais_box_card_titulo">finalizados</span>
+                        <span class="numeros_gerais_box_card_valor">74</span>
+                    </span>
+                </div>
+                
+    
+            </div>
+    
+            <div class="numeros_gerais_box">
+                <span class="numeros_gerais_box_titulo">
+                    Pagamentos dos atendimentos
+                </span>
+    
+                <div class="numeros_gerais_box_cards">
+                    <!-- Total de atendimentos -->
+                    <span class="numeros_gerais_box_card">
+                        <span class="numeros_gerais_box_card_titulo">total a pagar</span>
+                        <span class="numeros_gerais_box_card_valor">74</span>
+                    </span>
+        
+                    <!-- Cancelados -->
+                    <span class="numeros_gerais_box_card" style="color: gray">
+                        <span class="numeros_gerais_box_card_titulo">não solicitado</span>
+                        <span class="numeros_gerais_box_card_valor">25</span>
+                    </span>
+    
+                    <!-- Agendados -->
+                    <span class="numeros_gerais_box_card" style="color: gray">
+                        <span class="numeros_gerais_box_card_titulo">solicitado</span>
+                        <span class="numeros_gerais_box_card_valor">5</span>
+                    </span>
+    
+                    <!-- Agendados -->
+                    <span class="numeros_gerais_box_card" style="color: var(--verde-capital)">
+                        <span class="numeros_gerais_box_card_titulo">pagos</span>
+                        <span class="numeros_gerais_box_card_valor">40</span>
+                    </span>
+    
+                    
+                </div>
+            </div>
+    
+    
+            
+        </div>
+    
+        <div class="graficos">
 
-    Dashboard
+            <!-- <div class="grafico_box">
+                <span class="numeros_gerais_box_titulo">
+                    % de Notas de avaliação dos atendimentos
+                </span>
+                <canvas id="grafico_score_avaliacao"></canvas>
+            </div> -->
 
+            <div class="grafico_box">
+                <span class="numeros_gerais_box_titulo">
+                    % de Notas de avaliação dos atendimentos
+                </span>
+                <div id="barchart_values" style="width: 900px; height: 500px;"></div>
 
+            </div>
+            
+        </div>
+    </div>
+    
+    <!-- Chart.js -->
+    <script>
+        var ctx = document.getElementById('grafico_score_avaliacao').getContext('2d');
+        var grafico_score_avaliacao = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Nota 1', 'Nota 2', 'Nota 3', 'Nota 4', 'Nota 5'],
+                datasets: [{
+                    label: '% de Votos',
+                    data: [10.0, 12.5, 21.1, 32.8, 23.6],
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.2)',
+                        'rgba(54, 162, 235, 0.2)',
+                        'rgba(255, 206, 86, 0.2)',
+                        'rgba(75, 192, 192, 0.2)',
+                        'rgba(153, 102, 255, 0.2)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1,
+                    datalabels: {
+                        anchor: 'end',
+                        align: 'end',
+                        color: '#555'  // Configura a cor do texto dos rótulos
+                    }
+                }]
+            },
+            options: {
+                plugins: {
+                    datalabels: {
+                        color: '#000', // Cor geral dos rótulos de dados
+                        display: true,
+                        font: {
+                            weight: 'bold' // Estilo da fonte
+                        }
+                    },
+                    legend: {
+                        display: false, // Mostra a legenda
+                        position: 'top' // Posiciona a legenda no topo
+                    }
+                },
+                indexAxis: 'y',
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+
+                    }
+                }
+            }
+        });
+    </script>
+    
+    <!-- Google Chart -->
+    <script type="text/javascript">
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(drawChart);
+    
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Categoria', 'Valor', { role: 'style' }, {role: 'annotation'}],
+                ['Nota 1', 10.0, 'color: #e5e4e2', '10.0%'],
+                ['Nota 2', 12.5, 'color: #b7dbbe', '12.5%'],
+                ['Nota 3', 21.1, 'color: #89d29a', '21.1%'],
+                ['Nota 4', 32.8, 'color: #5bc976', '32.8%'],
+                ['Nota 5', 23.6, 'color: #2dc052', '23.6%']
+            ]);
+    
+            var options = {
+                chartArea: {left: '10%', width: '80%', height: '80%'}, // Ajusta a área do gráfico
+                hAxis: {
+                    minValue: 0,
+                    textPosition: 'none',
+                    gridlines: { color: 'transparent' }
+                },
+                vAxis: {
+                },
+                bars: 'horizontal',
+                annotations: {
+                    alwaysOutside: true,
+                    textStyle: {
+                        fontSize: 12,
+                        auraColor: 'none',
+                        color: '#555'
+                    }
+                },
+                legend: { position: "none" }
+            };
+    
+            var chart = new google.visualization.BarChart(document.getElementById('barchart_values'));
+            chart.draw(data, options);
+    
+            // Redimensionar o gráfico quando a janela é redimensionada
+            window.addEventListener('resize', function() {
+                chart.draw(data, options);
+            });
+        }
+    </script>
+    
+    
+    
+    
 
 {% endblock %}

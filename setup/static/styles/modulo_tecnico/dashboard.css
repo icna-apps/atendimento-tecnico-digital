@@ -1,0 +1,7 @@
+.page_dashboard {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 1vh;
+    padding-left: 1vw;
+}
