@@ -1,6 +1,10 @@
 import re
+import os
 from comtele_sdk.textmessage_service import TextMessageService
-api_key = '7c47eee4-d83e-4358-a555-978582f5be53'
+from dotenv import load_dotenv
+load_dotenv()
+
+api_key = os.getenv('COMTELE_API_KEY')
 
 def enviar_sms(id, mensagem, celular):
     textmessage_service = TextMessageService(api_key)
