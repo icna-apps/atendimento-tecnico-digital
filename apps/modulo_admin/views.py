@@ -1,4 +1,8 @@
+import os
 from django.shortcuts import render
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+import pdfkit
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import User
 from django.http import JsonResponse
@@ -78,3 +82,29 @@ def procurar_cnabr(request, cpf=None):
         usuario_existe = False
     print('Usuário existe? ', usuario_existe)
     return JsonResponse({'usuario': usuario_existe})
+
+
+def relatorio_tecnico(request):
+    conteudo = {
+        'titulo': 'Relatório do Atendimento Técnico Digital',
+    }
+    html = render_to_string('modulo_admin/relatorio_atendimento.html', conteudo, request)
+
+    
+    # Verificar se está rodando no Heroku ou localmente
+    if 'DATABASE_URL' in os.environ:
+        # Caminho para o Heroku
+        path_wkhtmltopdf = '/app/bin/wkhtmltopdf'
+    else:
+        # Caminho para o ambiente local (Windows)
+        path_wkhtmltopdf = r'C:\Program Files\wkhtmltopdf\bin\wkhtmltopdf.exe'
+    
+    # Especificar o caminho diretamente
+    config = pdfkit.configuration(wkhtmltopdf=path_wkhtmltopdf)
+
+    pdf = pdfkit.from_string(html, False, configuration=config)
+
+    response = HttpResponse(pdf, content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="relatorio_tecnico.pdf"'
+    return response
+

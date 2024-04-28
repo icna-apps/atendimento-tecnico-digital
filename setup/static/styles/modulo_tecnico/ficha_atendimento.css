@@ -204,7 +204,7 @@ a:hover{
 .container_atendimento_relatorio {
     display: flex;
     flex-direction: column;
-    height: 100%; /* Ocupa 100% da altura disponível do container_atendimento */
+    height: 98%; /* Ocupa 100% da altura disponível do container_atendimento */
     gap: 10px; /* Espaço entre os elementos dentro do container */
 }
 
@@ -242,6 +242,12 @@ a:hover{
     flex-direction: column;
 }
 
+.relatorio_botoes__funcoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 1vw;
+}
 
 
 

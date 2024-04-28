@@ -193,6 +193,21 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Fetch operation error:', error);
         });
     }
+
+
+    const btnGerarRelatorio = document.querySelector('#btnGerarRelatorio');
+    btnGerarRelatorio.addEventListener('click', function(event) {
+        event.preventDefault();
+        // Abre a URL em uma nova aba
+        var newWindow = window.open('/relatorio-atendimento/', '_blank');
+        // Fecha a nova aba imediatamente, o download ainda continuará
+        // if (newWindow) {
+        //     setTimeout(function() {
+        //         newWindow.close();
+        //     }, 500); // Fecha a aba após um curto período para garantir que o download comece
+        // }
+    });
+
     
 
     //Cancelar atendimento
