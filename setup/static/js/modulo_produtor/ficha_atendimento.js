@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     const navbar = document.querySelector('#navbar')
     navbar.style.display = 'none';
-    
+
     const btnSair = document.querySelector('#btnSair')
     btnSair.addEventListener('click', function(){
         window.location.href='/produtor/meus-atendimentos/'
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     btnGerarRelatorio.addEventListener('click', function(event) {
         event.preventDefault();
         // Abre a URL em uma nova aba
-        var newWindow = window.open('/relatorio-atendimento/', '_blank');
+        var newWindow = window.open(`/relatorio-atendimento/${atendimentoId}`, '_blank');
         // Fecha a nova aba imediatamente, o download ainda continuará
         // if (newWindow) {
         //     setTimeout(function() {
