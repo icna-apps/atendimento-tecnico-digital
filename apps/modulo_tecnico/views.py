@@ -1,20 +1,25 @@
-from django.http import JsonResponse, HttpResponse, HttpResponseRedirect
-from django.views.decorators.csrf import csrf_exempt
-from django.utils.decorators import method_decorator
-from django.shortcuts import render, redirect
-from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth import logout
-from django.contrib.auth.models import User
-from django.contrib import auth
-from apps.modulo_admin.forms import LoginForm
-from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao, AtendimentoCancelado
-from apps.modulo_tecnico.models import HorariosAtendimentos
-from django.utils.dateformat import format
+# Importações padrão do Python
 import json
 import logging
-from django.utils import timezone 
-from datetime import timedelta
+from datetime import datetime, timedelta
+
+# Importações de terceiros do Django
+from django.contrib import auth
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+from django.shortcuts import redirect, render
+from django.utils import timezone
+from django.utils.dateformat import format
+from django.views.decorators.http import require_http_methods
+
+# Importações de aplicativos locais
+from apps.modulo_admin.forms import LoginForm, AtendimentoForm
+from apps.modulo_admin.models import Atendimento, AtendimentoConfirmacao, AtendimentoCancelado
+from apps.modulo_tecnico.models import HorariosAtendimentos
+from apps.modulo_admin.services import enviar_sms
+from setup.utils import get_next_week_days
+
 
 logger = logging.getLogger(__name__)
 
@@ -67,7 +72,23 @@ def login_tecnico(request):
 
 
 def tecnico_dashboard(request):
-    return render(request, 'modulo_tecnico/dashboard.html')
+
+    tecnico = request.user.usuario_relacionado
+    atendimentos = Atendimento.objects.filter(tecnico=tecnico)
+    atendimentos_cancelados = atendimentos.filter(status='cancelado').count()
+    atendimentos_agendados = atendimentos.filter(status='agendado').count()
+    atendimentos_atendidos = atendimentos.filter(status='atendido').count()
+    atendimentos_finalizados = atendimentos.filter(status='finalizado').count()
+
+    conteudo = {
+        'atendimentos': atendimentos,
+        'atendimentos_cancelados': atendimentos_cancelados,
+        'atendimentos_agendados': atendimentos_agendados,
+        'atendimentos_atendidos': atendimentos_atendidos,
+        'atendimentos_finalizados': atendimentos_finalizados,
+    }
+
+    return render(request, 'modulo_tecnico/dashboard.html', conteudo)
 
 
 def tecnico_atendimentos(request):
@@ -134,6 +155,34 @@ def tecnico_meus_dados(request):
 def tecnico_ficha_atendimento(request, id):
 
     atendimento = Atendimento.objects.get(id=id)
+
+    
+    #Regional do Produtor
+    regional = request.user.usuario_relacionado.regional_senar_produtor()
+    tecnico = request.user.usuario_relacionado
+
+    #Horários dos Técnicos
+    horarios_tecnicos_dias_semana = HorariosAtendimentos.disponiveis().filter(regional=regional, tecnico=tecnico).values_list('dia_semana', 'horario').distinct()
+    proxima_semana = get_next_week_days()
+    horarios_tecnicos_datas = [(proxima_semana[dia], horario)
+                             for dia, horario in horarios_tecnicos_dias_semana if dia in proxima_semana]
+
+    #Agendamentos
+    agendamentos = Atendimento.proxima_semana_agendamentos(regional)
+
+    #Horários disponíveis
+    horarios_disponiveis = [horario for horario in horarios_tecnicos_datas if horario not in agendamentos]
+    
+    #Lista de datas disponíveis
+    datas_unicas = sorted(set(data for data, _ in horarios_disponiveis))
+    datas_unicas = [datetime.strptime(data, '%d/%m/%Y') for data in datas_unicas]
+    datas_unicas.sort()
+    datas_unicas = [data.strftime('%d/%m/%Y') for data in datas_unicas]
+    datas_choices = [('', '')]
+    data_choices = datas_choices + [(data, data) for data in datas_unicas]
+    
+    #Formulário
+    formAtendimentoRetorno = AtendimentoForm(data_choices=data_choices)
     
     try:
         atendimentoConfirmacao = AtendimentoConfirmacao.objects.get(atendimento=atendimento)
@@ -143,6 +192,8 @@ def tecnico_ficha_atendimento(request, id):
     conteudo = {
         'atendimento': atendimento,
         'atendimentoConfirmacao': atendimentoConfirmacao,
+        'formAtendimentoRetorno': formAtendimentoRetorno,
+        'horarios_disponiveis': horarios_disponiveis,
     }
 
     return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)
@@ -236,3 +287,79 @@ def tecnico_cancelar_atendimento(request, id):
         
     except ValueError:
         return JsonResponse({'cancelado': "nao"})
+
+
+def tecnico_agendar_retorno(request, id):
+    #Objeto POST
+    post_data = request.POST.copy()
+    
+    #Atendimento
+    atendimento = Atendimento.objects.get(id=id)
+    produtor = atendimento.produtor
+    tecnico = atendimento.tecnico
+    regional = atendimento.regional
+
+    #Infos do novo atendimento
+    atividade_produtiva = post_data.get('atividade_produtiva', '')
+    topico = post_data.get('topico', '')
+    mais_informacoes = post_data.get('mais_informacoes', '')
+    status = 'agendado'
+    justificativa = post_data.get('atendimentoRetornoJustificativa', '')
+
+    #Data e hora
+    data_str = post_data.get('data', '')
+    data = datetime.strptime(data_str, '%d/%m/%Y').date()
+    hora = post_data.get('hora', '')
+    
+    try:
+        atendimento_retorno = Atendimento(
+            regional=regional,
+            tecnico=tecnico,
+            produtor=produtor,
+            atendimento_retorno=True,
+            atendimento_retorno_justificativa=justificativa,
+            atendimento_anterior=atendimento,
+            atividade_produtiva=atividade_produtiva,
+            topico=topico,
+            data=data,
+            hora=hora,
+            mais_informacoes=mais_informacoes,
+            status=status,
+            substatus='aguardando_atendimento'
+        )
+        atendimento_retorno.save()
+
+        #enviar notificação para o técnico
+        retorno_id = atendimento_retorno.atendimento_id()
+        data_formatada = atendimento_retorno.data.strftime('%d/%m/%Y')
+        hora_formatada = atendimento_retorno.hora
+        detalhes_atividade = atendimento_retorno.get_atividade_produtiva_display()
+        detalhes_topico = atendimento_retorno.topico
+        produtor = atendimento_retorno.produtor.primeiro_ultimo_nome()
+        municipio = atendimento_retorno.produtor.uf_municipio()
+
+        # Compõe a mensagem
+        mensagem = (
+            f"CNA Digital - {retorno_id}\n"
+            f"Novo atendimento agendado!\n"
+            f"-----------\n"
+            f"Data: {data_formatada}\n"
+            f"Hora: {hora_formatada}\n"
+            f"-----------\n"
+            f"Atividade: {detalhes_atividade}\n"
+            f"Tópico: {detalhes_topico}\n"
+            f"-----------\n"
+            f"Produtor: {produtor}\n"
+            f"Município-UF: {municipio}"
+        )
+
+        enviar_sms(
+            atendimento_retorno.id, 
+            mensagem,
+            tecnico.celular
+        )
+
+        return JsonResponse({'retorno': "sim", 'id_retorno': atendimento_retorno.id})
+        
+    except ValueError:
+        return JsonResponse({'retorno': "nao"})

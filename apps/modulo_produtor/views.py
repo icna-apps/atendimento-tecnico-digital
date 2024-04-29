@@ -1,20 +1,22 @@
-from django.shortcuts import render, redirect
-import re
-from django.db import transaction
-from django.contrib.auth.decorators import login_required
-from django.shortcuts import get_object_or_404
-from django.views.decorators.http import require_http_methods
-from django.contrib.auth import logout
-from django.http import JsonResponse
-from django.http import HttpResponse
+# Importações padrão do Python
+from datetime import datetime
+
+# Importações de terceiros do Django
 from django.contrib import auth
-from apps.modulo_admin.forms import LoginForm, AtendimentoForm, CadastroForm
-from apps.modulo_admin.models import Usuario, Atendimento
-from apps.modulo_tecnico.models import HorariosAtendimentos
+from django.contrib.auth import logout
+from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.http import JsonResponse
-from datetime import datetime, timedelta
+from django.shortcuts import get_object_or_404, render, redirect
+from django.views.decorators.http import require_http_methods
+
+# Importações de aplicativos locais
+from apps.modulo_admin.forms import LoginForm, AtendimentoForm
+from apps.modulo_admin.models import Atendimento
+from apps.modulo_admin.services import enviar_sms
+from apps.modulo_tecnico.models import HorariosAtendimentos
 from setup.utils import get_next_week_days
-from apps.modulo_admin.services  import enviar_sms
+
 
 
 def login_produtor(request):
@@ -96,6 +98,9 @@ def produtor_novo_atendimento(request):
     
     #Lista de datas disponíveis
     datas_unicas = sorted(set(data for data, _ in horarios_disponiveis))
+    datas_unicas = [datetime.strptime(data, '%d/%m/%Y') for data in datas_unicas]
+    datas_unicas.sort()
+    datas_unicas = [data.strftime('%d/%m/%Y') for data in datas_unicas]
     datas_choices = [('', '')]
     data_choices = datas_choices + [(data, data) for data in datas_unicas]
     

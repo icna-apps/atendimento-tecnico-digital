@@ -198,6 +198,7 @@ class Atendimento(models.Model):
 
     #tipo de atendimento
     atendimento_retorno = models.BooleanField(default=False)
+    atendimento_retorno_justificativa = models.TextField(null=True, blank=True)
     atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
 
     #data, hora

@@ -149,7 +149,7 @@ def relatorio_tecnico(request, id):
     pdf = pdfkit.from_string(html, False, options=options, configuration=config)
 
     response = HttpResponse(pdf, content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="relatorio_tecnico.pdf"'
+    response['Content-Disposition'] = 'attachment; filename="cna_digital_relatorio_tecnico.pdf"'
     if response.status_code != 200:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response

@@ -15,10 +15,11 @@
 }
 
 .titulo-gestao-horarios {
-    font-size: 20px;
+    font-size: 1rem;
+    font-weight: bold;
     color: black;
-    padding: 10px;
-    margin: 20px;
+    padding: 4px;
+    /* margin: 5px; */
 }
 
 .dias-horarios {
@@ -29,14 +30,14 @@
 
 .horario-btn {
     display: inline-block;
-    margin: 4px;
-    padding: 8px 16px;
+    margin: 2px;
+    padding: 6px 12px;
     border: none;
     border-radius: 15px;
     
     text-align: center;
     text-decoration: none;
-    font-size: 14px;
+    font-size: 0.8rem;
     cursor: pointer;
     user-select: none;
 }
@@ -51,7 +52,6 @@ table {
     width: 100%;
     border-collapse: collapse;
     table-layout: fixed;
-    
 }
 
 th, td {
@@ -60,10 +60,12 @@ th, td {
     padding: 8px;
     text-align: center;
     vertical-align: middle;
+    font-size: 0.8rem;
+    
 }
 
 th {
-    background-color: #f2f2f2;
+    /* background-color: #f2f2f2; */
     position: sticky;
     top: 0;
 }
@@ -93,35 +95,34 @@ td {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 100%;
-    padding: 5px;
+    font-size: 0.8rem;
+    padding: 10px 0px;
 }
 
 .placar__horarios {
     width: 100%;
+    display: flex;
+    align-items: center;
 }
 
 .botao__salvar {
     width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+    text-align: right;
 }
 
 .legenda {
     display: flex;
     flex-direction: row;
-    
     justify-content: center;
     align-items: center;
     gap: 1vw;
-    margin-top: 1vh;
 }
 
 .legenda-item {
-    display: flex; /* Usa flexbox para alinhamento lado a lado */
-    align-items: center; /* Centraliza verticalmente */
+    display: flex;
+    align-items: center; 
 }
   
 .legenda-indisponivel {

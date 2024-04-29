@@ -19,6 +19,7 @@
     <div class="page_dashboard">
         <div class="numeros_gerais">
 
+            <!-- Score geral de avaliação -->
             <div class="numeros_gerais_box">
                 <span class="numeros_gerais_box_titulo">
                     Score de Avaliação
@@ -36,7 +37,8 @@
                 </div>
     
             </div>
-    
+            
+            <!-- Atendimentos técnicos -->
             <div class="numeros_gerais_box">
                 
                 <span class="numeros_gerais_box_titulo">
@@ -47,37 +49,38 @@
                     <!-- Total de atendimentos -->
                     <span class="numeros_gerais_box_card">
                         <span class="numeros_gerais_box_card_titulo">total</span>
-                        <span class="numeros_gerais_box_card_valor">120</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos.count }}</span>
                     </span>
         
                     <!-- Cancelados -->
                     <span class="numeros_gerais_box_card" style="color: gray">
                         <span class="numeros_gerais_box_card_titulo">cancelados</span>
-                        <span class="numeros_gerais_box_card_valor">19</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos_cancelados }}</span>
                     </span>
     
                     <!-- Agendados -->
                     <span class="numeros_gerais_box_card" style="color: gray">
                         <span class="numeros_gerais_box_card_titulo">agendados</span>
-                        <span class="numeros_gerais_box_card_valor">11</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos_agendados }}</span>
                     </span>
     
                     <!-- Atendidos -->
                     <span class="numeros_gerais_box_card" style="color: gray">
                         <span class="numeros_gerais_box_card_titulo">atendidos</span>
-                        <span class="numeros_gerais_box_card_valor">16</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos_atendidos }}</span>
                     </span>
     
                     <!-- Finalizados -->
                     <span class="numeros_gerais_box_card" style="color: var(--verde-capital)">
                         <span class="numeros_gerais_box_card_titulo">finalizados</span>
-                        <span class="numeros_gerais_box_card_valor">74</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos_finalizados }}</span>
                     </span>
                 </div>
                 
     
             </div>
-    
+            
+            <!-- Pagamentos -->
             <div class="numeros_gerais_box">
                 <span class="numeros_gerais_box_titulo">
                     Pagamentos dos atendimentos
@@ -87,25 +90,25 @@
                     <!-- Total de atendimentos -->
                     <span class="numeros_gerais_box_card">
                         <span class="numeros_gerais_box_card_titulo">total a pagar</span>
-                        <span class="numeros_gerais_box_card_valor">74</span>
+                        <span class="numeros_gerais_box_card_valor">{{ atendimentos_finalizados }}</span>
                     </span>
         
                     <!-- Cancelados -->
                     <span class="numeros_gerais_box_card" style="color: gray">
                         <span class="numeros_gerais_box_card_titulo">não solicitado</span>
-                        <span class="numeros_gerais_box_card_valor">25</span>
+                        <span class="numeros_gerais_box_card_valor">0</span>
                     </span>
     
                     <!-- Agendados -->
                     <span class="numeros_gerais_box_card" style="color: gray">
                         <span class="numeros_gerais_box_card_titulo">solicitado</span>
-                        <span class="numeros_gerais_box_card_valor">5</span>
+                        <span class="numeros_gerais_box_card_valor">0</span>
                     </span>
     
                     <!-- Agendados -->
                     <span class="numeros_gerais_box_card" style="color: var(--verde-capital)">
                         <span class="numeros_gerais_box_card_titulo">pagos</span>
-                        <span class="numeros_gerais_box_card_valor">40</span>
+                        <span class="numeros_gerais_box_card_valor">0</span>
                     </span>
     
                     

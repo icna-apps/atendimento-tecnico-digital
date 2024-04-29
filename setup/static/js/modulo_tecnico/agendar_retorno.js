@@ -1,8 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    const navbar = document.querySelector('#navbar')
-    navbar.style.display = 'none';
-
     const dataSelect = document.getElementById("id_data");
     const horaSelect = document.getElementById("id_hora");
     const horariosDisponiveis = document.querySelectorAll(".horario-disponivel");
@@ -39,30 +36,29 @@ document.addEventListener('DOMContentLoaded', function() {
     filterHorarios();
 
 
-    const btnCancelar = document.querySelector('#btnCancelar')
-    btnCancelar.addEventListener('click', function(){
-        window.location.href='/produtor/meus-atendimentos/'
-    })
 
-    const btnConfirmar = document.querySelector('#btnConfirmar')
-    btnConfirmar.addEventListener('click', function(event){
+
+
+    const btnAgendarRetorno = document.querySelector('#btnAgendarRetorno')
+    btnAgendarRetorno.addEventListener('click', function(event){
         event.preventDefault();
-        realizarNovoAgendamento();
+        agendarRetorno();
     })
 
-    function realizarNovoAgendamento(){
+    function agendarRetorno(){
         //Verificar preenchimento dos campos
-        let preenchimento_incorreto = verificarCamposAtendimento()
+        let preenchimento_incorreto = verificarCamposAtendimentoRetorno()
         if (preenchimento_incorreto === false) {
             return;
         }
 
         //Enviar para o backend
             //definir o caminho
-            postURL = '/produtor/realizar-agendamento/'
+            const idAtendimento = document.querySelector('#idAtendimentoTecnico').innerText
+            postURL = `/tecnico/atendimentos/atendimento/agendar-retorno/${idAtendimento}/`
     
             //pegar os dados
-            let formData = new FormData(document.getElementById('formNovoAtendimento'));
+            let formData = new FormData(document.getElementById('formAgendarRetorno'));
     
             //enviar 
             fetch(postURL, {
@@ -77,15 +73,14 @@ document.addEventListener('DOMContentLoaded', function() {
         //Retorno do Servidor
         .then(response => {
             if (!response.ok) {
-                sweetAlert('<span style="font-weight:normal">Erro! Agendamento de Retorno <b style="color:red">não realizado!</b></span>', 'error', 'red');
+                sweetAlert('<span style="font-weight:normal">Erro! Agendamento <b style="color:red">não realizado!</b></span>', 'error', 'red');
                 throw new Error('Server response was not ok: ' + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            if (data.agendado === "sim") {
-                const idAgendamento = data.id_agendamento;
-                window.location.href = `/produtor/confirmacao-atendimento/${idAgendamento}/`;
+            if (data.retorno === "sim") {
+                sweetAlert('<span style="font-weight:normal">Agendamento de Retorno <b style="color:green">realizado com sucesso!</b></span>', 'success', 'green');
             } else {
                 sweetAlert('<span style="font-weight:normal">Erro! Agendamento de Retorno <b style="color:red">não realizado!</b></span>', 'error', 'red');
             }
@@ -95,12 +90,13 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    function verificarCamposAtendimento() {
+    function verificarCamposAtendimentoRetorno() {
         const campos = [
             { id: 'id_atividade_produtiva', mensagem: 'Informe a <b>Atividade Produtiva</b>!' },
             { id: 'id_topico', mensagem: 'Informe o <b>Tópico do Atendimento</b>!' },
             { id: 'id_data', mensagem: 'Informe a <b>Data</b>!' },
             { id: 'id_hora', mensagem: 'Informe a <b>Hora</b>!' },
+            { id: 'atendimentoRetornoJustificativa', mensagem: 'Informe a <b>Justificativa</b>!' },
         ];
     
         let mensagensErro = campos.reduce((mensagens, campo) => {
@@ -120,5 +116,4 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
-
-});
+});  

@@ -4,7 +4,7 @@ from apps.modulo_tecnico.views import (login_tecnico, tecnico_dashboard,
                                        logout_tecnico, 
                                        tecnico_meus_dados, tecnico_ficha_atendimento,
                                        tecnico_atendimento_salvar_relatorio, tecnico_confirmar_atendimento,
-                                       tecnico_cancelar_atendimento,
+                                       tecnico_cancelar_atendimento, tecnico_agendar_retorno,
                                        tecnico_meus_horarios, tecnico_meus_horarios_salvar)
 
 urlpatterns = [
@@ -19,6 +19,7 @@ urlpatterns = [
     path('tecnico/atendimentos/atendimento/salvar-relatorio/<int:id>/', tecnico_atendimento_salvar_relatorio, name='tecnico_atendimento_salvar_relatorio'),
     path('tecnico/atendimentos/atendimento/confirmar-atendimento/<int:id>/', tecnico_confirmar_atendimento, name='tecnico_confirmar_atendimento'),
     path('tecnico/atendimentos/atendimento/cancelar-atendimento/<int:id>/', tecnico_cancelar_atendimento, name='tecnico_cancelar_atendimento'),
+    path('tecnico/atendimentos/atendimento/agendar-retorno/<int:id>/', tecnico_agendar_retorno, name='tecnico_agendar_retorno'),
 
     path('tecnico/meushorarios/', tecnico_meus_horarios, name='tecnico_meushorarios'),
     path('tecnico/meushorarios/salvar/', tecnico_meus_horarios_salvar, name='tecnico_meus_horarios_salvar'),
