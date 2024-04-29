@@ -5,6 +5,7 @@ from apps.modulo_tecnico.views import (login_tecnico, tecnico_dashboard,
                                        tecnico_meus_dados, tecnico_ficha_atendimento,
                                        tecnico_atendimento_salvar_relatorio, tecnico_confirmar_atendimento,
                                        tecnico_cancelar_atendimento, tecnico_agendar_retorno,
+                                       tecnico_pagamentos,
                                        tecnico_meus_horarios, tecnico_meus_horarios_salvar)
 
 urlpatterns = [
@@ -23,6 +24,8 @@ urlpatterns = [
 
     path('tecnico/meushorarios/', tecnico_meus_horarios, name='tecnico_meushorarios'),
     path('tecnico/meushorarios/salvar/', tecnico_meus_horarios_salvar, name='tecnico_meus_horarios_salvar'),
+
+    path('tecnico/pagamentos/', tecnico_pagamentos, name='tecnico_pagamentos'),
 
     path('tecnico/meus-dados/', tecnico_meus_dados, name='tecnico_meus_dados'),
 ]

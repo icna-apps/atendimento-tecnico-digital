@@ -363,3 +363,8 @@ def tecnico_agendar_retorno(request, id):
         
     except ValueError:
         return JsonResponse({'retorno': "nao"})
+    
+
+
+def tecnico_pagamentos(request):
+    return render(request, 'modulo_tecnico/lista_pagamentos.html')

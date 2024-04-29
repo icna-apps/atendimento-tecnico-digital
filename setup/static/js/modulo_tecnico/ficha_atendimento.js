@@ -5,6 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var editorDiv = document.getElementById('editor');
     var quill = new Quill(editorDiv, {
         theme: 'snow',
+        // readOnly: true,
         modules: {
             toolbar: [
                 ['bold', 'italic', 'underline'],
