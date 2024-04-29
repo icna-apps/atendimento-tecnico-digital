@@ -4,16 +4,148 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
     <title>CNA Digital</title>
 
-    
+
+    <style>
+
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .relatorio_navbar {
+            overflow: auto;
+            border-bottom: 1px solid gray;
+            margin-bottom: 20px;
+        }
+
+        .relatorio_navbar_titulo {
+            float: left;
+        }
+
+        .relatorio_navbar_imagem {
+            float: right;
+        }
+
+
+        .relatorio_navbar_imagem img {
+            max-height: 50px; /* Altere para um valor fixo em pixels ou porcentagem */
+            max-width: 100px; /* Mantém a imagem dentro de 100 pixels de largura */
+            height: auto;
+        }
+
+        .container_infos {
+            margin-bottom: 20px;
+        }
+
+        .container_infos_titulo {
+            font-size: 18px;
+            font-weight: 600;
+            /* background-color: rgb(231, 231, 231); */
+            padding-left: 5px;
+
+            border-bottom: 1px solid rgb(190, 190, 190);
+        }
+
+        .container_infos_dados {
+            display: table;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .container_infos_dados_texto {
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .container_infos_dados_secao {
+            display: table-cell;
+            width: 50%; /* Define cada célula para ocupar 50% da tabela */
+            padding: 10px; /* Adiciona um pouco de espaço interno */
+        }
+
+        p {
+            margin: 0;
+        }
+
+    </style>
+
 </head>
 
-<body>       
-    <h1>{{ titulo }}</h1>
-    Relatório técnico
+<body>
+
+    <!-- Cabeçalho -->
+    <div class="relatorio_navbar">
+        <div class="relatorio_navbar_titulo">
+            CNA Digital<br>
+            <span style="font-size: 22px; font-weight: bold;">Atendimento Técnico {{ atendimento.atendimento_id }}</span>
+        </div>
+        <div class="relatorio_navbar_imagem">
+            <img src="data:image/png;base64,{{ logo }}" alt="Logo">
+        </div>
+    </div>
+    
+    <!-- Participantes -->
+    <div class="container_infos">
+        <div class="container_infos_titulo">
+            Participantes
+        </div>
+        
+        <div class="container_infos_dados">
+            <div class="container_infos_dados_secao">
+                Produtor: {{ atendimento.produtor.nome_completo }} ({{ atendimento.produtor.idade }} anos)<br>
+                Celular: {{ atendimento.produtor.celular }}<br>
+                Município-UF: {{ atendimento.produtor.uf_municipio }}
+            </div>
+            <div class="container_infos_dados_secao">
+                Técnico: {{ atendimento.tecnico.nome_completo }} ({{ atendimento.tecnico.idade }} anos)<br>
+                Celular: {{ atendimento.tecnico.celular }}<br>
+                Formação: Medicina Veterinária
+            </div>
+        </div>
+    </div>
+
+    <!-- Atendimento Técnico -->
+    <div class="container_infos">
+        <div class="container_infos_titulo">
+            Identificação do atendimento
+        </div>
+        
+        <div class="container_infos_dados">
+            <div class="container_infos_dados_secao">
+                Nº de identificação: {{ atendimento.atendimento_id }}<br>
+                Data/Hora: {{ atendimento.data|date:'d/m/Y' }} {{ atendimento.hora }}<br>
+            </div>
+            <div class="container_infos_dados_secao">
+                Atividade: {{ atendimento.get_atividade_produtiva_display }}<br>
+                Tópico: {{ atendimento.topico }}<br>
+            </div>
+        </div>
+    </div>
+
+    <!-- Relatório -->
+    <div class="container_infos">
+        <div class="container_infos_titulo">
+            Relatório Técnico
+        </div>
+        
+        <div class="container_infos_dados_texto" style="text-align: justify; padding: 10px;">
+            {{ atendimento.relatorio|safe }}
+        </div>
+    </div>
+
+    <!-- Log do Relatório -->
+    <div class="container_infos" style="font-size: 12px; font-style: italic; text-align: right;">
+        Data do Relatório: {{ atendimento.relatorio_atualizacao|date:'d/m/Y h:i:s'}}
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        Exportado em: {{ data_relatorio|date:'d/m/Y h:i:s'}}
+        &nbsp;&nbsp;|&nbsp;&nbsp;
+        Exportado por: {{ usuario }}
+    </div>
 
 </body>
+
 
 
 

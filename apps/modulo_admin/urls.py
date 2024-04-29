@@ -12,5 +12,5 @@ urlpatterns = [
     path('cadastro/', cadastro_usuario, name='cadastro_usuario'),
     path('municipios-uf-json/<str:uf>/', municipios_uf_json, name='municipios_uf_json'),
 
-    path('relatorio-atendimento/', relatorio_tecnico, name='relatorio_tecnico')
+    path('relatorio-atendimento/<int:id>/', relatorio_tecnico, name='relatorio_tecnico')
 ]

@@ -198,8 +198,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const btnGerarRelatorio = document.querySelector('#btnGerarRelatorio');
     btnGerarRelatorio.addEventListener('click', function(event) {
         event.preventDefault();
+
         // Abre a URL em uma nova aba
-        var newWindow = window.open('/relatorio-atendimento/', '_blank');
+        var newWindow = window.open(`/relatorio-atendimento/${idAtendimento}`, '_blank');
         // Fecha a nova aba imediatamente, o download ainda continuará
         // if (newWindow) {
         //     setTimeout(function() {
