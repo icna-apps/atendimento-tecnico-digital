@@ -34,25 +34,79 @@
         <!-- Funcionalidades -->
         <div class="barra_funcionalidades">
             
-            <div class="funcionalidade" id="abrirOffcanvasCancelarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">cancel</i>
-                Cancelar
-            </div>
+            <!-- Whatsapp -->
             <div class="funcionalidade" id="abrirOffcanvasWhatsapp">
                 <i class="fa-brands fa-whatsapp" style="font-size: 1.5vw; vertical-align: middle;"></i>
-                Atender
+                Whatsapp
             </div>
+
+            <!-- Cancelar Atendimento -->
+            <div class="funcionalidade" id="abrirOffcanvasCancelarAtendimento">
+                {% if atendimentoCancelado %}
+                    <i class="material-symbols-outlined" 
+                        style="
+                            font-size: 1.5vw; 
+                            vertical-align: 
+                            middle; color: var(--cancelado);
+                            font-variation-settings: 'FILL' 1;">
+                            cancel</i>
+                    <span style="color: var(--cancelado)">Cancelado</span>
+                {% else %}
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">cancel</i>
+                    Cancelar
+                {% endif %}
+            </div>
+            
+            <!-- Confirmar Atendimento -->
             <div class="funcionalidade" id="abrirOffcanvasConfirmarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">check</i>
-                Confirmar Atend.
+                {% if atendimentoConfirmacao %}
+                    <i class="material-symbols-outlined" 
+                        style="
+                            font-size: 1.5vw; 
+                            vertical-align: 
+                            middle; color: var(--verde-capital);
+                            font-variation-settings: 'FILL' 1;">
+                            check</i>
+                    <span style="color: var(--verde-capital)">Atend. Confirmado</span>
+                {% else %}
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">check</i>
+                    Confirmar Atend.
+                {% endif %}
             </div>
+
+            <!-- Agendar Retorno -->
             <div class="funcionalidade" id="abrirOffcanvasAgendarRetorno">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">event_upcoming</i>
-                Agendar Retorno
+                {% if atendimentoRetorno %}
+                    <i class="material-symbols-outlined" 
+                        style="
+                            font-size: 1.5vw; 
+                            vertical-align: 
+                            middle; color: var(--verde-capital);
+                            font-variation-settings: 'FILL' 1;">
+                            event_upcoming</i>
+                    <span style="color: var(--verde-capital)">Retorno Agendado</span>
+                {% else %}
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">event_upcoming</i>
+                    Agendar Retorno
+                {% endif %}
             </div>
+
+            <!-- Finalizar Atendimento -->
             <div class="funcionalidade" id="abrirOffcanvasFinalizarAtendimento">
-                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">done_all</i>
-                Finalizar
+                {% if atendimento.status == 'finalizado' %}
+                    <i class="material-symbols-outlined" 
+                        style="
+                            font-size: 1.5vw; 
+                            vertical-align: 
+                            middle; color: var(--verde-capital);
+                            font-variation-settings: 'FILL' 1;">
+                            done_all</i>
+                    <span style="color: var(--verde-capital)">Atend. Finalizado</span>
+                {% else %}
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">done_all</i>
+                    Finalizar
+                {% endif %}
+                
             </div>
             
         </div>
@@ -173,7 +227,7 @@
                 <div class="relatorio_botoes">
 
                     <div class="relatorio_botoes__infos">
-                        <span id="contadorPalavras">Total de palavras: {totalPalavras}</span>
+                        <span id="contadorPalavras">Total de palavras: {totalPalavras}/100-500</span>
                         <span id="dataRelatorio">
                             Última atualização:
                             {% if atendimento.relatorio_atualizacao %}
@@ -205,11 +259,13 @@
         <!-- offcanvas confirmar atendimento -->
         {% include 'modulo_tecnico/offcanvas_confirmar_atendimento.html' %}
 
+        <!-- offcanvas agendar retorno -->
+        {% include 'modulo_tecnico/offcanvas_agendar_retorno.html' %}
+
         <!-- offcanvas finalizar atendimento -->
         {% include 'modulo_tecnico/offcanvas_finalizar_atendimento.html' %}
 
-        <!-- offcanvas agendar retorno -->
-        {% include 'modulo_tecnico/offcanvas_agendar_retorno.html' %}
+        
           
     </div>
 

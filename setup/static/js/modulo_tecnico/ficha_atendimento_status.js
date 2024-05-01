@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Funcionalidades
     const offcanvasCancelar = document.querySelector('#abrirOffcanvasCancelarAtendimento')
+    const offcanvasAtender = document.querySelector('#offcanvasWhatsapp')
     const offcanvasConfirmar = document.querySelector('#abrirOffcanvasConfirmarAtendimento')
     const offcanvasFinalizar = document.querySelector('#abrirOffcanvasFinalizarAtendimento')
     const offcanvasAgendarRetorno = document.querySelector('#abrirOffcanvasAgendarRetorno')
@@ -15,22 +16,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
         if (status == 'agendado'){
             funcionalidadeCancelamento(true)
+            funcionalidadeAtender(true)
             funcionalidadeConfirmar(true)
-            funcionalidadeFinalizar(true)
-            funcionalidadeAgendarRetorno(true)
+            funcionalidadeAgendarRetorno(false)
+            funcionalidadeFinalizar(false)
         } else if (status == 'cancelado') {
             funcionalidadeCancelamento(true)
+            funcionalidadeAtender(true)
             funcionalidadeConfirmar(false)
-            funcionalidadeFinalizar(false)
             funcionalidadeAgendarRetorno(false)
-        } else {
+            funcionalidadeFinalizar(false)
+        } else if (status == 'atendido') {
             funcionalidadeCancelamento(false)
+            funcionalidadeAtender(true)
             funcionalidadeConfirmar(true)
-            funcionalidadeFinalizar(true)
             funcionalidadeAgendarRetorno(true)
+            funcionalidadeFinalizar(true)
+        }  else if (status == 'finalizado') {
+            funcionalidadeCancelamento(false)
+            funcionalidadeAtender(true)
+            funcionalidadeConfirmar(true)
+            funcionalidadeAgendarRetorno(true)
+            funcionalidadeFinalizar(true)
         }
-        
-        
     }
     
     // Cancelamento
@@ -44,6 +52,23 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             offcanvasCancelar.classList.add('funcionalidade_inativa');
             offcanvasCancelar.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, true);
+        }
+    }
+
+    // Atender
+    function funcionalidadeAtender(bool){
+        if (bool) {
+            offcanvasAtender.classList.remove('funcionalidade_inativa');
+            offcanvasAtender.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, false);
+        } else {
+            offcanvasAtender.classList.add('funcionalidade_inativa');
+            offcanvasAtender.addEventListener('click', function(event) {
                 event.preventDefault();
                 event.stopImmediatePropagation();
             }, true);
@@ -67,23 +92,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // Finalizar
-    function funcionalidadeFinalizar(bool){
-        if (bool) {
-            offcanvasFinalizar.classList.remove('funcionalidade_inativa');
-            offcanvasFinalizar.addEventListener('click', function(event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }, false);
-        } else {
-            offcanvasFinalizar.classList.add('funcionalidade_inativa');
-            offcanvasFinalizar.addEventListener('click', function(event) {
-                event.preventDefault();
-                event.stopImmediatePropagation();
-            }, true);
-        }
-    }
-    
     // Agendar Retorno
     function funcionalidadeAgendarRetorno(bool){
         if (bool) {
@@ -101,7 +109,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // Finalizar
+    function funcionalidadeFinalizar(bool){
+        if (bool) {
+            offcanvasFinalizar.classList.remove('funcionalidade_inativa');
+            offcanvasFinalizar.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, false);
+        } else {
+            offcanvasFinalizar.classList.add('funcionalidade_inativa');
+            offcanvasFinalizar.addEventListener('click', function(event) {
+                event.preventDefault();
+                event.stopImmediatePropagation();
+            }, true);
+        }
+    }
+    
     avaliarStatusAtendimento()
     
-
 });

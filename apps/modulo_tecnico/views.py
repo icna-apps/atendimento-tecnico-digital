@@ -15,7 +15,7 @@ from django.views.decorators.http import require_http_methods
 
 # Importações de aplicativos locais
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
-from apps.modulo_admin.models import Atendimento, AtendimentoConfirmacao, AtendimentoCancelado
+from apps.modulo_admin.models import Atendimento, AtendimentoConfirmacao, AtendimentoCancelado, AtendimentoRetorno
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from apps.modulo_admin.services import enviar_sms
 from setup.utils import get_next_week_days
@@ -155,7 +155,6 @@ def tecnico_meus_dados(request):
 def tecnico_ficha_atendimento(request, id):
 
     atendimento = Atendimento.objects.get(id=id)
-
     
     #Regional do Produtor
     regional = request.user.usuario_relacionado.regional_senar_produtor()
@@ -180,8 +179,6 @@ def tecnico_ficha_atendimento(request, id):
     datas_unicas = [data.strftime('%d/%m/%Y') for data in datas_unicas]
     datas_choices = [('', '')]
     data_choices = datas_choices + [(data, data) for data in datas_unicas]
-    
-    #Formulário
     formAtendimentoRetorno = AtendimentoForm(data_choices=data_choices)
     
     try:
@@ -189,9 +186,21 @@ def tecnico_ficha_atendimento(request, id):
     except AtendimentoConfirmacao.DoesNotExist:
         atendimentoConfirmacao = None
 
+    try:
+        atendimentoCancelado = AtendimentoCancelado.objects.get(atendimento=atendimento)
+    except AtendimentoCancelado.DoesNotExist:
+        atendimentoCancelado = None
+    
+    try:
+        atendimentoRetorno = AtendimentoRetorno.objects.get(atendimento_anterior=atendimento)
+    except AtendimentoRetorno.DoesNotExist:
+        atendimentoRetorno = None
+
     conteudo = {
         'atendimento': atendimento,
         'atendimentoConfirmacao': atendimentoConfirmacao,
+        'atendimentoCancelado': atendimentoCancelado,
+        'atendimentoRetorno': atendimentoRetorno,
         'formAtendimentoRetorno': formAtendimentoRetorno,
         'horarios_disponiveis': horarios_disponiveis,
     }
@@ -312,13 +321,12 @@ def tecnico_agendar_retorno(request, id):
     hora = post_data.get('hora', '')
     
     try:
-        atendimento_retorno = Atendimento(
+        #Agendar novo atendimento
+        novo_atendimento = Atendimento(
             regional=regional,
             tecnico=tecnico,
             produtor=produtor,
-            atendimento_retorno=True,
-            atendimento_retorno_justificativa=justificativa,
-            atendimento_anterior=atendimento,
+            retorno=True,
             atividade_produtiva=atividade_produtiva,
             topico=topico,
             data=data,
@@ -327,16 +335,24 @@ def tecnico_agendar_retorno(request, id):
             status=status,
             substatus='aguardando_atendimento'
         )
-        atendimento_retorno.save()
+        novo_atendimento.save()
+
+        #Registrar o retorno
+        retorno = AtendimentoRetorno(
+            atendimento_anterior=atendimento,
+            atendimento_retorno=novo_atendimento,
+            justificativa=justificativa
+        )
+        retorno.save()
 
         #enviar notificação para o técnico
-        retorno_id = atendimento_retorno.atendimento_id()
-        data_formatada = atendimento_retorno.data.strftime('%d/%m/%Y')
-        hora_formatada = atendimento_retorno.hora
-        detalhes_atividade = atendimento_retorno.get_atividade_produtiva_display()
-        detalhes_topico = atendimento_retorno.topico
-        produtor = atendimento_retorno.produtor.primeiro_ultimo_nome()
-        municipio = atendimento_retorno.produtor.uf_municipio()
+        retorno_id = novo_atendimento.atendimento_id()
+        data_formatada = novo_atendimento.data.strftime('%d/%m/%Y')
+        hora_formatada = novo_atendimento.hora
+        detalhes_atividade = novo_atendimento.get_atividade_produtiva_display()
+        detalhes_topico = novo_atendimento.topico
+        produtor = novo_atendimento.produtor.primeiro_ultimo_nome()
+        municipio = novo_atendimento.produtor.uf_municipio()
 
         # Compõe a mensagem
         mensagem = (
@@ -354,17 +370,25 @@ def tecnico_agendar_retorno(request, id):
         )
 
         enviar_sms(
-            atendimento_retorno.id, 
+            novo_atendimento.id, 
             mensagem,
             tecnico.celular
         )
 
-        return JsonResponse({'retorno': "sim", 'id_retorno': atendimento_retorno.id})
+        return JsonResponse({'retorno': "sim", 'id_retorno': novo_atendimento.id})
         
     except ValueError:
         return JsonResponse({'retorno': "nao"})
     
 
+def tecnico_finalizar_atendimento(request, id):
+    atendimento = Atendimento.objects.get(id=id)
+    try:
+        atendimento.status = 'finalizado'
+        atendimento.save()
+        return JsonResponse({'finalizado': "sim"})
+    except ValueError:
+        return JsonResponse({'finalizado': "nao"})
 
 def tecnico_pagamentos(request):
     return render(request, 'modulo_tecnico/lista_pagamentos.html')

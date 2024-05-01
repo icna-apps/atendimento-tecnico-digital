@@ -137,12 +137,12 @@
     </div>
 
     <!-- Log do Relatório -->
-    <div class="container_infos" style="font-size: 12px; font-style: italic; text-align: right;">
+    <div class="container_infos" style="font-size: 12px; font-style: italic; text-align: left;">
         Data do Relatório: {{ atendimento.relatorio_atualizacao|date:'d/m/Y h:i:s'}}
         &nbsp;&nbsp;|&nbsp;&nbsp;
-        Exportado em: {{ data_relatorio|date:'d/m/Y h:i:s'}}
+        Relatório gerado em: {{ data_relatorio|date:'d/m/Y h:i:s'}}
         &nbsp;&nbsp;|&nbsp;&nbsp;
-        Exportado por: {{ usuario }}
+        Relatório gerado por: {{ usuario }}
     </div>
 
 </body>

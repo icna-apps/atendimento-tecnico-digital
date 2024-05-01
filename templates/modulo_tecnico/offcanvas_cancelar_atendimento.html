@@ -10,17 +10,32 @@
       <form id="formCancelamentoAtendimento">
           <!-- Forma de atendimento -->
         <div class="form-floating mb-3">
-          <select class="form-select" style="font-size: 0.8rem;" id="cancelamentoMotivo" name="cancelamentoMotivo">
+          <select 
+            class="form-select" 
+            style="font-size: 0.8rem;" 
+            id="cancelamentoMotivo" 
+            name="cancelamentoMotivo"
+            {% if atendimentoCancelado %}disabled{% endif %}
+          >
               <option value=""></option>
-              <option value="produtor_nao_compareceu">Produtor não compareceu</option>
-              <option value="tecnico_nao_podia_atender">Técnico não podia atender</option>
-              <option value="outro_motivo">Outro motivo</option>
+              <option value="produtor_nao_compareceu" {% if atendimentoCancelado.motivo_cancelamento == "produtor_nao_compareceu" %}selected{% endif %}>Produtor não compareceu</option>
+              <option value="tecnico_nao_podia_atender" {% if atendimentoCancelado.motivo_cancelamento == "tecnico_nao_podia_atender" %}selected{% endif %}>Técnico não podia atender</option>
+              <option value="outro_motivo" {% if atendimentoCancelado.motivo_cancelamento == "outro_motivo" %}selected{% endif %}>Outro motivo</option>
           </select>
           <label>Motivo do cancelamento</label>
         </div>
 
         <!-- Imagem -->
-        <div class="form-control imagem" style="display: none;" id="cancelamentoImagem">
+        <div 
+          class="form-control imagem" 
+          id="cancelamentoImagem"
+           
+          {% if atendimentoCancelado.motivo_cancelamento == "produtor_nao_compareceu" %}
+              style="display: none;"
+          {% else %}
+              style="display: none;"
+          {% endif %}
+        >
           <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do cancelamento</label>
           <!-- Área da imagem -->
           <input type="file" class="form-control" id="imagemCancelamento" name="imagemCancelamento" onchange="previewImageCancelamento();" style="display: none;">
@@ -43,13 +58,33 @@
 
         <!-- Comentários -->
         <div class="form-floating mb-3">
-          <textarea class="form-control" id="cancelamentoObservacoes" name="cancelamentoObservacoes" style="min-height: 250px; font-size: 0.8rem;"></textarea>
+          <textarea 
+              class="form-control" 
+              id="cancelamentoObservacoes" 
+              name="cancelamentoObservacoes" 
+              style="min-height: 250px; font-size: 0.8rem;"
+              {% if atendimentoCancelado %}
+                readonly
+              {% endif %}
+          >{{ atendimentoCancelado.observacoes }}
+          </textarea>
           <label for="comments">Justificativa</label>
         </div>
 
         <!-- Botões -->
-        <div style="width: 100%; text-align: right;">
-          <button class="btn btn-danger" style="font-size: 0.8rem;" id="botaoCancelarAtendimento">Confirmar Cancelamento</button>
+        <div 
+          {% if atendimentoCancelado %}
+            style="display: none;"
+          {% endif %}
+          style="width: 100%; text-align: right;"
+        >
+          <button 
+            class="btn btn-danger"
+            style="font-size: 0.8rem;"
+            id="botaoCancelarAtendimento"   
+          >
+            Confirmar Cancelamento
+          </button>
         </div>
 
       </form>

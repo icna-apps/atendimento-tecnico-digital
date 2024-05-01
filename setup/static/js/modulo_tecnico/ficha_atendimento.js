@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Carregar o conteúdo inicial no Quill
-    var conteudoInicial = document.getElementById('relatorioInicial').textContent;
+    const conteudoInicial = document.getElementById('relatorioInicial').textContent;
     
     // Usar dangerouslyPasteHTML para evitar problemas com tags extras como <p></p>
     quill.clipboard.dangerouslyPasteHTML(conteudoInicial);
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function updateWordCount() {
         var text = editor.innerText.trim();
         var words = text.length > 0 ? text.match(/\S+/g).length : 0;
-        wordCountSpan.textContent = 'Total de palavras: ' + words;
+        wordCountSpan.textContent = 'Total de palavras: ' + words + "/100-500";
     }
 
     editor.addEventListener('input', function() {
@@ -132,6 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
     btnSalvarRelatorio.addEventListener('click', function(event) {
         event.preventDefault();
         salvarRelatorio();
+
+        ativarFinalizarRelatorio()
+        
     })
 
     function salvarRelatorio() {
@@ -141,9 +144,24 @@ document.addEventListener('DOMContentLoaded', function() {
             Swal.fire({
                 title: '<span style="font-weight:normal"><b>O relatório está vazio.</b><br>Por favor, insira algum conteúdo.</span>',
                 icon: 'warning',
-                iconColor: 'red',
+                iconColor: 'orange',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
             });
-            return; // Parar execução se estiver vazio
+            return;
+        }
+
+        if (conteudoTexto.replace(/\s+/g, '') == conteudoInicial.replace(/<[^>]*>/g, '').replace(/\s+/g, '')) {
+            Swal.fire({
+                title: '<span style="font-weight:normal">Não houve alterações.<br> <b>Não foi salvo.</b></span>',
+                icon: 'warning',
+                iconColor: 'orange',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+            return;
         }
     
         const editor = document.querySelector('#editor');
@@ -195,6 +213,20 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    ativarFinalizarRelatorio()
+
+    function ativarFinalizarRelatorio() {
+        const finalizarRelatorioAtendimento = document.querySelector('#finalizarRelatorioAtendimento')
+
+        let texto = editor.innerText.trim();
+        let palavras = texto.length > 0 ? texto.match(/\S+/g).length : 0;
+
+        if (palavras > 100 && palavras < 500) {
+            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 3vh; color: green;">check_circle</span> Relatório do atendimento';
+        } else {
+            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 3vh; color: red;">error</span> Relatório do atendimento';
+        }
+    }
 
     const btnGerarRelatorio = document.querySelector('#btnGerarRelatorio');
     btnGerarRelatorio.addEventListener('click', function(event) {
@@ -243,16 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
     abrirOffcanvasFinalizarAtendimento.addEventListener('click', function() {
 
         const relatorio = quill.getText().trim();
-        const finalizarRelatorioAtendimento = document.querySelector('#finalizarRelatorioAtendimento')
-
-        let texto = editor.innerText.trim();
-        let palavras = texto.length > 0 ? texto.match(/\S+/g).length : 0;
-
-        if (palavras > 100 && palavras < 500) {
-            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 4vh; color: green;">check_circle</span> Relatório do atendimento';
-        } else {
-            finalizarRelatorioAtendimento.innerHTML = '<span class="material-symbols-outlined" style="font-size: 4vh; color: red;">error</span> Relatório do atendimento';
-        }
+        
 
         offcanvasFinalizarAtendimento.show()
     })

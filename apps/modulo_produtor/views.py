@@ -153,7 +153,7 @@ def produtor_realizar_agendamento(request):
             regional=regional,
             tecnico=tecnico,
             produtor=produtor,
-            atendimento_retorno=False,  # Valor padrão ou dependendo do POST
+            retorno=False,
             atividade_produtiva=atividade_produtiva,
             topico=topico,
             data=data,

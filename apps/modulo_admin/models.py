@@ -196,10 +196,8 @@ class Atendimento(models.Model):
     tecnico = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='tecnico_atendimento')
     produtor = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='produtor_atendimento')
 
-    #tipo de atendimento
-    atendimento_retorno = models.BooleanField(default=False)
-    atendimento_retorno_justificativa = models.TextField(null=True, blank=True)
-    atendimento_anterior = models.ForeignKey('self', on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimentos_posteriores')
+    #retorno
+    retorno = models.BooleanField(default=False)
 
     #data, hora
     data = models.DateField(null=False, blank=False)
@@ -262,7 +260,6 @@ class Atendimento(models.Model):
 
         return lista_agendamentos
 
-
 class AtendimentoConfirmacao(models.Model): 
     #log
     data_registro = models.DateTimeField(auto_now_add=True)
@@ -292,7 +289,6 @@ class AtendimentoConfirmacao(models.Model):
         self.del_usuario = user
         self.save()
 
-
 class AtendimentoCancelado(models.Model): 
     #log
     data_registro = models.DateTimeField(auto_now_add=True)
@@ -313,6 +309,32 @@ class AtendimentoCancelado(models.Model):
 
     def __str__(self):
         return f"ID do Cancelamento: {self.id} - ID Atendimento: {self.atendimento.id}"
+
+    def soft_delete(self, user):
+        self.del_status = True
+        self.del_data = timezone.now()
+        self.del_usuario = user
+        self.save()
+
+class AtendimentoRetorno(models.Model): 
+    #log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+    
+    #atendimento
+    atendimento_anterior = models.ForeignKey(Atendimento, on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimento_anterior')
+    atendimento_retorno = models.ForeignKey(Atendimento, on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimento_retorno')
+
+    #atendimento cancelado
+    justificativa = models.TextField(null=True, blank=True)
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def __str__(self):
+        return f"ID do Retorno: {self.id} - ID Atendimento Anterior: {self.atendimento_anterior.id} - ID Atendimento Retorno: {self.atendimento_retorno.id}"
 
     def soft_delete(self, user):
         self.del_status = True

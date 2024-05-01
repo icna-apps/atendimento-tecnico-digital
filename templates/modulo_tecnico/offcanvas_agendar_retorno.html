@@ -19,38 +19,90 @@
                 Selecione o tópico
             </div>
 
+            <!-- Atividade Produtiva -->
             <div class="container_informacoes__campos">
               <div class="form-floating">
-                  {{ formAtendimentoRetorno.atividade_produtiva }}
-                  <label>{{ formAtendimentoRetorno.atividade_produtiva.label }}</label>
+                  {% if atendimentoRetorno %}
+                    <select 
+                      class="form-select" 
+                      style="font-size: 0.8rem;" 
+                      disabled
+                    >
+                        <option value="">{{ atendimentoRetorno.atendimento_anterior.get_atividade_produtiva_display }}</option>
+                    </select>
+                    <label>Motivo do cancelamento</label>
+                  {% else %}
+                    {{ formAtendimentoRetorno.atividade_produtiva }}
+                    <label>{{ formAtendimentoRetorno.atividade_produtiva.label }}</label>
+                  {% endif %}
               </div>
               <div class="form-floating">
+                {% if atendimentoRetorno %}
+                  <select 
+                    class="form-select" 
+                    style="font-size: 0.8rem;" 
+                    disabled
+                  >
+                      <option value="">{{ atendimentoRetorno.atendimento_anterior.topico }}</option>
+                  </select>
+                  <label>Tópico do Atendimento</label>
+                {% else %}
                   {{ formAtendimentoRetorno.topico }}
                   <label>{{ formAtendimentoRetorno.topico.label }}</label>
+                {% endif %}
+
               </div>
             </div>
           </div>
 
-          <!-- Data e hora -->
-          <div class="container_informacoes">
-            <div class="container_informacoes__titulo">
-                Selecione a Data e Hora
-            </div>
-            <div class="container_informacoes__campos">
-              <div id="horarios-disponiveis" style="display: none;">
-                  {% for data, hora in horarios_disponiveis %}
-                      <span class="horario-disponivel" data-data="{{ data }}">{{ hora }}</span>
-                  {% endfor %}
+            <!-- Data e hora -->
+            <div class="container_informacoes">
+              <div class="container_informacoes__titulo">
+                  Selecione a Data e Hora
               </div>
-              <div class="form-floating">
-                  {{ formAtendimentoRetorno.data }}
-                  <label>{{ formAtendimentoRetorno.data.label }}</label>
+              <div class="container_informacoes__campos">
+                <div id="horarios-disponiveis" style="display: none;">
+                    {% for data, hora in horarios_disponiveis %}
+                        <span class="horario-disponivel" data-data="{{ data }}">{{ hora }}</span>
+                    {% endfor %}
+                </div>
+
+
+                <!-- Data -->
+                <div class="form-floating">
+                    {% if atendimentoRetorno %}
+                      <select 
+                        class="form-select" 
+                        style="font-size: 0.8rem;" 
+                        disabled
+                      >
+                          <option value="">{{ atendimentoRetorno.atendimento_anterior.data|date:'d/m/Y' }}</option>
+                      </select>
+                      <label>Data</label>
+                    {% else %}
+                      {{ formAtendimentoRetorno.data }}
+                      <label>{{ formAtendimentoRetorno.data.label }}</label>
+                    {% endif %}
+                </div>
+
+
+                <!-- Hora -->
+                <div class="form-floating">
+                    {% if atendimentoRetorno %}
+                      <select 
+                        class="form-select" 
+                        style="font-size: 0.8rem;" 
+                        disabled
+                      >
+                          <option value="">{{ atendimentoRetorno.atendimento_anterior.hora }}</option>
+                      </select>
+                      <label>Data</label>
+                    {% else %}
+                      {{ formAtendimentoRetorno.hora }}
+                      <label>{{ formAtendimentoRetorno.hora.label }}</label>
+                    {% endif %}
+                </div>
               </div>
-              <div class="form-floating">
-                  {{ formAtendimentoRetorno.hora }}
-                  <label>{{ formAtendimentoRetorno.hora.label }}</label>
-              </div>
-            </div>
 
           </div>
 
@@ -60,15 +112,43 @@
               Justifique a necessidade do retorno
             </div>
             <div class="form-floating mb-3">
-              <textarea class="form-control" id="atendimentoRetornoJustificativa" name="atendimentoRetornoJustificativa" style="min-height: 150px; font-size: 0.8rem;"></textarea>
-              <label for="comments">Justificativa</label>
+
+              {% if atendimentoRetorno %}
+                <textarea 
+                  class="form-control"
+                  id="atendimentoRetornoJustificativa"
+                  name="atendimentoRetornoJustificativa"
+                  style="min-height: 150px; font-size: 0.8rem; padding-top: 10px;"
+                  {% if atendimentoRetorno %}
+                    readonly
+                  {% endif %}
+                  >{{ atendimentoRetorno.justificativa }}
+                </textarea>
+              {% else %}
+                <textarea 
+                  class="form-control"
+                  id="atendimentoRetornoJustificativa"
+                  name="atendimentoRetornoJustificativa"
+                  style="min-height: 150px; font-size: 0.8rem;">
+                </textarea>
+              <!-- <label for="comments">Justificativa</label> -->
+              {% endif %}
+
+              
             </div>
           </div>
 
           <!-- Botão -->
-          <div class="container_informacoes__botoes" style="text-align: right;">
-              <button type="submit" class="btn btn-success" id="btnAgendarRetorno">Agendar Retorno</button>
-          </div>
+          {% if not atendimentoRetorno %}
+            <div class="container_informacoes__botoes" style="text-align: right;">
+                <button type="submit" class="btn btn-success" id="btnAgendarRetorno">Agendar Retorno</button>
+            </div>
+          {% else %}
+            <div>
+              <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">check</i>
+              Agendamento de retorno realizado: ID {{ atendimentoRetorno.atendimento_retorno.atendimento_id }}
+            </div>
+        {% endif %}
       </form>
 
       

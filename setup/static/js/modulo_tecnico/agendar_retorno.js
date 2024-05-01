@@ -6,30 +6,36 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Função para habilitar/desabilitar o campo 'hora' conforme a seleção da data
     function toggleHoraField() {
-        if (dataSelect.value) {
-            horaSelect.removeAttribute("disabled");
-        } else {
-            horaSelect.value = "";
-            horaSelect.setAttribute("disabled", true);
+        if (dataSelect) {
+            if (dataSelect.value) {
+                horaSelect.removeAttribute("disabled");
+            } else {
+                horaSelect.value = "";
+                horaSelect.setAttribute("disabled", true);
+            }
         }
     }
 
     // Função para filtrar os horários disponíveis com base na data selecionada
     function filterHorarios() {
-        var dataSelecionada = dataSelect.value;
-        horaSelect.innerHTML = "";
-        horariosDisponiveis.forEach(function(horario) {
-            if (horario.dataset.data === dataSelecionada) {
-                horaSelect.innerHTML += "<option value='" + horario.textContent + "'>" + horario.textContent + "</option>";
-            }
-        });
+        if (dataSelect) {
+            var dataSelecionada = dataSelect.value;
+            horaSelect.innerHTML = "";
+            horariosDisponiveis.forEach(function(horario) {
+                if (horario.dataset.data === dataSelecionada) {
+                    horaSelect.innerHTML += "<option value='" + horario.textContent + "'>" + horario.textContent + "</option>";
+                }
+            });
+        }
     }
 
     // Adicionar listener para o evento 'change' do campo 'data'
-    dataSelect.addEventListener("change", function() {
-        toggleHoraField();
-        filterHorarios();
-    });
+    if (dataSelect) {
+        dataSelect.addEventListener("change", function() {
+            toggleHoraField();
+            filterHorarios();
+        });
+    }
 
     // Chame as funções para configurar inicialmente o estado do campo 'hora' e os horários disponíveis
     toggleHoraField();
@@ -40,10 +46,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     const btnAgendarRetorno = document.querySelector('#btnAgendarRetorno')
-    btnAgendarRetorno.addEventListener('click', function(event){
-        event.preventDefault();
-        agendarRetorno();
-    })
+    if (btnAgendarRetorno) {
+        btnAgendarRetorno.addEventListener('click', function(event){
+            event.preventDefault();
+            agendarRetorno();
+        })
+    }
+    
 
     function agendarRetorno(){
         //Verificar preenchimento dos campos

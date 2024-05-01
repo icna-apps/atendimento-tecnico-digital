@@ -8,25 +8,38 @@
     <div class="offcanvas-body conteudo_offcanvas">
         
       <!-- Confirmação do Atendimento -->
-      <div class="finalizar_atendimento form-control">
+      <div class="finalizar_atendimento form-control" id="finalizarConfirmacaoAtendimento" style="font-size: 0.8rem;">
           {% if atendimentoConfirmacao %}
-            <span class="material-symbols-outlined" style="font-size: 4vh; color: green">check_circle</span>
+            <span class="material-symbols-outlined" style="font-size: 3vh; color: green">check_circle</span>
           {% else %}
-            <span class="material-symbols-outlined" style="font-size: 4vh; color:red">error</span>
+            <span class="material-symbols-outlined" style="font-size: 3vh; color:red">error</span>
           {% endif %}
           Confirmação do atendimento
       </div>
 
       <!-- Relatório do Atendimento -->
-      <div class="finalizar_atendimento form-control" id="finalizarRelatorioAtendimento">
-            Teste
+      <div class="finalizar_atendimento form-control" id="finalizarRelatorioAtendimento" style="font-size: 0.8rem;">
+        
       </div>
 
-      <div style="text-align: right;">
-        <button class="btn btn-success">Finalizar Atendimento</button>
+      <div
+        {% if atendimento.status == 'finalizado' %}
+          style="text-align: left;"
+        {% else %}
+          style="text-align: right;"
+        {% endif %}
+      >
+        {% if atendimento.status == 'finalizado' %}
+          <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: black">done_all</i>
+          Atendimento finalizado!
+        {% else %}
+          <button class="btn btn-success" id="botaoFinalizarAtendimento" style="font-size: 0.8rem;">Finalizar Atendimento</button>
+        {% endif %}
+        
       </div>
 
 
 
     </div>
-</div>
+    
+    <script src="{% static 'js/modulo_tecnico/finalizar_atendimento.js' %}"></script>
