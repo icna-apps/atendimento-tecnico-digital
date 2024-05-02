@@ -83,8 +83,8 @@ function sweetAlertConfirmacaoAvaliacao(tittle, mensagem, textoConfirmacao, text
                 },
                 success: function(response) {
                     Swal.fire({
-                        title: "Cancelado!",
-                        text: "Agendamento cancelado com sucesso!",
+                        title: "Avaliado!",
+                        text: "Avaliação salva com sucesso!",
                         icon: "success",
                         confirmButtonColor: 'green',
                     });
