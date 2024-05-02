@@ -47,7 +47,14 @@
                             <div class="listagem_item_informacoes_container_parte">
                                 <span>Status: {{ atendimento.get_status_display }}</span>
                                 <span>Substatus: {{ atendimento.get_substatus_display }}</span>
-                                <span>Pagamento: Não pago</span>
+                                <span>Nota de Avaliação: 
+                                    {% if atendimento.avaliacao_atendimento %}
+                                        {{ atendimento.avaliacao_atendimento }} 
+                                        <!-- ★★★★★ -->
+                                    {% else %}
+                                        -
+                                    {% endif %}
+                                </span>
                             </div>
                             
                             <div class="listagem_item_informacoes_container_parte">

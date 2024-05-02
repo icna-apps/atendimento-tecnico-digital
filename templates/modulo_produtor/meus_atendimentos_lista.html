@@ -58,18 +58,29 @@
             {% for atendimento in atendimentos %}
                 <div class="card-atendimento" data-id="{{ atendimento.id }}">
                     <div class="card-atendimento__informacoes">
-                        <span><b>Atendimento {{ atendimento.atendimento_id }}</b></span>
-                        <span>Atividade: {{ atendimento.get_atividade_produtiva_display }}</span>
-                        <span>Tópico: {{ atendimento.topico }}</span>
-                        <span>Data: {{ atendimento.data|date:'d/m/Y' }}</span>
-                        <span>Hora: {{ atendimento.hora }}</span>
-                        <span>Técnico: {{ atendimento.tecnico.primeiro_ultimo_nome }}</span>
-                        {% if atendimento.status == 'cancelado' %}
-                            <span>Status: <span class='status cancelado'>Cancelado</span></span>
-                        {% else %}
-                            <span>Status: <span class='status realizado'>Realizado</span></span>
-                        {% endif %}
-                        <span>Substatus: {{ atendimento.get_substatus_display }}</span>
+                        <span style="border-bottom: 1px solid gray;"><b>Atendimento {{ atendimento.atendimento_id }}</b></span>
+                        <span><b>Atividade:</b> {{ atendimento.get_atividade_produtiva_display }}</span>
+                        <span><b>Tópico:</b> {{ atendimento.topico }}</span>
+                        <span><b>Data:</b> {{ atendimento.data|date:'d/m/Y' }} {{ atendimento.hora }}</span>
+                        <span><b>Técnico:</b> {{ atendimento.tecnico.primeiro_ultimo_nome }}</span>
+                        
+                        <span><b>Status:</b> 
+                            {% if atendimento.status == 'agendado' %}
+                                <span class='status atendimento_agendado'>Agendado</span>
+                            {% endif %}
+                            {% if atendimento.status == 'cancelado' %}
+                                <span class='status atendimento_cancelado'>Cancelado</span>
+                            {% endif %}
+                            {% if atendimento.status == 'atendido' %}
+                                <span class='status atendimento_atendido'>Atendido</span>
+                            {% endif %}
+                            {% if atendimento.status == 'finalizado' %}
+                                <span class='status atendimento_finalizado'>Finalizado</span>
+                            {% endif %}
+                        </span>
+                        <span><b>Substatus:</b> {{atendimento.get_substatus_display }}</span>
+
+                        
                     </div>
                 </div>
             {% endfor %}

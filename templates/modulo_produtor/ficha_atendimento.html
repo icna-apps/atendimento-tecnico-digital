@@ -1,138 +1,247 @@
-{% extends '_partials/base_main_produtor.html' %}
 {% load static %}
-{% block extra_head %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CNA Digital</title>
+    
+    <!-- Adicionando jQuery via CDN -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    <!-- sweetalert2 -->
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- CSS do Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Fontes e ícones -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <link rel="icon" href="{% static 'assets\logos\icone_cna.ico' %}" type="image/x-icon">
+
+    <!-- Folhas de estilos internos -->
+    <link rel="stylesheet" href="{% static 'styles/normalize.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/cores.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/partials/base_main_produtor.css' %}">
+    <link rel="stylesheet" href="{% static 'styles/modulo_produtor/card_atendimento.css' %}">
     <link rel="stylesheet" href="{% static 'styles\modulo_produtor\ficha_atendimento.css' %}">
     <meta name="csrf-token" content="{{ csrf_token }}">
-{% endblock %}
 
-{% block content %}    
 
-    <div class="container__page">
+    <!-- static\styles\modulo_produtor\novo_atendimento.css -->
+    <meta name="csrf-token" content="{{ csrf_token }}">
 
-        <div class="titulo_pagina">
-            <div class="titulo_pagina__item" id="btnSair">
-                <i class="material-symbols-outlined">arrow_back</i>
-                Voltar
-            </div>
-            
-            <div class="titulo_pagina__item">
-                <span><b>Ficha do Atendimento</b><br></span>
-                <span class="titulo_pagina_id">{{ atendimento.atendimento_id }}</span>
-            </div>
-            
-        </div>
+    <!-- Folhas de estilo específca da página -->
+    {% block extra_head %}{% endblock %}
+    
+</head>
 
-        <!-- Identificação -->
-        <div class="card">
-            <div class="card__titulo">
-                <i class="material-symbols-outlined card__imagem">info</i>Identificação
-            </div>
-            <div class="card__conteudo" id="cardAtendimento" data-id="{{ atendimento.id }}">
-                <span>ID: {{ atendimento.atendimento_id }}</span>
-                <span>Data: {{ atendimento.data|date:'d/m/Y' }}</span>
-                <span>Hora: {{ atendimento.hora }}</span>
-                <span>Status: 
-                    {% if atendimento.status == 'agendado' %}
-                        <span class='status atendimento_agendado'>Agendado</span>
-                    {% endif %}
-                    {% if atendimento.status == 'realizado' %}
-                        <span class='status atendimento_realizado'>Realizado</span>
-                    {% endif %}
-                    {% if atendimento.status == 'cancelado' %}
-                        <span class='status atendimento_cancelado'>Cancelado</span>
-                    {% endif %}
-                </span>
-            </div>
-        </div>
+<body>       
 
-        <!-- Tópico do Atendimento -->
-        <div class="card">
-            <div class="card__titulo">
-                <i class="material-symbols-outlined card__imagem">target</i>Tópico do Atendimento
-            </div>
-            <div class="card__conteudo">
-                <span>Atividade: {{ atendimento.get_atividade_produtiva_display }}</span>
-                <span>Tópico: {{ atendimento.topico }}</span>
-                <span>Mais informações:
-                    {% if atendimento.mais_informacoes %}
-                        <br>{{ atendimento.mais_informacoes }}
-                    {% else %}
-                        não informado.
-                    {% endif %}
-                </span>
-            </div>
-        </div>
+    <!-- Área de Trabalho -->
+    <div class="container_body" >
+        
+        {% include '_partials/header_produtor.html' %}
 
-        <!-- Fotos -->
-        <div class="card">
-            <div class="card__titulo">
-                <i class="material-symbols-outlined card__imagem">image</i>Imagens
-            </div>
-            <div class="card__conteudo">
+        <!-- Conteúdo -->
+        <div class="container__page">
+            <div class="titulo_pagina">            
+                <div class="titulo_pagina__item">
+                    <span><b>Ficha do Atendimento</b><br></span>
+                    <span class="titulo_pagina_id">{{ atendimento.atendimento_id }}</span>
+                </div>
                 
-                <div class="imagens_enviadas">
-                    <span>
-                        {% if atendimento.imagem01 %}
-                            <img src="#" alt="Imagem 01">
-                        {% else %}
-                            <div class="imagens_enviadas__imagem">
-                                <i class="material-symbols-outlined">image</i>
-                                <span>Não enviada</span> 
-                            </div>
+            </div>
+    
+            <!-- Identificação -->
+            <div class="card">
+                <div class="card__titulo">
+                    <i class="material-symbols-outlined card__imagem">info</i>Identificação
+                </div>
+                <div class="card__conteudo" id="cardAtendimento" data-id="{{ atendimento.id }}">
+                    <span><b>ID:</b> {{ atendimento.atendimento_id }}</span>
+                    <span><b>Data:</b> {{ atendimento.data|date:'d/m/Y' }} {{ atendimento.hora }}</span>
+                    <span><b>Status:</b> 
+                        {% if atendimento.status == 'agendado' %}
+                            <span class='status atendimento_agendado'>Agendado</span>
+                        {% endif %}
+                        {% if atendimento.status == 'cancelado' %}
+                            <span class='status atendimento_cancelado'>Cancelado</span>
+                        {% endif %}
+                        {% if atendimento.status == 'atendido' %}
+                            <span class='status atendimento_atendido'>Atendido</span>
+                        {% endif %}
+                        {% if atendimento.status == 'finalizado' %}
+                            <span class='status atendimento_finalizado'>Finalizado</span>
                         {% endif %}
                     </span>
-                    <span>
-                        {% if atendimento.imagem02 %}
-                            <img src="#" alt="Imagem 02">
+                    <span><b>Substatus:</b> {{atendimento.get_substatus_display }}</span>
+                </div>
+            </div>
+    
+            <!-- Tópico do Atendimento -->
+            <div class="card">
+                <div class="card__titulo">
+                    <i class="material-symbols-outlined card__imagem">target</i>Tópico do Atendimento
+                </div>
+                <div class="card__conteudo">
+                    <span><b>Atividade:</b> {{ atendimento.get_atividade_produtiva_display }}</span>
+                    <span><b>Tópico:</b> {{ atendimento.topico }}</span>
+                    <span style="text-align: justify;"><b>Mais informações:</b>
+                        {% if atendimento.mais_informacoes %}
+                            <br>{{ atendimento.mais_informacoes }}
                         {% else %}
-                            <div class="imagens_enviadas__imagem">
-                                <i class="material-symbols-outlined">image</i>
-                                <span>Não enviada</span> 
-                            </div>
-                        {% endif %}
-                    </span>
-                    <span>
-                        {% if atendimento.imagem03 %}
-                            <img src="#" alt="Imagem 03">
-                        {% else %}
-                            <div class="imagens_enviadas__imagem">
-                                <i class="material-symbols-outlined">image</i>
-                                <span>Não enviada</span> 
-                            </div>
+                            não informado.
                         {% endif %}
                     </span>
                 </div>
-                
-                
-                
+            </div>
+    
+            <!-- Fotos -->
+            <div class="card">
+                <div class="card__titulo">
+                    <i class="material-symbols-outlined card__imagem">image</i>Imagens
+                </div>
+                <div class="card__conteudo">
+                    
+                    <div class="imagens_enviadas">
+                        <span>
+                            {% if atendimento.imagem01 %}
+                                <img src="#" alt="Imagem 01">
+                            {% else %}
+                                <div class="imagens_enviadas__imagem">
+                                    <i class="material-symbols-outlined">image</i>
+                                    <span>Não enviada</span> 
+                                </div>
+                            {% endif %}
+                        </span>
+                        <span>
+                            {% if atendimento.imagem02 %}
+                                <img src="#" alt="Imagem 02">
+                            {% else %}
+                                <div class="imagens_enviadas__imagem">
+                                    <i class="material-symbols-outlined">image</i>
+                                    <span>Não enviada</span> 
+                                </div>
+                            {% endif %}
+                        </span>
+                        <span>
+                            {% if atendimento.imagem03 %}
+                                <img src="#" alt="Imagem 03">
+                            {% else %}
+                                <div class="imagens_enviadas__imagem">
+                                    <i class="material-symbols-outlined">image</i>
+                                    <span>Não enviada</span> 
+                                </div>
+                            {% endif %}
+                        </span>
+                    </div>
+                    
+                    
+                    
+                </div>
+            </div>
+    
+    
+            <!-- Avaliação -->
+            {% if atendimento.status == 'finalizado' %}
+            <div class="card">
+                <div class="card__titulo">
+                    <i class="material-symbols-outlined card__imagem">star</i>Avalição
+                </div>
+                <div class="card__conteudo">
+                    
+                    <span style="text-align: justify;">Avalie o atendimento técnico recebido.</span>
+
+                    {% if atendimento.avaliacao_atendimento %}
+                        <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
+                            {% for star in "12345" %}
+                                <input type="radio" id="cm_star-{{ star }}" name="fb" value="{{ star }}"
+                                    {% if atendimento.avaliacao_atendimento == star|stringformat:"s" %} checked {% endif %}
+                                    disabled/>
+                                <label for="cm_star-{{ star }}"><i class="fa"></i></label>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
+                            <input type="radio" id="cm_star-empty" name="fb" value="" checked/>
+                            <label for="cm_star-1"><i class="fa"></i></label>
+                            <input type="radio" id="cm_star-1" name="fb" value="1"/>
+                            <label for="cm_star-2"><i class="fa"></i></label>
+                            <input type="radio" id="cm_star-2" name="fb" value="2"/>
+                            <label for="cm_star-3"><i class="fa"></i></label>
+                            <input type="radio" id="cm_star-3" name="fb" value="3"/>
+                            <label for="cm_star-4"><i class="fa"></i></label>
+                            <input type="radio" id="cm_star-4" name="fb" value="4"/>
+                            <label for="cm_star-5"><i class="fa"></i></label>
+                            <input type="radio" id="cm_star-5" name="fb" value="5"/>
+                        </div>
+                        <!-- Botão Avaliar Atendimento -->
+                        <div class="area_botao" style="width: 100%; text-align: center; margin-bottom: 20px;">
+                            <button class="btn btn-success" id="btnAvaliarAtendimento" style="font-size: 0.8rem; width: 50%; background-color: var(--verde-capital);">Avaliar</button>
+                        </div>
+                    {% endif %}
+
+
+                    
+                    
+                </div>
+            </div>
+            {% endif %}
+
+            
+    
+            <div class="space">
+                &nbsp;
             </div>
         </div>
 
-
-        <!-- Avaliação -->
-        <div class="card">
-            <div class="card__titulo">
-                <i class="material-symbols-outlined card__imagem">star</i>Avalição
+        <!-- Botões -->
+        <div class="botoes">
+            <div class="botao" id="btnSair">
+                <i class="material-symbols-outlined" style="font-size: 3vh; vertical-align: middle;" >arrow_back</i>
+                Voltar
             </div>
-            <div class="card__conteudo">
-                
-            </div>
+            {% if atendimento.status == 'agendado' %}
+                <div class="botao" id="btnCancelar">
+                    <i class="material-symbols-outlined" style="font-size: 3vh; vertical-align: middle;" >cancel</i>
+                    Cancelar
+                </div>
+            {% endif %}
+            {% if atendimento.status == 'finalizado' %}
+                <div class="botao" id="btnRelatorio">
+                    <i class="material-symbols-outlined" style="font-size: 3vh; vertical-align: middle;" >picture_as_pdf</i>
+                    Relatório
+                </div>
+            {% endif %}
         </div>
-
-        {% if atendimento.status == 'agendado' %}
-            <div class="botoes">
-                <button type="button" class="btn btn-secondary"  style="width: 30%;" id="btnCancelar">Cancelar</button>
-                <button type="button" class="btn btn-success"  style="width: 30%;" id="btnEditar">Editar</button>
-                <button class="btn btn-primary" id="btnGerarRelatorio" style="font-size: 0.8rem;">Gerar Relatório</button>
-            </div>
-        {% endif %}
-
+        
+        
     </div>
+
     
     
+    <div style="color:white">
+        &nbsp;
+    </div>
+   
+    
+    <script src="{% static 'js/alerts.js' %}"></script>
+    <script src="{% static 'js/utilidades.js' %}"></script>
+    <script src="{% static 'js/modulo_produtor/ficha_atendimento.js' %}"></script>
+    
+
+</body>
+
+</html>
     
 
         
-    <script src="{% static 'js/modulo_produtor/ficha_atendimento.js' %}"></script>
-    <script src="{% static 'js/modulo_produtor/ficha_atendimento_status.js' %}"></script>
-{% endblock %}
+        

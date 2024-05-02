@@ -3,9 +3,13 @@ document.addEventListener('DOMContentLoaded', function() {
     const idAtendimento = document.querySelector('#idAtendimentoTecnico').innerText
 
     var editorDiv = document.getElementById('editor');
+    var elementoStatus = document.getElementById('statusAtendimento');
+    var status = elementoStatus.getAttribute('data-status');
+    var statusRelatorio = status === 'finalizado' ? true : false;
+
     var quill = new Quill(editorDiv, {
         theme: 'snow',
-        // readOnly: true,
+        readOnly: statusRelatorio,
         modules: {
             toolbar: [
                 ['bold', 'italic', 'underline'],
@@ -128,14 +132,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     const btnSalvarRelatorio = document.querySelector("#btnSalvarRelatorio")
-
-    btnSalvarRelatorio.addEventListener('click', function(event) {
-        event.preventDefault();
-        salvarRelatorio();
-
-        ativarFinalizarRelatorio()
-        
-    })
+    if(btnSalvarRelatorio){
+        btnSalvarRelatorio.addEventListener('click', function(event) {
+            event.preventDefault();
+            salvarRelatorio();
+            ativarFinalizarRelatorio()
+        })
+    }
+    
 
     function salvarRelatorio() {
     

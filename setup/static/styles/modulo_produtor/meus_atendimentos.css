@@ -66,3 +66,26 @@
     }
 }
 
+
+.status {
+    font-weight: bold;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+.atendimento_agendado {
+    background-color: var(--agendado);
+}
+
+.atendimento_cancelado {
+    background-color: var(--cancelado);
+}
+
+.atendimento_atendido {
+    background-color: var(--atendido);
+}
+
+.atendimento_finalizado {
+    background-color: var(--finalizado);
+}

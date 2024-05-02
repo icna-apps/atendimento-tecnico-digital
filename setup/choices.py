@@ -66,8 +66,7 @@ SUBSTATUS_ATENDIMENTO = [
     ('aguardando_relatorio', 'Aguardando o relatório'),
     ('aguardando_finalizar', 'Aguardando o técnico finalizar'),
     ('produtor_avaliar', 'Produtor ainda não avaliou'),
-    ('produtor_nao_abriu_relatorio', 'Produtor não abriu o relatório'),
-    ('produtor_abriu_relatorio', 'Produtor abriu o relatório')
+    ('produtor_avaliou', 'Produtor avaliou')
 ]
 
 MOTIVO_CANCELAMENTO = [

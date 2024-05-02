@@ -1,5 +1,16 @@
 .container_body {
-    grid-template-rows: 10% 90%;
+    grid-template-rows: 10% 80% 10%;
+    /* background-color: blue; */
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.container_pagina.ficha_atendimento {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2vh;
+
 }
 
 .container__page {
@@ -7,6 +18,8 @@
     flex-direction: column;
     justify-content: flex-start;
     gap: 2vh;
+    overflow-y: auto;
+    height: 100%;
 }
 
 .titulo_pagina {
@@ -14,21 +27,10 @@
     display: grid;
     grid-template-rows: 30% 70%;
     align-items: center;
-    
+    padding-top: 2vh;
 }
 
-.titulo_pagina__item .material-symbols-outlined {
-    font-size: 6vw;
-    
-}
 
-#btnSair {
-    text-align: left;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    margin-bottom: 1vh;
-}
 
 .titulo_pagina_id {
     background-color: var(--verde-capital);
@@ -79,21 +81,27 @@
 }
 
 
-.status_atendimento {
+.status {
     font-weight: bold;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
 }
 
 .atendimento_agendado {
-    color: var(--agendado);
-    background-color: none;
+    background-color: var(--agendado);
 }
 
 .atendimento_cancelado {
-    color: var(--cancelado);
+    background-color: var(--cancelado);
 }
 
-.atendimento_realizado {
-    color: var(--verde-capital);
+.atendimento_atendido {
+    background-color: var(--atendido);
+}
+
+.atendimento_finalizado {
+    background-color: var(--finalizado);
 }
 
 
@@ -105,7 +113,27 @@
     margin-top: 2vh;
 }
 
+.botao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 #btnEditar {
     background-color: var(--editar);
     border-color: var(--editar);
+}
+
+
+
+.estrelas input[type=radio] {
+    display: none;
+  }
+.estrelas label i.fa:before {
+    content:'\f005';
+    color: #FC0;
+}
+.estrelas input[type=radio]:checked ~ label i.fa:before {
+    color: #CCC;
 }

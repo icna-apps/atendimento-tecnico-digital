@@ -231,6 +231,18 @@ def produtor_cancelar_atendimento(request, id):
 
     return JsonResponse({'retorno': 'ok'})
 
+def produtor_avaliar_atendimento(request, id, nota):
+    try:
+        atendimento = Atendimento.objects.get(id=id)
+        atendimento.avaliacao_atendimento = nota
+        atendimento.substatus = 'produtor_avaliou'
+        atendimento.save()
+        return JsonResponse({'salvo': "sim"})
+    except ValueError:
+        return JsonResponse({'salvo': "nao"})
+
+
+
 def produtor_meus_dados(request):
     return render(request, 'modulo_produtor/meus_dados.html')
 

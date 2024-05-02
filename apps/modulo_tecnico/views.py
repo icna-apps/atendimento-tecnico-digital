@@ -385,6 +385,7 @@ def tecnico_finalizar_atendimento(request, id):
     atendimento = Atendimento.objects.get(id=id)
     try:
         atendimento.status = 'finalizado'
+        atendimento.substatus = 'produtor_avaliar'
         atendimento.save()
         return JsonResponse({'finalizado': "sim"})
     except ValueError:

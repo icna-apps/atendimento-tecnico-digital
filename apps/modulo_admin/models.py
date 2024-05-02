@@ -5,6 +5,7 @@ from django.db.models.functions import Now
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.exceptions import ValidationError
 from django.contrib.auth.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 from datetime import date, datetime, timedelta
 from datetime import datetime
 
@@ -220,6 +221,13 @@ class Atendimento(models.Model):
     #relatório
     relatorio = models.TextField(null=True, blank=True)
     relatorio_atualizacao = models.DateTimeField(null=True, blank=True)
+
+    #avaliação do atendimento
+    avaliacao_atendimento = models.PositiveIntegerField(
+        validators=[MinValueValidator(1), MaxValueValidator(5)],
+        null=True,
+        blank=True
+    )
 
     #delete (del)
     del_status = models.BooleanField(default=False)

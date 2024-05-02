@@ -197,16 +197,27 @@
                 </div>
 
                 <!-- Avaliação do atendimento -->
-                <div class="atendimento_dados">
-                    <span><b>Avaliação do Atendimento</b></span>
-                    <div class="avaliacao__atendimento__estrelas">
-                        <span class="estrela preenchida" data-value="1">★</span>
-                        <span class="estrela preenchida" data-value="2">★</span>
-                        <span class="estrela preenchida" data-value="3">★</span>
-                        <span class="estrela preenchida" data-value="4">★</span>
-                        <span class="estrela" data-value="5">★</span>
-                    </div>
-                    <span>Comentário: nenhum comentário.</span>
+                <div class="atendimento_dados" style="align-items: center;">
+                    <span style="width: 100%; text-align: left;"><b>Avaliação do Atendimento</b></span>
+                    {% if atendimento.avaliacao_atendimento %}
+                        <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
+                            {% for star in "12345" %}
+                                <input type="radio" id="cm_star-{{ star }}" name="fb" value="{{ star }}"
+                                    {% if atendimento.avaliacao_atendimento == star|stringformat:"s" %} checked {% endif %}
+                                    disabled/>
+                                <label for="cm_star-{{ star }}"><i class="fa"></i></label>
+                            {% endfor %}
+                        </div>
+                    {% else %}
+                        <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
+                            <input type="radio" id="cm_star-empty" name="fb" value="" checked/>
+                            <label for="cm_star-1"><i class="fa"></i></label>
+                            {% for star in "1234" %}
+                                <input type="radio" id="cm_star-{{ star }}" name="fb" value="{{ star }}" disabled/>
+                                <label for="cm_star-{{ star }}"><i class="fa"></i></label>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
                 </div>
                 
             </div>
@@ -239,7 +250,11 @@
                     </div>
                     
                     <div class="relatorio_botoes__funcoes">
-                        <button class="btn btn-success" id="btnSalvarRelatorio" style="font-size: 0.8rem;">Salvar Relatório</button>
+
+                        {% if atendimento.status != 'finalizado' %}
+                            <button class="btn btn-success" id="btnSalvarRelatorio" style="font-size: 0.8rem;">Salvar Relatório</button>
+                        {% endif %}
+                        
                         <button class="btn btn-primary" id="btnGerarRelatorio" style="font-size: 0.8rem;">Gerar Relatório</button>
                     </div>
                     

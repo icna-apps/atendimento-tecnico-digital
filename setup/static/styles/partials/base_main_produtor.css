@@ -19,16 +19,14 @@ body {
 }
 
 
-.container_pagina {    
+/* .container_pagina {    
     overflow: hidden;
 }
 
-/* Estilo inicial da página */
 .container_pagina {
-    opacity: 0; /* Inicia a página completamente transparente */
+    opacity: 0;
 }
 
-/* Animação de entrada */
 @keyframes fadeInAnimation {
     0% { opacity: 0; }
     100% { opacity: 1; }
@@ -36,5 +34,4 @@ body {
 
 .container_pagina.animate-page-enter {
     animation: fadeInAnimation 0.2s forwards;
-
-}
+} */
