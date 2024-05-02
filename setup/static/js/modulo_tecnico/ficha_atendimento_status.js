@@ -3,7 +3,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Status do atendimento
     const elementoStatus = document.getElementById('statusAtendimento');
     const status = elementoStatus.getAttribute('data-status');
-    
+
+    // Retorno
+    const offcanvasRetorno = document.getElementById('offcanvasRetorno');
+    const dataRetorno = offcanvasRetorno.getAttribute('data-retorno')
+
     // Funcionalidades
     const offcanvasCancelar = document.querySelector('#abrirOffcanvasCancelarAtendimento')
     const offcanvasAtender = document.querySelector('#offcanvasWhatsapp')
@@ -36,8 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
             funcionalidadeCancelamento(false)
             funcionalidadeAtender(true)
             funcionalidadeConfirmar(true)
-            funcionalidadeAgendarRetorno(true)
+            
+            if (dataRetorno == 'None') {
+                funcionalidadeAgendarRetorno(false)
+            } else {
+                funcionalidadeAgendarRetorno(true)
+            }
+            
+            
+            
             funcionalidadeFinalizar(true)
+            
         }
     }
     

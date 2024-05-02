@@ -200,14 +200,14 @@
                 <div class="atendimento_dados" style="align-items: center;">
                     <span style="width: 100%; text-align: left;"><b>Avaliação do Atendimento</b></span>
                     {% if atendimento.avaliacao_atendimento %}
-                        <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
-                            {% for star in "12345" %}
-                                <input type="radio" id="cm_star-{{ star }}" name="fb" value="{{ star }}"
-                                    {% if atendimento.avaliacao_atendimento == star|stringformat:"s" %} checked {% endif %}
-                                    disabled/>
-                                <label for="cm_star-{{ star }}"><i class="fa"></i></label>
-                            {% endfor %}
-                        </div>
+                    <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
+                        {% for star in "01234" %}
+                            <input type="radio" id="cm_star-{{ star }}" name="fb" value="{{ star }}"
+                                {% if atendimento.avaliacao_atendimento == star|add:0 %} checked {% endif %}
+                                disabled/>
+                            <label for="cm_star-{{ star }}"><i class="fa"></i></label>
+                        {% endfor %}
+                    </div>
                     {% else %}
                         <div class="estrelas" style="font-size: 35px; text-align: center; margin: 20px;">
                             <input type="radio" id="cm_star-empty" name="fb" value="" checked/>

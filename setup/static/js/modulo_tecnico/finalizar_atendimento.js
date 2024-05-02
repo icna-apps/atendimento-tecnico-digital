@@ -5,10 +5,14 @@ document.addEventListener('DOMContentLoaded', function() {
     const finalizarRelatorioAtendimento = document.querySelector('#finalizarRelatorioAtendimento')
 
     const botaoFinalizarAtendimento = document.querySelector('#botaoFinalizarAtendimento')
-    botaoFinalizarAtendimento.addEventListener('click', function(event){
-        event.preventDefault();
-        finalizarAtendimento();
-    })
+    if (botaoFinalizarAtendimento) { 
+        botaoFinalizarAtendimento.addEventListener('click', function(event){
+            event.preventDefault();
+            finalizarAtendimento();
+        })
+    }
+    
+   
 
     function finalizarAtendimento() {
 

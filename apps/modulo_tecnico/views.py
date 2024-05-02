@@ -8,6 +8,7 @@ from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
+from django.db.models import Avg
 from django.shortcuts import redirect, render
 from django.utils import timezone
 from django.utils.dateformat import format
@@ -19,6 +20,7 @@ from apps.modulo_admin.models import Atendimento, AtendimentoConfirmacao, Atendi
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from apps.modulo_admin.services import enviar_sms
 from setup.utils import get_next_week_days
+
 
 
 logger = logging.getLogger(__name__)
@@ -74,11 +76,16 @@ def login_tecnico(request):
 def tecnico_dashboard(request):
 
     tecnico = request.user.usuario_relacionado
+    regional = tecnico.regional_senar()
     atendimentos = Atendimento.objects.filter(tecnico=tecnico)
     atendimentos_cancelados = atendimentos.filter(status='cancelado').count()
     atendimentos_agendados = atendimentos.filter(status='agendado').count()
     atendimentos_atendidos = atendimentos.filter(status='atendido').count()
     atendimentos_finalizados = atendimentos.filter(status='finalizado').count()
+    media_geral = atendimentos.filter(substatus='produtor_avaliou', regional=regional).aggregate(media=Avg('avaliacao_atendimento'))
+    media_geral = media_geral.get('media', 0)
+    media_tecnico = atendimentos.filter(substatus='produtor_avaliou', tecnico=tecnico).aggregate(media=Avg('avaliacao_atendimento'))
+    media_tecnico = media_tecnico.get('media', 0)
 
     conteudo = {
         'atendimentos': atendimentos,
@@ -86,6 +93,8 @@ def tecnico_dashboard(request):
         'atendimentos_agendados': atendimentos_agendados,
         'atendimentos_atendidos': atendimentos_atendidos,
         'atendimentos_finalizados': atendimentos_finalizados,
+        'media_geral': media_geral,
+        'media_tecnico': media_tecnico,
     }
 
     return render(request, 'modulo_tecnico/dashboard.html', conteudo)

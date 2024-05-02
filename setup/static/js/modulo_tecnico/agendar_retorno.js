@@ -90,6 +90,7 @@ document.addEventListener('DOMContentLoaded', function() {
         .then(data => {
             if (data.retorno === "sim") {
                 sweetAlert('<span style="font-weight:normal">Agendamento de Retorno <b style="color:green">realizado com sucesso!</b></span>', 'success', 'green');
+                window.location.reload()
             } else {
                 sweetAlert('<span style="font-weight:normal">Erro! Agendamento de Retorno <b style="color:red">não realizado!</b></span>', 'error', 'red');
             }
