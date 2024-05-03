@@ -1,0 +1,6 @@
+1. Finalizar Meus Dados
+2. Arrumar filtro da listagem de atendimentos
+3. Módulo Admin
+4. Pagamentos Técnicos
+5. Melhorar dashboard dos técnicos: calendário de agendamentos
+6. Ajustar o cancelamento dos produtores

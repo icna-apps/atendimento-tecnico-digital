@@ -13,6 +13,7 @@ from apps.modulo_admin.forms import CadastroForm, LoginForm
 from apps.modulo_admin.models import UF_Municipio, Usuario, Atendimento
 from django.db import transaction
 import base64
+from cnpj import CNPJClient, CNPJError
 
 def image_to_base64(image_path):
     full_path = os.path.join(settings.BASE_DIR, 'setup', 'static', image_path)
@@ -154,3 +155,18 @@ def relatorio_tecnico(request, id):
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
     return response
 
+
+def consultar_cnpj(request, cnpj):    
+    cnpj_client = CNPJClient()
+
+    try:
+        dados_cnpj = cnpj_client.cnpj(cnpj)
+        razao_social = dados_cnpj['razao_social']
+        return JsonResponse({
+            'retorno': True,
+            'razao_social': razao_social,
+        })
+    except CNPJError as erro:
+        return JsonResponse({
+            'retorno': False,
+        })

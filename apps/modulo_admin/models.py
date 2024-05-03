@@ -11,7 +11,7 @@ from datetime import datetime
 
 from setup.choices import (GENERO_SEXUAL, LISTA_UFS_SIGLAS, 
                            ATIVIDADE_PRODUTIVA, LISTA_DATAS, LISTA_HORA_ATENDIMENTO, SUBSTATUS_ATENDIMENTO,
-                           MOTIVO_CANCELAMENTO, 
+                           MOTIVO_CANCELAMENTO, TIPO_CONTA_BANCARIA,
                            STATUS_ATENDIMENTO, FORMA_ATENDIMENTO)
 
 
@@ -108,12 +108,46 @@ class Usuario(models.Model):
             return idade
         return "Data de nascimento não informada"
 
+class InstituicoesFinanceiras(models.Model):
+    codigo = models.CharField(max_length=4, null=False, blank=False)
+    ispb = models.CharField(max_length=20, null=False, blank=False)
+    nome = models.CharField(max_length=120, null=False, blank=False)
+    ord = models.IntegerField(null=True, blank=True)
+
+class UsuarioCNPJ(models.Model):
+    #relacionamento
+    usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='usuario_cnpj')
+    banco_codigo = models.ForeignKey(InstituicoesFinanceiras, on_delete=models.OneToOneField, null=True, blank=True, related_name='banco_cnpj')
+
+    #log
+    data_registro = models.DateTimeField(auto_now_add=True)
+    data_ultima_atualizacao = models.DateTimeField(auto_now=True)
+    
+    #dados da pessoa jurídica
+    cnpj = models.CharField(max_length=14, null=True, blank=True, unique=True)
+    razao_social = models.CharField(max_length=100, null=True, blank=True)
+    
+    #dados bancários
+    agencia = models.CharField(max_length=10, null=True, blank=True)
+    tipo_conta = models.CharField(max_length=100, choices=TIPO_CONTA_BANCARIA, null=True, blank=True)
+    conta = models.CharField(max_length=20, null=True, blank=True)
+
+    #delete (del)
+    del_status = models.BooleanField(default=False)
+    del_data = models.DateTimeField(null=True, blank=True)
+    del_cpf = models.CharField(max_length=14, null=True, blank=True)
+
+    def __str__(self):
+        return f"CNPJ: {self.cnpj} - {self.razao_social} - Usuário: {self.usuario.primeiro_ultimo_nome}"
+
 class UF_Municipio(models.Model):
     cod_ibge = models.CharField(max_length=10, null=False, blank=False)
     uf_sigla = models.CharField(max_length=2, null=False, blank=False)
     uf = models.CharField(max_length=20, null=False, blank=False)
     municipio = models.CharField(max_length=35, null=False, blank=False)
     municipio_uf = models.CharField(max_length=40, null=False, blank=False)
+
+
 
 class VinculoTecnicoRegional(models.Model):
     # relacionamento

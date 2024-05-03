@@ -5,7 +5,8 @@ from apps.modulo_tecnico.views import (login_tecnico, tecnico_dashboard,
                                        tecnico_meus_dados, tecnico_ficha_atendimento,
                                        tecnico_atendimento_salvar_relatorio, tecnico_confirmar_atendimento,
                                        tecnico_cancelar_atendimento, tecnico_agendar_retorno, tecnico_finalizar_atendimento,
-                                       tecnico_pagamentos,
+                                       tecnico_pagamentos, tecnico_filtro_atendimento,
+                                       tecnico_meusdados_atualizar,
                                        tecnico_meus_horarios, tecnico_meus_horarios_salvar)
 
 urlpatterns = [
@@ -22,6 +23,7 @@ urlpatterns = [
     path('tecnico/atendimentos/atendimento/cancelar-atendimento/<int:id>/', tecnico_cancelar_atendimento, name='tecnico_cancelar_atendimento'),
     path('tecnico/atendimentos/atendimento/agendar-retorno/<int:id>/', tecnico_agendar_retorno, name='tecnico_agendar_retorno'),
     path('tecnico/atendimentos/atendimento/finalizar/<int:id>/', tecnico_finalizar_atendimento, name='tecnico_finalizar_atendimento'),
+    path('tecnico/atendimentos/filtro/', tecnico_filtro_atendimento, name='tecnico_filtro_atendimento'),
 
     path('tecnico/meushorarios/', tecnico_meus_horarios, name='tecnico_meushorarios'),
     path('tecnico/meushorarios/salvar/', tecnico_meus_horarios_salvar, name='tecnico_meus_horarios_salvar'),
@@ -29,4 +31,5 @@ urlpatterns = [
     path('tecnico/pagamentos/', tecnico_pagamentos, name='tecnico_pagamentos'),
 
     path('tecnico/meus-dados/', tecnico_meus_dados, name='tecnico_meus_dados'),
+    path('tecnico/meusdados/atualizar/', tecnico_meusdados_atualizar, name='tecnico_meusdados_atualizar')
 ]

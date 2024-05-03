@@ -1,12 +1,13 @@
 # Importações padrão do Python
 import json
 import logging
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 
 # Importações de terceiros do Django
 from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.core import serializers
 from django.http import JsonResponse
 from django.db.models import Avg
 from django.shortcuts import redirect, render
@@ -16,10 +17,13 @@ from django.views.decorators.http import require_http_methods
 
 # Importações de aplicativos locais
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
-from apps.modulo_admin.models import Atendimento, AtendimentoConfirmacao, AtendimentoCancelado, AtendimentoRetorno
+from apps.modulo_admin.models import (Usuario, Atendimento, AtendimentoConfirmacao, 
+                                      AtendimentoCancelado, AtendimentoRetorno, UF_Municipio,
+                                      InstituicoesFinanceiras)
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from apps.modulo_admin.services import enviar_sms
 from setup.utils import get_next_week_days
+from setup.choices import STATUS_ATENDIMENTO, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, GENERO_SEXUAL, TIPO_CONTA_BANCARIA
 
 
 
@@ -105,8 +109,16 @@ def tecnico_atendimentos(request):
     tecnico = request.user.usuario_relacionado
     atendimentos = Atendimento.objects.filter(tecnico=tecnico).order_by('-id')
 
+    #lista_opcoes
+    lista_status = STATUS_ATENDIMENTO
+    lista_atividades = ATIVIDADE_PRODUTIVA
+    lista_topicos = TOPICO_ATENDIMENTO
+
     conteudo = {
         'atendimentos': atendimentos,
+        'lista_status': lista_status,
+        'lista_atividades': lista_atividades,
+        'lista_topicos': lista_topicos,
     }
 
     return render(request, 'modulo_tecnico/lista_atendimentos.html', conteudo)
@@ -158,7 +170,58 @@ def logout_tecnico(request):
 
 
 def tecnico_meus_dados(request):
-    return render(request, 'modulo_tecnico/meus_dados.html')
+    lista_ufs = UF_Municipio.objects.values_list('uf_sigla', flat=True).order_by('uf_sigla').distinct()
+    lista_genero_sexual = GENERO_SEXUAL
+    lista_bancos = InstituicoesFinanceiras.objects.all()
+    tipo_conta_bancaria = TIPO_CONTA_BANCARIA
+    conteudo = {
+        'lista_ufs': lista_ufs,
+        'lista_genero_sexual': lista_genero_sexual,
+        'lista_bancos': lista_bancos,
+        'tipo_conta_bancaria': tipo_conta_bancaria,
+    }
+
+    return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
+
+
+def tecnico_meusdados_atualizar(request):
+    #Objeto POST
+    post_data = request.POST.copy()
+
+    #Meus Dados
+    cpf = post_data.get('cpf', '')
+    nomeCompleto = post_data.get('nomeCompleto', '')
+    dataNascimento = post_data.get('dataNascimento', '')
+    sexo = post_data.get('sexo', '')
+    cod_ibge = post_data.get('cod_ibge', '')
+    celular = post_data.get('celular', '')
+    email = post_data.get('email', '')
+
+    #Dados Bancários
+    banco_codigo = post_data.get('bancoCodigo', '')
+    agencia_bancaria = post_data.get('agenciaBancaria', '')
+    tipo_conta_bancaria = post_data.get('tipoContaBancaria', '')
+    numero_conta = post_data.get('numeroConta', '')
+
+    #Usuário
+    usuario = request.user.usuario_relacionado
+    
+    
+    try:
+        #Agendar novo atendimento
+        usuario.cpf = cpf
+        usuario.nome_completo = nomeCompleto
+        usuario.data_nascimento = dataNascimento
+        usuario.sexo = sexo
+        usuario.reside_cod_ibge = cod_ibge
+        usuario.celular = celular
+        usuario.email_pessoal = email
+        usuario.save()
+
+        return JsonResponse({'atualizado': "sim"})
+        
+    except ValueError:
+        return JsonResponse({'atualizado': "nao"})
 
 
 def tecnico_ficha_atendimento(request, id):
@@ -399,6 +462,49 @@ def tecnico_finalizar_atendimento(request, id):
         return JsonResponse({'finalizado': "sim"})
     except ValueError:
         return JsonResponse({'finalizado': "nao"})
+
+def tecnico_filtro_atendimento(request):
+    status = request.GET.get('status', None)
+    atividade = request.GET.get('atividade', None)
+    topico = request.GET.get('topico', None)
+    notaAvaliacao = request.GET.get('notaAvaliacao', None)
+    produtor = request.GET.get('produtor', None)
+
+    filters = {'del_status': False}
+    if status:
+        filters['status'] = status
+    if atividade:
+        filters['atividade_produtiva'] = atividade
+    if topico:
+        filters['topico'] = topico
+    if notaAvaliacao:
+        filters['avaliacao_atendimento'] = notaAvaliacao
+    if produtor:
+        filters['produtor__nome_completo__icontains'] = produtor
+    
+    atendimentos = Atendimento.objects.filter(**filters).order_by('-id')
+    
+    data_list = [
+        {
+            'id': atendimento.atendimento_id(),
+            'data': atendimento.data.strftime('%d/%m/%Y') if isinstance(atendimento.data, date) else atendimento.data,
+            'hora': atendimento.hora.strftime('%H:%M') if isinstance(atendimento.hora, datetime) else atendimento.hora,
+            'atividade': atendimento.get_atividade_produtiva_display(),  # Chamando o método corretamente
+            'topico': atendimento.topico,
+            'status': atendimento.get_status_display(),  # Chamando o método corretamente
+            'substatus': atendimento.get_substatus_display(),  # Chamando o método corretamente
+            'notaAvaliacao': atendimento.avaliacao_atendimento,
+            'produtor': atendimento.produtor.primeiro_ultimo_nome(),
+            'idade': atendimento.produtor.idade(),
+            'municipio': atendimento.produtor.uf_municipio()
+            
+        }
+        for atendimento in atendimentos
+    ]
+
+    print("Data List: ", data_list)
+
+    return JsonResponse({'data': data_list})
 
 def tecnico_pagamentos(request):
     return render(request, 'modulo_tecnico/lista_pagamentos.html')

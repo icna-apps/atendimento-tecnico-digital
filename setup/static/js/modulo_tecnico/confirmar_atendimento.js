@@ -50,7 +50,6 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        
         //Enviar para o backend
             //definir o caminho
             postURL = `/tecnico/atendimentos/atendimento/confirmar-atendimento/${idAtendimento}/`

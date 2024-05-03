@@ -26,6 +26,11 @@ GENERO_SEXUAL = [
     ('', ''),
 ]
 
+TIPO_CONTA_BANCARIA = [
+    ('corrente', 'Corrente'),
+    ('poupanca', 'Poupança'),
+]
+
 ATIVIDADE_PRODUTIVA = [
     ('bovinocultura_leite', 'Bovino de Leite'),
 ]

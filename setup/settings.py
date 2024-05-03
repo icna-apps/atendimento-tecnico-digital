@@ -18,6 +18,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'localhost:3000']
 
 
 INSTALLED_APPS = [
+    'django_user_agents',
     'django_extensions',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -38,6 +39,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 

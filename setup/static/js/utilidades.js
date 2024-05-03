@@ -169,13 +169,14 @@ function buscarMunicipios(uf, componente) {
 }
 
 async function consultarCNPJ(cnpj) {
-    const url = `/tecnico/consultar-cnpj/${cnpj}/`;
+    const url = `/consultarcnpj/${cnpj}/`;
+
     try {
         const response = await fetch(url);
         const data = await response.json();
         
         if(data.retorno){
-            return data.dados_cnpj
+            return data.razao_social
         }
     } catch (error) {
         console.error('Erro ao procurar CNA.BR:', error);

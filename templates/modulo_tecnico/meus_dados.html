@@ -12,40 +12,60 @@
             
         <form id="formDadosUsuario" class="secao_dados">
             
-            <div class="secao_dados_subsecao">
+            <!-- Dados Pessoais -->
+            <div class="secao_dados_subsecao" >
 
                 <div class="secao_dados_subsecao_titulo">
                     Dados Pessoais
                 </div>
 
                 <div class="secao_dados_subsecao_itens">
-                    <div class="form-floating mb-3" style="width: 150px;">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
+                    <div class="form-floating mb-3" style="width: 140px;">
+                        <input type="text" class="form-control" id="cpf" name="cpf" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
                         <label>CPF</span>
                     </div>
-                    <div class="form-floating mb-3" style="min-width: 350px;">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.nome_completo }}">
+                    <div class="form-floating mb-3" style="min-width: 300px;">
+                        <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" value="{{ request.user.usuario_relacionado.nome_completo }}">
                         <label>Nome Completo</span>
                     </div>
         
-                    <div class="form-floating mb-3" style="width: 200px;">
-                        <input type="date" class="form-control" value="{{ request.user.usuario_relacionado.data_nascimento|date:'Y/m/d' }}">
-                        <label>Data de Nascimento</span>
+                    <div class="form-floating mb-3" style="width: 160px;">
+                        <input type="date" class="form-control" id="dataNascimento" name="dataNascimento" value="{{ request.user.usuario_relacionado.data_nascimento|date:'Y-m-d' }}">
+                        <label>Data Nascimento</span>
+                    </div>
+
+                    <div class="form-floating mb-3" style="width: 140px;">
+                        <select class="form-select" id="sexo" name="sexo">
+                            {% for genero, genero_label in lista_genero_sexual %}
+                                <option value="{{ genero }}" {% if request.user.usuario_relacionado.sexo == genero %}selected{% endif %}>{{ genero_label }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="uf">Sexo</label>
                     </div>
     
-                    <div class="form-floating mb-3" style="width: 100px;">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.uf }}">
-                        <label>UF</span>
+                    <div class="form-floating mb-3" style="width: 80px;">
+                        <select class="form-select" id="uf" name="uf">
+                            <option value=""></option>
+                            {% for uf in lista_ufs %}
+                                <option value="{{ uf }}" {% if request.user.usuario_relacionado.uf == uf %}selected{% endif %}>{{ uf }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="uf">UF</label>
                     </div>
-        
-                    <div class="form-floating mb-3" style="width: 300px;">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.municipio }}">
-                        <label>Município</span>
+
+                    <div class="form-floating mb-3" style="flex-grow: 1;">
+                        <select class="form-select" id="municipio" disabled>
+                            <!-- <option value=""></option> -->
+                            <option value="{{ request.user.usuario_relacionado.municipio }}">{{ request.user.usuario_relacionado.municipio }}</option>
+                        </select>
+                        <label>Município (onde reside)</label>
                     </div>
+                    <input type="text" name="cod_ibge" id="codIBGE" value="{{ request.user.usuario_relacionado.reside_cod_ibge }}" readonly hidden>
                 </div>
 
             </div>
             
+            <!-- Contato -->
             <div class="secao_dados_subsecao">
 
                 <div class="secao_dados_subsecao_titulo">
@@ -53,19 +73,20 @@
                 </div>
 
                 <div class="secao_dados_subsecao_itens">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.celular }}">
+                    <div class="form-floating mb-3" style="width: 140px;">
+                        <input type="text" class="form-control" id="celular" name="celular" value="{{ request.user.usuario_relacionado.celular }}">
                         <label>Celular</span>
                     </div>
         
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="{{ request.user.usuario_relacionado.email_pessoal }}">
+                    <div class="form-floating mb-3" style="width: 300px;">
+                        <input type="text" class="form-control" id="email" name="email" value="{{ request.user.usuario_relacionado.email_pessoal }}">
                         <label>Email</span>
                     </div>
                 </div>
 
             </div>
 
+            <!-- CNPJ -->
             <div class="secao_dados_subsecao">
 
                 <div class="secao_dados_subsecao_titulo">
@@ -74,18 +95,19 @@
 
                 <div class="secao_dados_subsecao_itens">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="">
+                        <input type="text" class="form-control" value="" id="cnpj">
                         <label>CNPJ</span>
                     </div>
         
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" readonly>
+                    <div class="form-floating mb-3" style="flex-grow: 1;">
+                        <input type="text" class="form-control" id="razaoSocial" readonly>
                         <label>Razão Social</span>
                     </div>
                 </div>
 
             </div>
 
+            <!-- Dados Bancários -->
             <div class="secao_dados_subsecao">
 
                 <div class="secao_dados_subsecao_titulo">
@@ -93,31 +115,56 @@
                 </div>
 
                 <div class="secao_dados_subsecao_itens">
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="">
-                        <label>Banco</span>
+                    <div class="form-floating mb-3" style="width: 100px;">
+                        <input type="text" class="form-control" id="bancoCodigo" name="bancoCodigo" readonly>
+                        <label>Código</span>
                     </div>
-        
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control">
-                        <label>Agência</span>
+                    <div class="form-floating mb-3" style="width: 250px;">
+                        <select class="form-select" id="bancoNome">
+                            <option></option>
+                            {% for banco in lista_bancos %}
+                                <option value="{{ banco.codigo }}">{{ banco.nome }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="banco">Banco</label>
+                    </div>
+
+                    <div class="form-floating mb-3" style="width: 150px;">
+                        <input type="text" class="form-control" name="agenciaBancaria">
+                        <label>Agência (com DV)</span>
+                    </div>
+
+                    <div class="form-floating mb-3" style="width: 125px;">
+                        <select class="form-select" id="tipoContaBancaria" name="tipoContaBancaria">
+                            <option></option>
+                            {% for tipo_conta, tipo_conta_label in tipo_conta_bancaria %}
+                                <option value="{{ tipo_conta }}">{{ tipo_conta_label }}</option>
+                            {% endfor %}
+                        </select>
+                        <label for="tipoContaBancaria">Tipo de Conta</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control">
-                        <label>Conta</span>
+                        <input type="text" class="form-control" name="numeroConta">
+                        <label>Nº da Conta (com DV)</span>
                     </div>
                 </div>
 
             </div>
             
-            
-
-            <div class="botao">
-                <button type="submit" class="btn btn-primary" id="btnSalvar">Salvar</button>
+            <!-- Botão -->
+            <div class="botao" style="text-align: right;">
+                <button type="submit" class="btn btn-primary" id="btnSalvar" style="padding: 8px 20px;font-size: 0.8rem;">
+                    <i class="material-symbols-outlined" style="font-size: 1.2vw; vertical-align: middle;">save</i>
+                    &nbsp;Salvar
+                </button>
             </div>
+
         </form>
 
     </div>
+
+    <script src="{% static 'js/utilidades.js' %}"></script>
+    <script src="{% static 'js/modulo_tecnico/meus_dados.js' %}"></script>
 
 {% endblock %}

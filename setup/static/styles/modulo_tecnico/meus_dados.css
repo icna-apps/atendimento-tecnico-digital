@@ -15,7 +15,7 @@
 }
 
 .secao_dados_subsecao_titulo {
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: bold;
 }
 
@@ -25,4 +25,9 @@
     row-gap: 0.5vh;
     column-gap: 1vw;
     flex-wrap: wrap;
+    font-size: 0.8rem;
+}
+
+.form-control, .form-select {
+    font-size: 0.8rem;
 }

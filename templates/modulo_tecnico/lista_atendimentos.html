@@ -11,6 +11,65 @@
         
         <div class="container_filtros">
             Filtros
+
+            <div class="container_filtros_filtro">
+                <!-- Status do Atendimento -->
+                <div class="form-floating mb-3" style="width: 120px;">
+                    <select class="form-select" style="font-size: 0.8rem;" id="filtroStatus">
+                        <option value=""></option>
+                        {% for status, status_label in lista_status %}
+                            <option value="{{ status }}">{{ status_label }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="filtroStatus" style="font-size: 0.8rem;">Status</label>
+                </div>
+
+                <!-- Atividade Produtiva -->
+                <div class="form-floating mb-3" style="width: 160px;">
+                    <select class="form-select" style="font-size: 0.8rem;" id="filtroAtividade">
+                        <option value=""></option>
+                        {% for atividade, atividade_label in lista_atividades %}
+                            <option value="{{ atividade }}">{{ atividade_label }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="filtroAtividade" style="font-size: 0.8rem;">Atividade</label>
+                </div>
+
+                <!-- Tópico do Atendimento -->
+                <div class="form-floating mb-3" style="width: 200px;">
+                    <select class="form-select" style="font-size: 0.8rem;" id="filtroTopico">
+                        <option value=""></option>
+                        {% for valor, label in lista_topicos %}
+                            <option value="{{ valor }}">{{ label }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="filtroTopico" style="font-size: 0.8rem;">Tópico do Atendimento</label>
+                </div>
+
+                <!-- Nota de Avaliação -->
+                <div class="form-floating mb-3" style="width: 100px;">
+                    <select class="form-select" style="font-size: 0.8rem;" id="filtroNotaAvaliacao">
+                        <option value=""></option>
+                        {% for numero in '12345' %}
+                            <option value="{{ numero }}">{{ numero }}</option>
+                        {% endfor %}
+                    </select>
+                    <label for="filtroNovaAvaliacao" style="font-size: 0.8rem;">Avaliação</label>
+                </div>
+
+                <!-- Produtor -->
+                <div class="form-floating mb-3" style="flex-grow: 1;">
+                    <input class="form-control" style="font-size: 0.8rem;" id="filtroProdutor">
+                    <label for="filtroProdutor" style="font-size: 0.8rem;">Produtor</label>
+                </div>
+
+                <!-- Limpar Filtros -->
+                <div class="funcionalidade" id="botaoLimparFiltros">
+                    <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle;">filter_alt_off</i>
+                    Limpar
+                </div>
+
+            </div>
         </div>
 
         <div class="container_listagem">
