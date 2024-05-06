@@ -19,7 +19,7 @@ from django.views.decorators.http import require_http_methods
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
 from apps.modulo_admin.models import (Usuario, Atendimento, AtendimentoConfirmacao, 
                                       AtendimentoCancelado, AtendimentoRetorno, UF_Municipio,
-                                      InstituicoesFinanceiras)
+                                      InstituicoesFinanceiras, UsuarioCNPJ)
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from apps.modulo_admin.services import enviar_sms
 from setup.utils import get_next_week_days
@@ -174,11 +174,16 @@ def tecnico_meus_dados(request):
     lista_genero_sexual = GENERO_SEXUAL
     lista_bancos = InstituicoesFinanceiras.objects.all()
     tipo_conta_bancaria = TIPO_CONTA_BANCARIA
+
+    tecnico = request.user.usuario_relacionado
+    cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
+
     conteudo = {
         'lista_ufs': lista_ufs,
         'lista_genero_sexual': lista_genero_sexual,
         'lista_bancos': lista_bancos,
         'tipo_conta_bancaria': tipo_conta_bancaria,
+        'cnpj': cnpj,
     }
 
     return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
@@ -202,13 +207,13 @@ def tecnico_meusdados_atualizar(request):
     agencia_bancaria = post_data.get('agenciaBancaria', '')
     tipo_conta_bancaria = post_data.get('tipoContaBancaria', '')
     numero_conta = post_data.get('numeroConta', '')
+    razao_social = post_data.get('razao_social', '')
 
     #Usuário
     usuario = request.user.usuario_relacionado
     
-    
     try:
-        #Agendar novo atendimento
+        #Dados da pessoa física
         usuario.cpf = cpf
         usuario.nome_completo = nomeCompleto
         usuario.data_nascimento = dataNascimento
@@ -217,6 +222,31 @@ def tecnico_meusdados_atualizar(request):
         usuario.celular = celular
         usuario.email_pessoal = email
         usuario.save()
+
+        #Dados do CNPJ
+        instituicao_financeira = None
+        if banco_codigo:
+            instituicao_financeira = InstituicoesFinanceiras.objects.filter(codigo=banco_codigo).first()
+        usuario_cnpj, created = UsuarioCNPJ.objects.get_or_create(
+            usuario=usuario,
+            defaults={
+                'cnpj': post_data.get('cnpj', ''),
+                'razao_social': razao_social,
+                'banco_codigo': instituicao_financeira,
+                'agencia': agencia_bancaria,
+                'tipo_conta': tipo_conta_bancaria,
+                'conta': numero_conta
+            }
+        )
+        if not created:
+            # Se o CNPJ já existir, apenas atualize os campos relevantes
+            usuario_cnpj.cnpj = post_data.get('cnpj', usuario_cnpj.cnpj)
+            usuario_cnpj.razao_social = razao_social
+            usuario_cnpj.banco_codigo = instituicao_financeira
+            usuario_cnpj.agencia = agencia_bancaria
+            usuario_cnpj.tipo_conta = tipo_conta_bancaria
+            usuario_cnpj.conta = numero_conta
+            usuario_cnpj.save()
 
         return JsonResponse({'atualizado': "sim"})
         
@@ -487,6 +517,7 @@ def tecnico_filtro_atendimento(request):
     data_list = [
         {
             'id': atendimento.atendimento_id(),
+            'id_simples': atendimento.id,
             'data': atendimento.data.strftime('%d/%m/%Y') if isinstance(atendimento.data, date) else atendimento.data,
             'hora': atendimento.hora.strftime('%H:%M') if isinstance(atendimento.hora, datetime) else atendimento.hora,
             'atividade': atendimento.get_atividade_produtiva_display(),  # Chamando o método corretamente

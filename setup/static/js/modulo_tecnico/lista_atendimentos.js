@@ -61,6 +61,7 @@ document.addEventListener('DOMContentLoaded', function() {
             dataType: 'json',
             success: function(data) {
                 recarregarAtendimentos(data.data);
+                ativarAtendimentos();
             },
             error: function(xhr, status, error) {
                 console.log("Erro ao receber dados: ", error);
@@ -96,7 +97,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
             const divItem = document.createElement('div');
             divItem.className = 'listagem_item';
-            divItem.setAttribute('data-id', atendimento.id);
+            divItem.setAttribute('data-id', atendimento.id_simples);
     
             divItem.innerHTML = `
                 <div class="listagem_item_icone">
@@ -131,6 +132,15 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     
+    function ativarAtendimentos(){
+        const cards = document.querySelectorAll('.listagem_item');
+        cards.forEach(card => {
+            card.addEventListener('click', function() {
+                const atendimentoId = this.getAttribute('data-id');
+                window.location.href = `/tecnico/atendimentos/atendimento/${atendimentoId}/`
+            });
+        });
+    }
     
 
 });

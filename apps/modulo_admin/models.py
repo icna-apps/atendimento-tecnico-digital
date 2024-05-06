@@ -116,7 +116,7 @@ class InstituicoesFinanceiras(models.Model):
 
 class UsuarioCNPJ(models.Model):
     #relacionamento
-    usuario = models.ForeignKey(Usuario, on_delete=models.SET_NULL, null=True, blank=True, related_name='usuario_cnpj')
+    usuario = models.ForeignKey(Usuario, on_delete=models.OneToOneField, null=True, blank=True, related_name='usuario_cnpj')
     banco_codigo = models.ForeignKey(InstituicoesFinanceiras, on_delete=models.OneToOneField, null=True, blank=True, related_name='banco_cnpj')
 
     #log

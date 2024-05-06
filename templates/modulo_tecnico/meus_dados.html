@@ -47,7 +47,12 @@
                         <select class="form-select" id="uf" name="uf">
                             <option value=""></option>
                             {% for uf in lista_ufs %}
-                                <option value="{{ uf }}" {% if request.user.usuario_relacionado.uf == uf %}selected{% endif %}>{{ uf }}</option>
+                                <option 
+                                    value="{{ uf }}"
+                                    {% if request.user.usuario_relacionado.uf == uf %}selected{% endif %}
+                                >
+                                    {{ uf }}
+                                </option>
                             {% endfor %}
                         </select>
                         <label for="uf">UF</label>
@@ -95,12 +100,12 @@
 
                 <div class="secao_dados_subsecao_itens">
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" value="" id="cnpj">
+                        <input type="text" class="form-control" value="{{  cnpj.cnpj }}" id="cnpj" name="cnpj">
                         <label>CNPJ</span>
                     </div>
         
                     <div class="form-floating mb-3" style="flex-grow: 1;">
-                        <input type="text" class="form-control" id="razaoSocial" readonly>
+                        <input type="text" class="form-control" id="razaoSocial" name="razao_social" value="{{  cnpj.razao_social }}" readonly>
                         <label>Razão Social</span>
                     </div>
                 </div>
@@ -116,21 +121,25 @@
 
                 <div class="secao_dados_subsecao_itens">
                     <div class="form-floating mb-3" style="width: 100px;">
-                        <input type="text" class="form-control" id="bancoCodigo" name="bancoCodigo" readonly>
+                        <input type="text" class="form-control" id="bancoCodigo" name="bancoCodigo" value="{{ cnpj.banco_codigo.codigo }}" readonly>
                         <label>Código</span>
                     </div>
                     <div class="form-floating mb-3" style="width: 250px;">
                         <select class="form-select" id="bancoNome">
                             <option></option>
                             {% for banco in lista_bancos %}
-                                <option value="{{ banco.codigo }}">{{ banco.nome }}</option>
+                                <option value="{{ banco.codigo }}" 
+                                    {% if cnpj and cnpj.banco_codigo and cnpj.banco_codigo.codigo == banco.codigo %}selected{% endif %}
+                                >
+                                    {{ banco.nome }}
+                                </option>
                             {% endfor %}
                         </select>
                         <label for="banco">Banco</label>
                     </div>
 
                     <div class="form-floating mb-3" style="width: 150px;">
-                        <input type="text" class="form-control" name="agenciaBancaria">
+                        <input type="text" class="form-control" name="agenciaBancaria" value="{{  cnpj.agencia }}">
                         <label>Agência (com DV)</span>
                     </div>
 
@@ -138,14 +147,18 @@
                         <select class="form-select" id="tipoContaBancaria" name="tipoContaBancaria">
                             <option></option>
                             {% for tipo_conta, tipo_conta_label in tipo_conta_bancaria %}
-                                <option value="{{ tipo_conta }}">{{ tipo_conta_label }}</option>
+                                <option value="{{ tipo_conta }}" 
+                                    {% if cnpj.tipo_conta == tipo_conta %}selected{% endif %}
+                                >
+                                    {{ tipo_conta_label }}
+                                </option>
                             {% endfor %}
                         </select>
                         <label for="tipoContaBancaria">Tipo de Conta</label>
                     </div>
 
                     <div class="form-floating mb-3">
-                        <input type="text" class="form-control" name="numeroConta">
+                        <input type="text" class="form-control" name="numeroConta" value="{{  cnpj.conta }}">
                         <label>Nº da Conta (com DV)</span>
                     </div>
                 </div>

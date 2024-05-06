@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var editorDiv = document.getElementById('editor');
     var elementoStatus = document.getElementById('statusAtendimento');
     var status = elementoStatus.getAttribute('data-status');
-    var statusRelatorio = status === 'finalizado' ? true : false;
+    var statusRelatorio = (status === 'finalizado' || status === 'cancelado') ? true : false;
 
     var quill = new Quill(editorDiv, {
         theme: 'snow',

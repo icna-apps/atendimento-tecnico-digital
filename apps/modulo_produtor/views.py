@@ -227,6 +227,7 @@ def produtor_cancelar_atendimento(request, id):
 
     with transaction.atomic():
         atendimento.status = 'cancelado'
+        atendimento.substatus = 'cancelado_produtor'
         atendimento.save()
 
     return JsonResponse({'retorno': 'ok'})

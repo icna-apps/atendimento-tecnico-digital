@@ -14,7 +14,7 @@ body {
     box-shadow:inset 0px 0px 8px rgba(0, 0, 0, 0.1);
     border-radius: 10px;
     display: grid;
-    grid-template-rows: 10% 80% 10%;
+    grid-template-rows: 10% 82% 8%;
     padding: 0vw 6vw;
 }
 

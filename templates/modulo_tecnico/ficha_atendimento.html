@@ -146,7 +146,7 @@
                             <span class='status atendimento_finalizado'>Finalizado</span>
                         {% endif %}
                     </span>
-                    <span>Substatus:
+                    <span id="subStatusAtendimento" data-substatus="{{ atendimento.substatus }}">Substatus:
                         {{ atendimento.get_substatus_display }}
                     </span>
                 </div>
