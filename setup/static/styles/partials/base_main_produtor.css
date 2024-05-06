@@ -21,10 +21,10 @@ body {
 
 
 /* .container_pagina {    
-    overflow: hidden;
-}
+    padding-bottom: 0;
+} */
 
-.container_pagina {
+/* .container_pagina {
     opacity: 0;
 }
 
