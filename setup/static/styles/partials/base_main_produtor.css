@@ -3,7 +3,7 @@ body {
     justify-content: center;
     align-items: center;
     height: 100%;
-    padding: 20px;
+    /* padding: 20px; */
     overflow: hidden;
     user-select: none;
 }
@@ -16,6 +16,7 @@ body {
     display: grid;
     grid-template-rows: 10% 82% 8%;
     padding: 0vw 6vw;
+    margin-top: 1vh;
 }
 
 
