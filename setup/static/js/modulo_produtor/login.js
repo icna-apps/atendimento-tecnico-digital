@@ -12,11 +12,11 @@ document.addEventListener('DOMContentLoaded', function() {
         if (this.value.length === 14) {
             const cpfValido = validaCPF(this.value);
             
-            if (!cpfValido) {
-                sweetAlert('CPF Inválido', 'error', 'red');
-                this.value = '';
-                return;
-            }
+            // if (!cpfValido) {
+            //     sweetAlert('CPF Inválido', 'error', 'red');
+            //     this.value = '';
+            //     return;
+            // }
         }
     });
     
