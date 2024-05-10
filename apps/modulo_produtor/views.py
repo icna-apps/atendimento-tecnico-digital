@@ -222,8 +222,8 @@ def enviar_whatsapp(message, celular):
     token = 'CD73083318F17C8E4D39F59F'
     client_token = 'F85328dd9cc194ffda6d749d97c9f62eaS'  # Insira o Client-Token correto aqui
 
-    phone = "556193250716"  # Garanta que este valor esteja correto
-    phone = celular
+    # phone = "556193250716"  # Garanta que este valor esteja correto
+    phone = "55" + celular
     # message = "Deu certo!"  # Garanta que este valor esteja correto
 
     conteudo = json.dumps({
