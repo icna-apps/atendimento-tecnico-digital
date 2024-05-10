@@ -196,11 +196,11 @@ def produtor_realizar_agendamento(request):
             f"Técnico: {tecnico.primeiro_ultimo_nome()}\n"
         )
 
-        enviar_sms(
-            novo_atendimento.id, 
-            mensagem,
-            tecnico.celular
-        )
+        # enviar_sms(
+        #     novo_atendimento.id, 
+        #     mensagem,
+        #     tecnico.celular
+        # )
 
         #enviar whatsapp
         celular_tecnico = tecnico.celular
