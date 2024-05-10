@@ -17,6 +17,9 @@ from apps.modulo_admin.services import enviar_sms
 from apps.modulo_tecnico.models import HorariosAtendimentos
 from setup.utils import get_next_week_days
 
+import requests
+import json
+import re
 
 
 def login_produtor(request):
@@ -189,6 +192,8 @@ def produtor_realizar_agendamento(request):
             f"-----------\n"
             f"Produtor: {produtor}\n"
             f"Município-UF: {municipio}"
+            f"-----------\n"
+            f"Técnico: {tecnico.primeiro_ultimo_nome()}\n"
         )
 
         enviar_sms(
@@ -197,10 +202,51 @@ def produtor_realizar_agendamento(request):
             tecnico.celular
         )
 
+        #enviar whatsapp
+        celular_tecnico = tecnico.celular
+        celular_tecnico = re.sub(r'\D', '', celular_tecnico)
+        celular_produtor = novo_atendimento.produtor.celular
+        celular_produtor = re.sub(r'\D', '', celular_produtor)
+        enviar_whatsapp(mensagem, celular_tecnico)
+        enviar_whatsapp(mensagem, celular_produtor)
+
         return JsonResponse({'agendado': "sim", 'id_agendamento': novo_atendimento.id})
         
     except ValueError:
         return JsonResponse({'agendado': "nao"})
+
+
+
+def enviar_whatsapp(message, celular):
+    instance_id = '3CF11B7EEFDFE015E75472B70F2FFCF9'
+    token = 'CD73083318F17C8E4D39F59F'
+    client_token = 'F85328dd9cc194ffda6d749d97c9f62eaS'  # Insira o Client-Token correto aqui
+
+    phone = "556193250716"  # Garanta que este valor esteja correto
+    phone = celular
+    # message = "Deu certo!"  # Garanta que este valor esteja correto
+
+    conteudo = json.dumps({
+        "phone": phone,
+        "message": message
+    })
+
+    post_url = f'https://api.z-api.io/instances/{instance_id}/token/{token}/send-text'
+
+    headers = {
+        'Content-Type': 'application/json',
+        'Client-Token': client_token
+    }
+
+    response = requests.post(post_url, headers=headers, data=conteudo)
+
+    try:
+        response.raise_for_status()
+        data = response.json()
+        print('Sucesso:', data)
+    except requests.exceptions.HTTPError as err:
+        print('Erro na requisição:', err)
+        print('Resposta:', response.text)
 
 def produtor_confirmacao_atendimento(request, id):
     

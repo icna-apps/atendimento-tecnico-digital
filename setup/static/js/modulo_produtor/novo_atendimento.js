@@ -51,6 +51,10 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     function realizarNovoAgendamento(){
+
+        // enviarWhatsapp()
+        // return
+
         //Verificar preenchimento dos campos
         let preenchimento_incorreto = verificarCamposAtendimento()
         if (preenchimento_incorreto === false) {
@@ -84,7 +88,11 @@ document.addEventListener('DOMContentLoaded', function() {
         })
         .then(data => {
             if (data.agendado === "sim") {
+
+                // enviarWhatsapp()
                 const idAgendamento = data.id_agendamento;
+
+
                 window.location.href = `/produtor/confirmacao-atendimento/${idAgendamento}/`;
             } else {
                 sweetAlert('<span style="font-weight:normal">Erro! Agendamento de Retorno <b style="color:red">não realizado!</b></span>', 'error', 'red');
@@ -94,7 +102,50 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Fetch operation error:', error);
         });
     }
-
+    
+    function enviarWhatsapp(){
+        const instanceId = '3CEEC225043C207F474772B70F2FFCF9';
+        const token = 'A372402C7A0305ADB93E709A';
+        const clientToken = 'Fe8f42da6eed445c3bfb0004dabaeb125S'; // Você precisa inserir o Client-Token correto aqui
+    
+        const phone = "556193250716"; // Garanta que este valor esteja correto
+        const message = "Deu certo!"; // Garanta que este valor esteja correto
+        
+        const conteudo = JSON.stringify({
+            "phone": phone,
+            "message": message
+        });
+    
+        // Imprime o JSON final enviado
+        console.log("JSON enviado:", conteudo);
+    
+        const postURL = `https://api.z-api.io/instances/${instanceId}/token/${token}/send-text`;
+    
+        fetch(postURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Client-Token': clientToken // Adiciona o Client-Token ao cabeçalho da requisição
+            },
+            body: conteudo,
+        })
+        .then(response => {
+            if (!response.ok) {
+                return response.text().then(text => { throw new Error(text) });
+            }
+            return response.json();
+        })
+        .then(data => {
+            console.log('Sucesso:', data);
+        })
+        .catch(error => {
+            console.error('Erro na requisição:', error);
+        });
+    }
+    
+    
+    
+    
     function verificarCamposAtendimento() {
         const campos = [
             { id: 'id_atividade_produtiva', mensagem: 'Informe a <b>Atividade Produtiva</b>!' },
