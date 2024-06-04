@@ -209,6 +209,7 @@ def produtor_realizar_agendamento(request):
         celular_produtor = re.sub(r'\D', '', celular_produtor)
         enviar_whatsapp(mensagem, celular_tecnico)
         enviar_whatsapp(mensagem, celular_produtor)
+        enviar_whatsapp(mensagem, '5533991333327')
 
         return JsonResponse({'agendado': "sim", 'id_agendamento': novo_atendimento.id})
         

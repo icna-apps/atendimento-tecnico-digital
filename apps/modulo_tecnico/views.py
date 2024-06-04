@@ -176,14 +176,15 @@ def tecnico_meus_dados(request):
     tipo_conta_bancaria = TIPO_CONTA_BANCARIA
 
     tecnico = request.user.usuario_relacionado
-    cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
+    # cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
 
     conteudo = {
         'lista_ufs': lista_ufs,
         'lista_genero_sexual': lista_genero_sexual,
         'lista_bancos': lista_bancos,
         'tipo_conta_bancaria': tipo_conta_bancaria,
-        'cnpj': cnpj,
+        # 'cnpj': cnpj,
+        'cnpj': '',
     }
 
     return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
