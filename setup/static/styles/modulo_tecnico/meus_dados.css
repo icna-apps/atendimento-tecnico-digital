@@ -31,3 +31,34 @@
 .form-control, .form-select {
     font-size: 0.8rem;
 }
+
+.botaoAddEspecialidade {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.botaoAddEspecialidade:hover {
+    cursor: pointer;
+    
+}
+
+.form-check {
+    display: flex;
+    align-items: center; /* Centraliza verticalmente o conteúdo dentro do contêiner */
+  }
+  
+  .form-check-input {
+    width: 25px; /* Ajusta a largura da checkbox */
+    height: 25px; /* Ajusta a altura da checkbox */
+    margin-right: 10px; /* Espaço entre a checkbox e o rótulo */
+
+    margin-top: 0 !important;
+    cursor: pointer;
+  }
+  
+  .form-check-label {
+    /* margin-bottom: 0; */
+  }
+  

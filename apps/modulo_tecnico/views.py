@@ -174,6 +174,7 @@ def tecnico_meus_dados(request):
     lista_genero_sexual = GENERO_SEXUAL
     lista_bancos = InstituicoesFinanceiras.objects.all()
     tipo_conta_bancaria = TIPO_CONTA_BANCARIA
+    lista_atividades = ATIVIDADE_PRODUTIVA
 
     tecnico = request.user.usuario_relacionado
     # cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
@@ -185,6 +186,7 @@ def tecnico_meus_dados(request):
         'tipo_conta_bancaria': tipo_conta_bancaria,
         # 'cnpj': cnpj,
         'cnpj': '',
+        'lista_atividades': lista_atividades,
     }
 
     return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
@@ -253,6 +255,11 @@ def tecnico_meusdados_atualizar(request):
         
     except ValueError:
         return JsonResponse({'atualizado': "nao"})
+
+
+def tecnico_meusdados_especialidades(request):
+    pass
+
 
 
 def tecnico_ficha_atendimento(request, id):

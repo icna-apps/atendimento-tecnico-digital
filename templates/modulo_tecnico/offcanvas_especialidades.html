@@ -1,0 +1,35 @@
+{% load static %}
+
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEspecialidade">
+    
+    <!-- Cabeçalho -->
+    <div class="offcanvas-header" style="margin-bottom: -20px !important;">
+      <h5 class="offcanvas-title">Especialidades</h5>
+      <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+
+    <!-- Conteúdo -->
+    <div class="offcanvas-body conteudo_offcanvas"  id="offcanvasRetorno" data-retorno="{{atendimentoRetorno}}">
+      
+        <!-- Formulário -->
+        <form class="formulario" id="formEspecialidades" method="post">
+            {% for atividade_key, atividade_label in lista_atividades %}
+            <div class="form-check mb-3">
+                <input class="form-check-input" type="checkbox" id="atividade_{{ atividade_key }}" name="atividades" value="{{ atividade_key }}">
+                <label class="form-check-label" for="atividade_{{ atividade_key }}">
+                {{ atividade_label }}
+                </label>
+            </div>
+            {% endfor %}
+            <div class="container_informacoes__botoes" style="text-align: right;">
+                <button type="submit" class="btn btn-success" id="btnSalvarEspecialidades">Salvar</button>
+            </div>
+        </form>
+  
+
+
+    </div>
+
+</div>
+
+<script src="{% static 'js/modulo_tecnico/especialidades.js' %}"></script>

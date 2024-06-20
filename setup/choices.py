@@ -32,7 +32,17 @@ TIPO_CONTA_BANCARIA = [
 ]
 
 ATIVIDADE_PRODUTIVA = [
+    ('agricultura_anual', 'Agricultura Anual'),
+    ('apicultura', 'Apicultura'),
+    ('avicultura', 'Avicultura'),
     ('bovinocultura_leite', 'Bovino de Leite'),
+    ('bovinocultura_corte', 'Bovino de Corte'),
+    ('cafeicultura', 'Cafeicultura'),
+    ('fruticultura', 'Fruticultura'),
+    ('olericultura', 'Olericultura'),
+    ('ovinocaprino_corte', 'Ovinocaprino de Corte'),
+    ('ovinocaprino_leite', 'Ovinocaprino de Leite'),
+    ('piscicultura', 'Piscicultura'),
 ]
 
 LISTA_HORA_ATENDIMENTO = [

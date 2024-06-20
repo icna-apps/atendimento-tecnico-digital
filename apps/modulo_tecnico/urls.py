@@ -7,7 +7,8 @@ from apps.modulo_tecnico.views import (login_tecnico, tecnico_dashboard,
                                        tecnico_cancelar_atendimento, tecnico_agendar_retorno, tecnico_finalizar_atendimento,
                                        tecnico_pagamentos, tecnico_filtro_atendimento,
                                        tecnico_meusdados_atualizar,
-                                       tecnico_meus_horarios, tecnico_meus_horarios_salvar)
+                                       tecnico_meus_horarios, tecnico_meus_horarios_salvar,
+                                       tecnico_meusdados_especialidades)
 
 urlpatterns = [
     path('tecnico/', login_tecnico, name='login_tecnico'),
@@ -31,5 +32,6 @@ urlpatterns = [
     path('tecnico/pagamentos/', tecnico_pagamentos, name='tecnico_pagamentos'),
 
     path('tecnico/meus-dados/', tecnico_meus_dados, name='tecnico_meus_dados'),
-    path('tecnico/meusdados/atualizar/', tecnico_meusdados_atualizar, name='tecnico_meusdados_atualizar')
+    path('tecnico/meusdados/atualizar/', tecnico_meusdados_atualizar, name='tecnico_meusdados_atualizar'),
+    path('tecnico/meusdados/especialidades/', tecnico_meusdados_especialidades, name='tecnico_meusdados_especialidades')
 ]

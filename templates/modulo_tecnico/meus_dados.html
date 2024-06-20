@@ -23,6 +23,7 @@
                     <div class="form-floating mb-3" style="width: 140px;">
                         <input type="text" class="form-control" id="cpf" name="cpf" value="{{ request.user.usuario_relacionado.cpf }}" readonly>
                         <label>CPF</span>
+                        <span id="idUsuario" style="display: none;">{{ request.user.usuario_relacionado.id }}</span>
                     </div>
                     <div class="form-floating mb-3" style="min-width: 300px;">
                         <input type="text" class="form-control" id="nomeCompleto" name="nomeCompleto" value="{{ request.user.usuario_relacionado.nome_completo }}">
@@ -165,6 +166,29 @@
 
             </div>
             
+            <!-- Especialidades -->
+            <div class="secao_dados_subsecao">
+
+                <div class="secao_dados_subsecao_titulo">
+                    Especialidades
+                </div>
+
+                <div class="secao_dados_subsecao_itens">
+                    <!-- Whatsapp -->
+                    <div class="botaoAddEspecialidade" id="botaoAddEspecialidade">
+                        <i class="fa-solid fa-plus" style="font-size: 1.5vw; vertical-align: middle;"></i>
+                        Adicionar
+                    </div>
+                    <div class="form-floating mb-3" style="flex-grow: 1;">
+                        <input type="text" class="form-control" id="especialidades" name="especialidades" value="" readonly>
+                        <label>Atividades</span>
+                    </div>
+                    
+                </div>
+
+            </div>
+
+
             <!-- Botão -->
             <div class="botao" style="text-align: right;">
                 <button type="submit" class="btn btn-primary" id="btnSalvar" style="padding: 8px 20px;font-size: 0.8rem;">
@@ -176,6 +200,9 @@
         </form>
 
     </div>
+
+    <!-- offcanvas especialidade -->
+    {% include 'modulo_tecnico/offcanvas_especialidades.html' %}
 
     <script src="{% static 'js/utilidades.js' %}"></script>
     <script src="{% static 'js/modulo_tecnico/meus_dados.js' %}"></script>

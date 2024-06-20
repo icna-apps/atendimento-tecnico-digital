@@ -146,5 +146,14 @@ document.addEventListener('DOMContentLoaded', function() {
         bancoCodigo.value = bancoNome.value
     })
 
+
+
+    //Abrir Offcanvas Especialidade
+    const abrirOffcanvasEspecialidade = document.querySelector("#botaoAddEspecialidade")
+    const offcanvasEspecialidade = new bootstrap.Offcanvas("#offcanvasEspecialidade");
+    abrirOffcanvasEspecialidade.addEventListener('click', function() {
+        offcanvasEspecialidade.show()
+    })
+
 });
 
