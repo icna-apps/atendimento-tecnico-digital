@@ -14,8 +14,10 @@ from django.views.decorators.http import require_http_methods
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
 from apps.modulo_admin.models import Atendimento
 from apps.modulo_admin.services import enviar_sms
-from apps.modulo_tecnico.models import HorariosAtendimentos
+from apps.modulo_tecnico.models import HorariosAtendimentos, Especialidades
 from setup.utils import get_next_week_days
+
+from setup.choices import TOPICO_ATENDIMENTO, ATIVIDADE_PRODUTIVA
 
 import requests
 import json
@@ -83,39 +85,79 @@ def produtor_meus_atendimentos_lista(request):
     return render(request, 'modulo_produtor/meus_atendimentos_lista.html', conteudo)
 
 def produtor_novo_atendimento(request):
+    ATIVIDADE_PRODUTIVA_DICT = dict(ATIVIDADE_PRODUTIVA)
 
-    #Regional do Produtor
+    # Regional do Produtor
     regional_produtor = request.user.usuario_relacionado.regional_senar_produtor()
 
-    #Horários dos Técnicos
-    horarios_tecnicos_dias_semana = HorariosAtendimentos.disponiveis().filter(regional=regional_produtor).values_list('dia_semana', 'horario').distinct()
+    # Horários dos Técnicos
+    horarios_tecnicos = HorariosAtendimentos.disponiveis().filter(regional=regional_produtor)
+
+    # Filtrar especialidades dos técnicos disponíveis
+    especialidades_tecnicos = Especialidades.objects.filter(
+        usuario__in=[horario.tecnico for horario in horarios_tecnicos],
+        del_status=False
+    ).values_list('especialidade', flat=True).distinct()
+
+    # Formatar atividades disponíveis como tuplas para o campo de escolha
+    atividades_disponiveis = [(especialidade, ATIVIDADE_PRODUTIVA_DICT.get(especialidade)) for especialidade in especialidades_tecnicos if especialidade in ATIVIDADE_PRODUTIVA_DICT]
+
+    # Ordenar atividades disponíveis em ordem alfabética
+    atividades_disponiveis.sort(key=lambda x: x[1])
+
+    # Adicionar a opção vazia no início da lista
+    atividades_disponiveis.insert(0, ('', ''))
+
+    # Formulário
+    form = AtendimentoForm(atividades=atividades_disponiveis)
+
+    # Garantir que o JSON está corretamente formatado
+    topico_atendimento_json = json.dumps(TOPICO_ATENDIMENTO, ensure_ascii=False)
+
+    conteudo = {
+        'form': form,
+        'lista_topicos': '',
+        'horarios_disponiveis': '',
+        'TOPICO_ATENDIMENTO': topico_atendimento_json,
+    }
+
+    return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
+
+
+def produtor_novo_atendimento_datas_horas(request, atividade_produtiva):
+    # Regional do Produtor
+    regional_produtor = request.user.usuario_relacionado.regional_senar_produtor()
+    print('Atividade Produtiva: ', atividade_produtiva)
+    # Horários dos Técnicos
+    horarios_tecnicos_dias_semana = HorariosAtendimentos.disponiveis().filter(
+        regional=regional_produtor,
+        tecnico__usuario_especialidade__especialidade=atividade_produtiva,
+        tecnico__usuario_especialidade__del_status=False
+    ).values_list('dia_semana', 'horario').distinct()
+
     proxima_semana = get_next_week_days()
     horarios_tecnicos_datas = [(proxima_semana[dia], horario)
-                             for dia, horario in horarios_tecnicos_dias_semana if dia in proxima_semana]
+                               for dia, horario in horarios_tecnicos_dias_semana if dia in proxima_semana]
 
-    #Agendamentos
+    # Agendamentos
     agendamentos = Atendimento.proxima_semana_agendamentos(regional_produtor)
 
-    #Horários disponíveis
+    # Horários disponíveis
     horarios_disponiveis = [horario for horario in horarios_tecnicos_datas if horario not in agendamentos]
-    
-    #Lista de datas disponíveis
+
+    # Lista de datas disponíveis
     datas_unicas = sorted(set(data for data, _ in horarios_disponiveis))
     datas_unicas = [datetime.strptime(data, '%d/%m/%Y') for data in datas_unicas]
     datas_unicas.sort()
     datas_unicas = [data.strftime('%d/%m/%Y') for data in datas_unicas]
-    datas_choices = [('', '')]
-    data_choices = datas_choices + [(data, data) for data in datas_unicas]
-    
-    #Formulário
-    form = AtendimentoForm(data_choices=data_choices)
 
-    conteudo = {
-        'form': form,
-        'horarios_disponiveis': horarios_disponiveis,
+    data_horarios = {
+        'datas': datas_unicas,
+        'horarios': horarios_disponiveis,
     }
+    print('passou aqui')
+    return JsonResponse(data_horarios)
 
-    return render(request, 'modulo_produtor/novo_atendimento.html', conteudo)
 
 def produtor_realizar_agendamento(request):
     

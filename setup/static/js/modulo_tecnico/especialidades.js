@@ -5,29 +5,30 @@ document.addEventListener('DOMContentLoaded', function() {
     const botaoSalvarEspecialidades = document.querySelector('#btnSalvarEspecialidades')
     botaoSalvarEspecialidades.addEventListener('click', function(event){
         event.preventDefault();
-        alert('ID do Usuário: ' + idUsuario)
+        salvarEspecialidades()
     })
 
-    function cancelarAtendimento() {
+    function salvarEspecialidades() {
 
-        //Verificar preenchimento dos campos
-        let preenchimento_incorreto = verificarCamposCancelarAtendimento()
-        if (preenchimento_incorreto === false) {
-            return;
-        }
+        //Especialidades selecionadas
+        var especialidadesSelecionadas = [];
+        var checkboxes = document.querySelectorAll('#formEspecialidades .form-check-input');
 
+        checkboxes.forEach(function(checkbox) {
+            if (checkbox.checked) {
+                especialidadesSelecionadas.push(checkbox.value);
+            }
+        });
         
         //Enviar para o backend
             //definir o caminho
-            postURL = `/tecnico/atendimentos/atendimento/cancelar-atendimento/${idAtendimento}/`
+            postURL = `/tecnico/meusdados/especialidades/`
 
-            //pegar os dados
-            let formData = new FormData(document.getElementById('formCancelamentoAtendimento'));
     
             //enviar 
             fetch(postURL, {
                 method: 'POST',
-                body: formData,
+                body: JSON.stringify({ especialidades: especialidadesSelecionadas }),
                 headers: {
                     'X-Requested-With': 'XMLHttpRequest',
                     'X-CSRFToken': getCSRFToken(),
@@ -37,19 +38,19 @@ document.addEventListener('DOMContentLoaded', function() {
         //Retorno do Servidor
         .then(response => {
             if (!response.ok) {
-                sweetAlert('<span style="font-weight:normal">Erro!<br> Cancelamento do atendimento <b style="color:red">não realizado!</b></span>', 'error', 'red');
+                sweetAlert('<span style="font-weight:normal">Erro!<br>Especialidades <b style="color:red">não salvas!</b></span>', 'error', 'red');
                 throw new Error('Server response was not ok: ' + response.statusText);
             }
             return response.json();
         })
         .then(data => {
-            if (data.cancelado === "sim") {
-                sweetAlert('<span style="font-weight:normal">Cancelamento do atendimento realizado com <b style="color:green">sucesso!</b></span>', 'success', 'green');
+            if (data.status === "success") {
+                sweetAlert('<span style="font-weight:normal">Especialidades salvas com <b style="color:green">sucesso!</b></span>', 'success', 'green');
                 setTimeout(function() {
                     window.location.reload();
-                }, 3000);
+                }, 2000);
             } else {
-                sweetAlert('<span style="font-weight:normal">Erro!<br> Cancelamento do atendimento <b style="color:red">não realizado!</b></span>', 'error', 'red');
+                sweetAlert('<span style="font-weight:normal">Erro!<br> Especialidades <b style="color:red">não salvas!</b></span>', 'error', 'red');
             }
         })
         .catch(error => {

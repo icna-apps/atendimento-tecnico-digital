@@ -22,6 +22,12 @@ class HorariosAtendimentos(models.Model):
     @property
     def horario_disponivel(self):
         return self.tecnico is None
+    
+    def tecnico_especialidades(self):
+        if self.tecnico:
+            especialidades = Especialidades.objects.filter(usuario=self.tecnico, status_especialidade=True, del_status=False)
+            return [especialidade.especialidade for especialidade in especialidades]
+        return []
 
     @staticmethod
     def disponiveis():

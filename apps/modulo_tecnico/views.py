@@ -20,7 +20,7 @@ from apps.modulo_admin.forms import LoginForm, AtendimentoForm
 from apps.modulo_admin.models import (Usuario, Atendimento, AtendimentoConfirmacao, 
                                       AtendimentoCancelado, AtendimentoRetorno, UF_Municipio,
                                       InstituicoesFinanceiras, UsuarioCNPJ)
-from apps.modulo_tecnico.models import HorariosAtendimentos
+from apps.modulo_tecnico.models import HorariosAtendimentos, Especialidades
 from apps.modulo_admin.services import enviar_sms
 from setup.utils import get_next_week_days
 from setup.choices import STATUS_ATENDIMENTO, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, GENERO_SEXUAL, TIPO_CONTA_BANCARIA
@@ -175,18 +175,24 @@ def tecnico_meus_dados(request):
     lista_bancos = InstituicoesFinanceiras.objects.all()
     tipo_conta_bancaria = TIPO_CONTA_BANCARIA
     lista_atividades = ATIVIDADE_PRODUTIVA
+    dicionario_atividades = dict(ATIVIDADE_PRODUTIVA)
 
     tecnico = request.user.usuario_relacionado
-    # cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
+    cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
+    especialidades_tecnico_keys = Especialidades.objects.filter(usuario=tecnico, del_status=False).values_list('especialidade', flat=True)
+
+    # Obter labels das especialidades do técnico
+    especialidades_tecnico_labels = [dicionario_atividades[key] for key in especialidades_tecnico_keys if key in dicionario_atividades]
 
     conteudo = {
         'lista_ufs': lista_ufs,
         'lista_genero_sexual': lista_genero_sexual,
         'lista_bancos': lista_bancos,
         'tipo_conta_bancaria': tipo_conta_bancaria,
-        # 'cnpj': cnpj,
-        'cnpj': '',
+        'cnpj': cnpj,
         'lista_atividades': lista_atividades,
+        'especialidades_tecnico': especialidades_tecnico_keys,
+        'especialidades_tecnico_labels': ', '.join(especialidades_tecnico_labels)
     }
 
     return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
@@ -258,8 +264,37 @@ def tecnico_meusdados_atualizar(request):
 
 
 def tecnico_meusdados_especialidades(request):
-    pass
+    if request.method == "POST":
+        tecnico = request.user.usuario_relacionado
 
+        # Decodificar as especialidades de uma string JSON para uma lista
+        especialidades_selecionadas_json = request.body.decode('utf-8')
+        especialidades_selecionadas = json.loads(especialidades_selecionadas_json).get('especialidades', [])
+
+        # Obter especialidades atuais do usuário
+        especialidades_atuais = Especialidades.objects.filter(usuario=tecnico, del_status=False)
+
+        # Obter lista de especialidades atuais
+        especialidades_atuais_lista = list(especialidades_atuais.values_list('especialidade', flat=True))
+
+        # Identificar especialidades a adicionar e a remover
+        especialidades_a_adicionar = set(especialidades_selecionadas) - set(especialidades_atuais_lista)
+        especialidades_a_remover = set(especialidades_atuais_lista) - set(especialidades_selecionadas)
+
+        # Adicionar novas especialidades
+        for especialidade in especialidades_a_adicionar:
+            Especialidades.objects.create(
+                usuario=tecnico,
+                especialidade=especialidade,
+                status_especialidade=True,
+            )
+
+        # Marcar especialidades como excluídas
+        Especialidades.objects.filter(usuario=tecnico, especialidade__in=especialidades_a_remover).update(del_status=True, del_data=timezone.now(), del_cpf=tecnico.cpf)
+
+        return JsonResponse({"status": "success"})
+    else:
+        return JsonResponse({"status": "error", "message": "Invalid request method"})
 
 
 def tecnico_ficha_atendimento(request, id):

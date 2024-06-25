@@ -3,40 +3,40 @@ document.addEventListener('DOMContentLoaded', function() {
     const navbar = document.querySelector('#navbar')
     navbar.style.display = 'none';
 
-    const dataSelect = document.getElementById("id_data");
-    const horaSelect = document.getElementById("id_hora");
-    const horariosDisponiveis = document.querySelectorAll(".horario-disponivel");
+    // const dataSelect = document.getElementById("id_data");
+    // const horaSelect = document.getElementById("id_hora");
+    // const horariosDisponiveis = document.querySelectorAll(".horario-disponivel");
 
-    // Função para habilitar/desabilitar o campo 'hora' conforme a seleção da data
-    function toggleHoraField() {
-        if (dataSelect.value) {
-            horaSelect.removeAttribute("disabled");
-        } else {
-            horaSelect.value = "";
-            horaSelect.setAttribute("disabled", true);
-        }
-    }
+    // // Função para habilitar/desabilitar o campo 'hora' conforme a seleção da data
+    // function toggleHoraField() {
+    //     if (dataSelect.value) {
+    //         horaSelect.removeAttribute("disabled");
+    //     } else {
+    //         horaSelect.value = "";
+    //         horaSelect.setAttribute("disabled", true);
+    //     }
+    // }
 
-    // Função para filtrar os horários disponíveis com base na data selecionada
-    function filterHorarios() {
-        var dataSelecionada = dataSelect.value;
-        horaSelect.innerHTML = "";
-        horariosDisponiveis.forEach(function(horario) {
-            if (horario.dataset.data === dataSelecionada) {
-                horaSelect.innerHTML += "<option value='" + horario.textContent + "'>" + horario.textContent + "</option>";
-            }
-        });
-    }
+    // // Função para filtrar os horários disponíveis com base na data selecionada
+    // function filterHorarios() {
+    //     var dataSelecionada = dataSelect.value;
+    //     horaSelect.innerHTML = "";
+    //     horariosDisponiveis.forEach(function(horario) {
+    //         if (horario.dataset.data === dataSelecionada) {
+    //             horaSelect.innerHTML += "<option value='" + horario.textContent + "'>" + horario.textContent + "</option>";
+    //         }
+    //     });
+    // }
 
-    // Adicionar listener para o evento 'change' do campo 'data'
-    dataSelect.addEventListener("change", function() {
-        toggleHoraField();
-        filterHorarios();
-    });
+    // // Adicionar listener para o evento 'change' do campo 'data'
+    // dataSelect.addEventListener("change", function() {
+    //     toggleHoraField();
+    //     filterHorarios();
+    // });
 
-    // Chame as funções para configurar inicialmente o estado do campo 'hora' e os horários disponíveis
-    toggleHoraField();
-    filterHorarios();
+    // // Chame as funções para configurar inicialmente o estado do campo 'hora' e os horários disponíveis
+    // toggleHoraField();
+    // filterHorarios();
 
 
     const btnCancelar = document.querySelector('#btnCancelar')
@@ -171,5 +171,96 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+
+    document.getElementById('id_atividade_produtiva').addEventListener('change', function() {
+        const atividadeProdutivaText = this.options[this.selectedIndex].text;
+        const topicoSelect = document.getElementById('id_topico');
+        const topicosData = document.getElementById('topico-data').textContent;
+
+        try {
+            const topicosParsed = JSON.parse(topicosData);
+
+            // Limpar as opções atuais
+            topicoSelect.innerHTML = '';
+
+            // Adicionar a opção vazia padrão
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = '';
+            topicoSelect.appendChild(defaultOption);
+
+            // Adicionar novas opções
+            for (const [topico, atividades] of Object.entries(topicosParsed)) {
+                if (atividades.includes(atividadeProdutivaText)) {
+                    const option = document.createElement('option');
+                    option.value = topico;
+                    option.text = topico;
+                    topicoSelect.appendChild(option);
+                }
+            }
+
+        } catch (e) {
+            console.error("Failed to parse JSON:", e);
+        }
+    });
+
+
+    const atividadeProdutivaSelect = document.getElementById('id_atividade_produtiva');
+    const dataSelect = document.getElementById('id_data');
+    const horaSelect = document.getElementById('id_hora');
+
+    atividadeProdutivaSelect.addEventListener('change', function() {
+        const atividadeProdutiva = this.value;
+        if (atividadeProdutiva) {
+            fetch(`/produtor/datas-horarios/${atividadeProdutiva}/`)
+                .then(response => response.json())
+                .then(data => {
+                    // Limpar e preencher o campo de data
+                    dataSelect.innerHTML = '<option value=""></option>';
+                    data.datas.forEach(date => {
+                        const option = document.createElement('option');
+                        option.value = date;
+                        option.textContent = date;
+                        dataSelect.appendChild(option);
+                    });
+
+                    // Limpar o campo de hora
+                    horaSelect.innerHTML = '<option value=""></option>';
+                    horaSelect.setAttribute('disabled', true);
+                })
+                .catch(error => console.error('Error fetching dates and times:', error));
+        } else {
+            // Limpar os campos se nenhuma atividade produtiva estiver selecionada
+            dataSelect.innerHTML = '<option value=""></option>';
+            horaSelect.innerHTML = '<option value=""></option>';
+            horaSelect.setAttribute('disabled', true);
+        }
+    });
+
+
+    dataSelect.addEventListener('change', function() {
+        const selectedDate = this.value;
+        if (selectedDate) {
+            horaSelect.innerHTML = '<option value=""></option>';
+            horaSelect.removeAttribute('disabled');
+
+            // Filtrar os horários disponíveis para a data selecionada
+            fetch(`/produtor/novo-atendimento-datas-horas/${atividadeProdutivaSelect.value}/`)
+                .then(response => response.json())
+                .then(data => {
+                    const horariosFiltrados = data.horarios.filter(horario => horario[0] === selectedDate);
+                    horariosFiltrados.forEach(horario => {
+                        const option = document.createElement('option');
+                        option.value = horario[1];
+                        option.textContent = horario[1];
+                        horaSelect.appendChild(option);
+                    });
+                })
+                .catch(error => console.error('Error fetching times:', error));
+        } else {
+            horaSelect.innerHTML = '<option value=""></option>';
+            horaSelect.setAttribute('disabled', true);
+        }
+    });
 
 });

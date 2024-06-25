@@ -15,9 +15,10 @@
         <form class="formulario" id="formEspecialidades" method="post">
             {% for atividade_key, atividade_label in lista_atividades %}
             <div class="form-check mb-3">
-                <input class="form-check-input" type="checkbox" id="atividade_{{ atividade_key }}" name="atividades" value="{{ atividade_key }}">
+                <input class="form-check-input" type="checkbox" id="atividade_{{ atividade_key }}" name="atividades" value="{{ atividade_key }}"
+                {% if atividade_key in especialidades_tecnico %}checked{% endif %}>
                 <label class="form-check-label" for="atividade_{{ atividade_key }}">
-                {{ atividade_label }}
+                    {{ atividade_label }}
                 </label>
             </div>
             {% endfor %}
@@ -25,6 +26,7 @@
                 <button type="submit" class="btn btn-success" id="btnSalvarEspecialidades">Salvar</button>
             </div>
         </form>
+
   
 
 

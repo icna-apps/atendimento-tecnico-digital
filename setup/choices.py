@@ -56,16 +56,43 @@ LISTA_HORA_ATENDIMENTO = [
     ('17:00', '17:00'),
 ]
 
-TOPICO_ATENDIMENTO = [
-    ('Ensilagem', 'Ensilagem'),
-    ('Manejo de Ordenha', 'Manejo de Ordenha'),
-    ('Manejo Reprodutivo', 'Manejo Reprodutivo'),
-    ('Manejo Sanitário', 'Manejo Sanitário'),
-    ('Melhoramento Genético', 'Melhoramento Genético'),
-    ('Nutrição Animal', 'Nutrição Animal'),
-    ('Pastagens', 'Pastagens'),
-    ('Outro assunto', 'Outro assunto'),
-]
+TOPICO_ATENDIMENTO = {
+    'Abate': ['Avicultura', 'Bovino de Corte'],
+    'Alimentação': ['Piscicultura'],
+    'Alimentação das Abelhas': ['Apicultura'],
+    'Bem-Estar Animal': ['Avicultura', 'Bovino de Leite', 'Bovino de Corte', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura'],
+    'Biossegurança': ['Avicultura'],
+    'Colheita': ['Agricultura Anual', 'Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Controle de Doenças': ['Agricultura Anual', 'Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Controle de Pragas': ['Agricultura Anual', 'Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Ensilagem': ['Bovino de Leite', 'Ovinocaprino de Leite'],
+    'Incubação de Ovos': ['Avicultura'],
+    'Manejo das Abelhas': ['Apicultura'],
+    'Manejo das Colmeias': ['Apicultura'],
+    'Manejo de Ordenha': ['Bovino de Leite', 'Ovinocaprino de Leite'],
+    'Manejo de Pastagens': ['Bovino de Corte', 'Bovino de Leite', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite'],
+    'Manejo de Pomar': ['Fruticultura Perene'],
+    'Manejo de Tanques': ['Piscicultura'],
+    'Manejo do Solo': ['Agricultura Anual', 'Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Manejo Reprodutivo': ['Bovino de Corte', 'Bovino de Leite', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura'],
+    'Melhoramento Genético': ['Agricultura Anual', 'Bovino de Corte', 'Bovino de Leite', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura'],
+    'Nutrição Animal': ['Avicultura', 'Bovino de Corte', 'Bovino de Leite', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura'],
+    'Nutrição e Adubação': ['Agricultura Anual', 'Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Pós-Colheita': ['Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Produção de Geleia Real': ['Apicultura'],
+    'Produção de Mel': ['Apicultura'],
+    'Produção de Ovos': ['Avicultura'],
+    'Produção de Própolis': ['Apicultura'],
+    'Processamento': ['Cafeicultura', 'Fruticultura', 'Olericultura'],
+    'Qualidade da Água': ['Piscicultura'],
+    'Sanidade Animal': ['Avicultura', 'Bovino de Corte', 'Bovino de Leite', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura'],
+    'Saúde das Abelhas': ['Apicultura'],
+    'Terminação': ['Bovino de Corte', 'Ovinocaprino de Corte'],
+    'Outro assunto': ['Agricultura Anual', 'Apicultura', 'Avicultura', 'Bovino de Corte', 'Bovino de Leite', 'Cafeicultura', 'Fruticultura', 'Olericultura', 'Ovinocaprino de Corte', 'Ovinocaprino de Leite', 'Piscicultura']
+}
+
+
+
 
 STATUS_ATENDIMENTO = [
     ('agendado', 'Agendado'),

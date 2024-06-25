@@ -46,11 +46,7 @@
             </div>
 
             <div class="container_informacoes__campos">
-                <div id="horarios-disponiveis" style="display: none;">
-                    {% for data, hora in horarios_disponiveis %}
-                        <span class="horario-disponivel" data-data="{{ data }}">{{ hora }}</span>
-                    {% endfor %}
-                </div>
+                
                 <div class="form-floating">
                     {{ form.data }}
                     <label>{{ form.data.label }}</label>
@@ -157,6 +153,10 @@
             previewImg.src = "#";
         }
     </script>
+
+<script id="topico-data" type="application/json">
+    {{ TOPICO_ATENDIMENTO|safe }}
+</script>
         
         
     <script src="{% static 'js/modulo_produtor/novo_atendimento.js' %}"></script>

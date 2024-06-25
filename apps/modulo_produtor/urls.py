@@ -5,7 +5,8 @@ from apps.modulo_produtor.views import (login_produtor,
                                         produtor_confirmacao_atendimento, produtor_ficha_atendimento,
                                         produtor_cancelar_atendimento, produtor_avaliar_atendimento,
                                         produtor_meus_dados, produtor_meus_dados_alterar,
-                                        produtor_informacoes)
+                                        produtor_informacoes,
+                                        produtor_novo_atendimento_datas_horas)
 
 urlpatterns = [
     path('', login_produtor, name='login_produtor'),
@@ -13,6 +14,7 @@ urlpatterns = [
     #Atendimentos
     path('produtor/meus-atendimentos/', produtor_meus_atendimentos_lista, name='produtor_meus_atendimentos_lista'),
     path('produtor/novo-atendimento/', produtor_novo_atendimento, name='produtor_novo_atendimento'),
+    path('produtor/datas-horarios/<str:atividade_produtiva>/', produtor_novo_atendimento_datas_horas, name='produtor_novo_atendimento_datas_horas'),
     path('produtor/realizar-agendamento/', produtor_realizar_agendamento, name='produtor_realizar_agendamento'),
     path('produtor/confirmacao-atendimento/<int:id>/', produtor_confirmacao_atendimento, name='produtor_confirmacao_atendimento'),
     path('produtor/ficha-atendimento/<int:id>/', produtor_ficha_atendimento, name='produtor_ficha_atendimento'),

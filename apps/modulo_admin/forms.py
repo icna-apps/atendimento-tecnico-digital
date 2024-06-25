@@ -3,13 +3,13 @@ from django.core.exceptions import ValidationError
 from django.utils.dateparse import parse_date
 from django.forms.widgets import ClearableFileInput
 from apps.modulo_admin.models import Usuario, Atendimento, AtendimentoConfirmacao
-from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, TOPICO_ATENDIMENTO, STATUS_ATENDIMENTO, LISTA_UFS_SIGLAS,
-                           LISTA_HORA_ATENDIMENTO, LISTA_DATAS)
+from setup.choices import (GENERO_SEXUAL, ATIVIDADE_PRODUTIVA, STATUS_ATENDIMENTO, LISTA_UFS_SIGLAS,
+                           LISTA_HORA_ATENDIMENTO, LISTA_DATAS,
+                           TOPICO_ATENDIMENTO)
 
 #Adicionando opção vazia
 opcao_vazia = [('', '')]
 ATIVIDADE_PRODUTIVA = opcao_vazia + ATIVIDADE_PRODUTIVA
-TOPICO_ATENDIMENTO = opcao_vazia + TOPICO_ATENDIMENTO
 LISTA_DATAS = opcao_vazia + LISTA_DATAS
 LISTA_HORA_ATENDIMENTO =  opcao_vazia + LISTA_HORA_ATENDIMENTO
 
@@ -163,17 +163,17 @@ class AtendimentoForm(forms.ModelForm):
     )
     
     atividade_produtiva = forms.ChoiceField(
-        choices=ATIVIDADE_PRODUTIVA,
+        choices=[],
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id':'id_atividade_produtiva'
         }),
         label='Atividade Produtiva',
-        initial='bovinocultura_leite',
+        initial='',
         required=True,
     )
     topico = forms.ChoiceField(
-        choices=TOPICO_ATENDIMENTO,
+        choices='',
         widget=forms.Select(attrs={
             'class': 'form-select',
             'id':'id_topico'
@@ -254,9 +254,12 @@ class AtendimentoForm(forms.ModelForm):
     def clean_mais_informacoes(self):
         mais_informacoes = self.cleaned_data.get('mais_informacoes')
         return mais_informacoes or "Nada informado."
+
+
     
-    def __init__(self, data_choices=None, *args, **kwargs):
+    def __init__(self, atividades=None, *args, **kwargs):
         super(AtendimentoForm, self).__init__(*args, **kwargs)
         
-        if data_choices:
-            self.fields['data'].choices = data_choices
+        if atividades:
+            self.fields['atividade_produtiva'].choices = atividades
+
