@@ -1,0 +1,21 @@
+.container_informacoes{
+    display: flex;
+    flex-direction: column;
+    margin-top: 2vh;
+    
+}
+
+.container_informacoes__titulo {
+    font-size: 0.8rem;
+}
+
+.container_informacoes__campos {
+    display: flex;
+    flex-direction: column;
+    gap: 1vh;
+    
+}
+
+.container_informacoes__campos .form-select {
+    font-size: 0.8rem !important;
+}

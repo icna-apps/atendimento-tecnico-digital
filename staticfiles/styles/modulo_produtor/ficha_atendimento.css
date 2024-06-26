@@ -1,0 +1,141 @@
+.container_body {
+    grid-template-rows: 10% 80% 10%;
+    /* background-color: blue; */
+    overflow-y: auto;
+    padding-bottom: 20px;
+}
+
+.container_pagina.ficha_atendimento {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2vh;
+
+}
+
+.container__page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 2vh;
+    overflow-y: auto;
+    height: 100%;
+}
+
+.titulo_pagina {
+    text-align: center;
+    display: grid;
+    grid-template-rows: 30% 70%;
+    align-items: center;
+    padding-top: 2vh;
+}
+
+
+
+.titulo_pagina_id {
+    background-color: var(--verde-capital);
+    border-radius: 10px;
+    padding: 1px 10px;
+    font-weight: bold;
+    color: white;
+}
+
+
+
+.card {
+    background-color: var(--cinza-claro);
+    border: none;
+    padding: 1vh;
+    gap: 0.75vh;
+}
+
+.card__titulo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1vw;
+    font-weight: bold;
+}
+
+.material-symbols-outlined.card__imagem {
+    font-size: 1.5rem;
+}
+
+.card__conteudo {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.imagens_enviadas {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: gray;
+}
+
+.imagens_enviadas__imagem {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+
+.status {
+    font-weight: bold;
+    color: white;
+    padding: 3px 10px;
+    border-radius: 10px;
+}
+
+.atendimento_agendado {
+    background-color: var(--agendado);
+}
+
+.atendimento_cancelado {
+    background-color: var(--cancelado);
+}
+
+.atendimento_atendido {
+    background-color: var(--atendido);
+}
+
+.atendimento_finalizado {
+    background-color: var(--finalizado);
+}
+
+
+.botoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-content: center;
+    margin-top: 2vh;
+}
+
+.botao {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#btnEditar {
+    background-color: var(--editar);
+    border-color: var(--editar);
+}
+
+
+
+.estrelas input[type=radio] {
+    display: none;
+  }
+.estrelas label i.fa:before {
+    content:'\f005';
+    color: #FC0;
+}
+.estrelas input[type=radio]:checked ~ label i.fa:before {
+    color: #CCC;
+}
+
+

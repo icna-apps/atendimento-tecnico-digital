@@ -1,0 +1,14 @@
+:root {
+    --verde-capital: #1AA33C;
+    --cinza-primario: #6A6A6A;
+    --cinza-escuro: #484848;
+    --cinza-claro: #e4e4e4;
+
+    /* Status do Atendimento */
+    --agendado: #ff2200;
+    --cancelado: #b80000;
+    --atendido: var(--verde-capital);
+    --finalizado: #00528d;
+
+    --editar: #f5840b;
+  }

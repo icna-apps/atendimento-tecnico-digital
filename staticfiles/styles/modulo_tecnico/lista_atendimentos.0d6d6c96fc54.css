@@ -1,0 +1,110 @@
+.container_page{
+    display: grid;
+    grid-template-rows: 15% 84%;
+    gap: 1%;
+    width: 96%;
+    height: 100%;
+    /* background-color: blue; */
+}
+
+.container_filtros {
+    /* background-color: pink; */
+    padding: 5px;
+}
+
+.container_filtros_filtro {
+    display: flex;
+    flex-direction: row;
+    gap: 1vw;
+    
+}
+
+.mb-3{
+    margin-bottom: 0 !important;
+}
+
+.container_listagem {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    max-height: 100%;
+    gap: 1.5vh;
+    padding-top: 1vh;
+
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+    
+}
+
+.listagem_item {
+    background-color: var(--cinza-claro);
+    border-radius: 10px;
+    padding: 10px;
+    display: grid;
+    width: 99%;
+    max-height: 100%;
+    grid-template-columns: 10% 90%;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: pointer;
+    transition: transform 0.3s ease; /* Adiciona transição suave para o efeito de transformação */
+}
+
+.listagem_item:hover {
+    transform: scale(1.01); /* Aumenta o tamanho do item em 5% quando o mouse está sobre ele */
+}
+
+.listagem_item_icone {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+}
+
+.listagem_item_icone span {
+    font-size: 0.8vw;
+}
+
+.listagem_item_informacoes {
+    display: flex;
+    flex-direction: column;
+    
+}
+
+.listagem_item_informacoes_titulo {
+    font-size: 1rem;
+}
+
+.listagem_item_informacoes_container {
+    display: grid;
+    grid-template-columns: 30% 30% 40%;
+}
+
+.listagem_item_informacoes_container_parte {
+    display: flex;
+    flex-direction: column;
+    font-size: 0.8rem;
+}
+
+
+.funcionalidade {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 0.8rem;
+}
+
+
+.funcionalidade:hover{
+    transform: scale(1.05);
+    background-color: var(--cinza-claro);
+}

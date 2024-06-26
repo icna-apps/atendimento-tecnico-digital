@@ -1,0 +1,41 @@
+.container_body {
+    grid-template-rows: 10% 90%;
+}
+
+.container__page {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 3vh;
+}
+
+.cabecalho {
+    width: 100%;
+    margin-top: 5vh;
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    /* background-color: var(--verde-capital); */
+    
+    border-radius: 10px;
+    color: var(--verde-capital);
+}
+
+.card-atendimento {
+    margin-bottom: 0;
+}
+
+.titulo-texto {
+    line-height: 1.2;
+    font-size: 1.5rem;
+}
+
+.botao_sair {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}

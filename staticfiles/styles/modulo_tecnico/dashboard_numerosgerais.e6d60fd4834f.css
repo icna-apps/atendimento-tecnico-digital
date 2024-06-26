@@ -1,0 +1,70 @@
+.numeros_gerais {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    /* margin: 3vh; */
+    margin: 3px 0px;
+    gap: 1vw;
+}
+
+.numeros_gerais_box {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    display: grid;
+    grid-template-rows: 15% 85%;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease; /* Adiciona transição suave para o efeito de transformação */
+}
+
+.numeros_gerais_box:hover {
+    transform: scale(1.03); /* Aumenta o tamanho do item em 5% quando o mouse está sobre ele */
+}
+
+.numeros_gerais_box_cards {
+    display: flex;
+    flex-direction: row;
+}
+
+.numeros_gerais_box_titulo {
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.numeros_gerais_box_score {
+    font-size: 2.5rem;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0px;
+    line-height: 1.2;
+    /* padding: 10px 0; */
+}
+
+.score_geral {
+    width: 12vw;
+}
+
+.numeros_gerais_box_card {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 7vw;
+}
+
+.numeros_gerais_box_card_titulo {
+    font-size: 0.9rem;
+    padding-top: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.numeros_gerais_box_card_valor {
+    font-size: 2.5rem;
+    text-align: center;
+    width: 100%;
+
+    line-height: 1;
+}

@@ -1,0 +1,36 @@
+
+.card-atendimento {
+    display: grid;
+    grid-template-columns: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--cinza-claro);
+    border-radius: 10px;
+    padding: 2vh;
+}
+
+.card-atendimento__imagem {
+    text-align: center;
+}
+
+.card-atendimento__informacoes {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.status {
+    font-weight: bold;
+}
+
+.agendado {
+    color: var(--agendado);
+}
+
+.cancelado {
+    color: var(--cancelado);
+}
+
+.realizado {
+    color: var(--realizado);
+}

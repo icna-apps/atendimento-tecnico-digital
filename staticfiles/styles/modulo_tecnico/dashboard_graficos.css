@@ -1,0 +1,31 @@
+.graficos{
+    width: 100%;
+
+}
+
+.grafico_box {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    width: 30vw;
+    height: 30vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.3s ease; /* Adiciona transição suave para o efeito de transformação */
+}
+
+.grafico_box:hover {
+    transform: scale(1.03); /* Aumenta o tamanho do item em 5% quando o mouse está sobre ele */
+}
+
+.grafico_box canvas {
+    width: 90% !important;
+    height: auto !important; /* Faz o canvas ser responsivo */
+}
+
+.grafico_box #barchart_values {
+    width: 100% !important; /* Força o canvas a ocupar toda a largura do container */
+    height: auto !important; /* Altura automática para manter a proporção */
+}

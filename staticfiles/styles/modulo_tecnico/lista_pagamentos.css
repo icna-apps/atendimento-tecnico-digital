@@ -1,0 +1,8 @@
+.container_page{
+    display: grid;
+    grid-template-rows: 20% 79%;
+    gap: 1%;
+    width: 96%;
+    height: 100%;
+    /* background-color: blue; */
+}
