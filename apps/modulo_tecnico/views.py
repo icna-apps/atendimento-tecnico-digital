@@ -222,6 +222,9 @@ def tecnico_meusdados_atualizar(request):
     numero_conta = post_data.get('numeroConta', '')
     razao_social = post_data.get('razao_social', '')
     cnpj = post_data.get('cnpj', '')[:14]
+    print('CNPJ: ', cnpj)
+    print('CNPJ: ', cnpj)
+    print('CNPJ: ', cnpj)
 
     #Usuário
     usuario = request.user.usuario_relacionado
