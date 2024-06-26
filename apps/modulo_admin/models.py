@@ -124,7 +124,7 @@ class UsuarioCNPJ(models.Model):
     data_ultima_atualizacao = models.DateTimeField(auto_now=True)
     
     #dados da pessoa jurídica
-    cnpj = models.CharField(max_length=14, null=True, blank=True, unique=True)
+    cnpj = models.CharField(max_length=18, null=True, blank=True, unique=True)
     razao_social = models.CharField(max_length=100, null=True, blank=True)
     
     #dados bancários
