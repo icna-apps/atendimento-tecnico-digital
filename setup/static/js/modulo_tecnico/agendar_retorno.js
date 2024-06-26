@@ -126,4 +126,38 @@ document.addEventListener('DOMContentLoaded', function() {
         return true;
     }
 
+
+
+    document.getElementById('id_atividade_produtiva').addEventListener('change', function() {
+        const atividadeProdutivaText = this.options[this.selectedIndex].text;
+        const topicoSelect = document.getElementById('id_topico');
+        const topicosData = document.getElementById('topico-data').textContent;
+
+        try {
+            const topicosParsed = JSON.parse(topicosData);
+
+            // Limpar as opções atuais
+            topicoSelect.innerHTML = '';
+
+            // Adicionar a opção vazia padrão
+            const defaultOption = document.createElement('option');
+            defaultOption.value = '';
+            defaultOption.text = '';
+            topicoSelect.appendChild(defaultOption);
+
+            // Adicionar novas opções
+            for (const [topico, atividades] of Object.entries(topicosParsed)) {
+                if (atividades.includes(atividadeProdutivaText)) {
+                    const option = document.createElement('option');
+                    option.value = topico;
+                    option.text = topico;
+                    topicoSelect.appendChild(option);
+                }
+            }
+
+        } catch (e) {
+            console.error("Failed to parse JSON:", e);
+        }
+    });
+
 });  

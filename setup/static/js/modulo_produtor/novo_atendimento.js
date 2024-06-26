@@ -215,7 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
             fetch(`/produtor/datas-horarios/${atividadeProdutiva}/`)
                 .then(response => response.json())
                 .then(data => {
-                    // Limpar e preencher o campo de data
+                    console.log('Data received:', data); // Log para verificar os dados recebidos
                     dataSelect.innerHTML = '<option value=""></option>';
                     data.datas.forEach(date => {
                         const option = document.createElement('option');
@@ -224,43 +224,47 @@ document.addEventListener('DOMContentLoaded', function() {
                         dataSelect.appendChild(option);
                     });
 
-                    // Limpar o campo de hora
                     horaSelect.innerHTML = '<option value=""></option>';
                     horaSelect.setAttribute('disabled', true);
+
+                    dataSelect.dataset.horarios = JSON.stringify(data.horarios);
+                    console.log('Horários armazenados:', dataSelect.dataset.horarios); // Log para verificar os horários armazenados
                 })
                 .catch(error => console.error('Error fetching dates and times:', error));
         } else {
-            // Limpar os campos se nenhuma atividade produtiva estiver selecionada
             dataSelect.innerHTML = '<option value=""></option>';
             horaSelect.innerHTML = '<option value=""></option>';
             horaSelect.setAttribute('disabled', true);
         }
     });
 
-
+    // Função para filtrar horários disponíveis com base na data selecionada
     dataSelect.addEventListener('change', function() {
         const selectedDate = this.value;
-        if (selectedDate) {
+        if (selectedDate && dataSelect.dataset.horarios) {
             horaSelect.innerHTML = '<option value=""></option>';
             horaSelect.removeAttribute('disabled');
 
-            // Filtrar os horários disponíveis para a data selecionada
-            fetch(`/produtor/novo-atendimento-datas-horas/${atividadeProdutivaSelect.value}/`)
-                .then(response => response.json())
-                .then(data => {
-                    const horariosFiltrados = data.horarios.filter(horario => horario[0] === selectedDate);
-                    horariosFiltrados.forEach(horario => {
-                        const option = document.createElement('option');
-                        option.value = horario[1];
-                        option.textContent = horario[1];
-                        horaSelect.appendChild(option);
-                    });
-                })
-                .catch(error => console.error('Error fetching times:', error));
+            try {
+                const horarios = JSON.parse(dataSelect.dataset.horarios);
+                const horariosFiltrados = horarios.filter(horario => horario[0] === selectedDate);
+
+                console.log('Horários filtrados:', horariosFiltrados); // Log para verificar os horários filtrados
+
+                horariosFiltrados.forEach(horario => {
+                    const option = document.createElement('option');
+                    option.value = horario[1];
+                    option.textContent = horario[1];
+                    horaSelect.appendChild(option);
+                });
+            } catch (e) {
+                console.error('Failed to parse horarios:', e);
+            }
         } else {
             horaSelect.innerHTML = '<option value=""></option>';
             horaSelect.setAttribute('disabled', true);
         }
     });
+
 
 });

@@ -257,9 +257,11 @@ class AtendimentoForm(forms.ModelForm):
 
 
     
-    def __init__(self, atividades=None, *args, **kwargs):
+    def __init__(self, atividades=None, data_choices=None, *args, **kwargs):
         super(AtendimentoForm, self).__init__(*args, **kwargs)
         
         if atividades:
             self.fields['atividade_produtiva'].choices = atividades
 
+        if data_choices:
+            self.fields['data'].choices = data_choices

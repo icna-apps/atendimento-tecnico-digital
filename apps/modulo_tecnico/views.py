@@ -118,7 +118,7 @@ def tecnico_atendimentos(request):
         'atendimentos': atendimentos,
         'lista_status': lista_status,
         'lista_atividades': lista_atividades,
-        'lista_topicos': lista_topicos,
+        'lista_topicos': '',
     }
 
     return render(request, 'modulo_tecnico/lista_atendimentos.html', conteudo)
@@ -298,7 +298,7 @@ def tecnico_meusdados_especialidades(request):
 
 
 def tecnico_ficha_atendimento(request, id):
-
+    ATIVIDADE_PRODUTIVA_DICT = dict(ATIVIDADE_PRODUTIVA)
     atendimento = Atendimento.objects.get(id=id)
     
     #Regional do Produtor
@@ -316,6 +316,16 @@ def tecnico_ficha_atendimento(request, id):
 
     #Horários disponíveis
     horarios_disponiveis = [horario for horario in horarios_tecnicos_datas if horario not in agendamentos]
+
+
+    # Formatar atividades disponíveis como tuplas para o campo de escolha
+    especialidades_tecnico = Especialidades.objects.filter(
+        usuario=tecnico,
+        del_status=False
+    ).values_list('especialidade', flat=True).distinct()
+    atividades_disponiveis = [(especialidade, ATIVIDADE_PRODUTIVA_DICT.get(especialidade)) for especialidade in especialidades_tecnico if especialidade in ATIVIDADE_PRODUTIVA_DICT]
+    atividades_disponiveis.sort(key=lambda x: x[1])
+    atividades_disponiveis.insert(0, ('', ''))
     
     #Lista de datas disponíveis
     datas_unicas = sorted(set(data for data, _ in horarios_disponiveis))
@@ -324,7 +334,7 @@ def tecnico_ficha_atendimento(request, id):
     datas_unicas = [data.strftime('%d/%m/%Y') for data in datas_unicas]
     datas_choices = [('', '')]
     data_choices = datas_choices + [(data, data) for data in datas_unicas]
-    formAtendimentoRetorno = AtendimentoForm(data_choices=data_choices)
+    formAtendimentoRetorno = AtendimentoForm(data_choices=data_choices, atividades=atividades_disponiveis)
     
     try:
         atendimentoConfirmacao = AtendimentoConfirmacao.objects.get(atendimento=atendimento)
@@ -341,6 +351,9 @@ def tecnico_ficha_atendimento(request, id):
     except AtendimentoRetorno.DoesNotExist:
         atendimentoRetorno = None
 
+    # Garantir que o JSON está corretamente formatado
+    topico_atendimento_json = json.dumps(TOPICO_ATENDIMENTO, ensure_ascii=False)
+
     conteudo = {
         'atendimento': atendimento,
         'atendimentoConfirmacao': atendimentoConfirmacao,
@@ -348,6 +361,7 @@ def tecnico_ficha_atendimento(request, id):
         'atendimentoRetorno': atendimentoRetorno,
         'formAtendimentoRetorno': formAtendimentoRetorno,
         'horarios_disponiveis': horarios_disponiveis,
+        'TOPICO_ATENDIMENTO': topico_atendimento_json,
     }
 
     return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)

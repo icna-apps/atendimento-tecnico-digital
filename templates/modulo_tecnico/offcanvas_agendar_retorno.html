@@ -30,7 +30,7 @@
                     >
                         <option value="">{{ atendimentoRetorno.atendimento_anterior.get_atividade_produtiva_display }}</option>
                     </select>
-                    <label>Motivo do cancelamento</label>
+                    <label>Atividade Produtiva</label>
                   {% else %}
                     {{ formAtendimentoRetorno.atividade_produtiva }}
                     <label>{{ formAtendimentoRetorno.atividade_produtiva.label }}</label>
@@ -157,4 +157,7 @@
 
 </div>
 
+<script id="topico-data" type="application/json">
+  {{ TOPICO_ATENDIMENTO|safe }}
+</script>
 <script src="{% static 'js/modulo_tecnico/agendar_retorno.js' %}"></script>

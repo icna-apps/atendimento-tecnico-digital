@@ -155,7 +155,7 @@ def produtor_novo_atendimento_datas_horas(request, atividade_produtiva):
         'datas': datas_unicas,
         'horarios': horarios_disponiveis,
     }
-    print('passou aqui')
+    print(data_horarios)
     return JsonResponse(data_horarios)
 
 
