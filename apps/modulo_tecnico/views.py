@@ -221,7 +221,7 @@ def tecnico_meusdados_atualizar(request):
     tipo_conta_bancaria = post_data.get('tipoContaBancaria', '')
     numero_conta = post_data.get('numeroConta', '')
     razao_social = post_data.get('razao_social', '')
-    cnpj = post_data.get('cnpj', '')[:14]
+    cnpj = post_data.get('cnpj', '')[:18]
     print('CNPJ: ', cnpj)
     print('CNPJ: ', cnpj)
     print('CNPJ: ', cnpj)
@@ -244,6 +244,7 @@ def tecnico_meusdados_atualizar(request):
         instituicao_financeira = None
         if banco_codigo:
             instituicao_financeira = InstituicoesFinanceiras.objects.filter(codigo=banco_codigo).first()
+        
         usuario_cnpj, created = UsuarioCNPJ.objects.get_or_create(
             usuario=usuario,
             defaults={
