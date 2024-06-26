@@ -7,6 +7,7 @@ from datetime import date, datetime, timedelta
 from django.contrib import auth
 from django.contrib.auth import logout
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ObjectDoesNotExist
 from django.core import serializers
 from django.http import JsonResponse
 from django.db.models import Avg
@@ -76,7 +77,7 @@ def login_tecnico(request):
     logout(request)
     return render(request, 'modulo_tecnico/login.html', conteudo)
 
-
+@login_required
 def tecnico_dashboard(request):
 
     tecnico = request.user.usuario_relacionado
@@ -103,7 +104,7 @@ def tecnico_dashboard(request):
 
     return render(request, 'modulo_tecnico/dashboard.html', conteudo)
 
-
+@login_required
 def tecnico_atendimentos(request):
 
     tecnico = request.user.usuario_relacionado
@@ -123,7 +124,7 @@ def tecnico_atendimentos(request):
 
     return render(request, 'modulo_tecnico/lista_atendimentos.html', conteudo)
 
-
+@login_required
 def tecnico_meus_horarios(request):
 
     regional = request.user.usuario_relacionado.regional_senar()
@@ -168,7 +169,7 @@ def logout_tecnico(request):
     logout(request)
     return redirect('login_tecnico')
 
-
+@login_required
 def tecnico_meus_dados(request):
     lista_ufs = UF_Municipio.objects.values_list('uf_sigla', flat=True).order_by('uf_sigla').distinct()
     lista_genero_sexual = GENERO_SEXUAL
@@ -178,7 +179,10 @@ def tecnico_meus_dados(request):
     dicionario_atividades = dict(ATIVIDADE_PRODUTIVA)
 
     tecnico = request.user.usuario_relacionado
-    cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
+    try:
+        cnpj = UsuarioCNPJ.objects.get(usuario=request.user)
+    except ObjectDoesNotExist:
+        cnpj = None
     especialidades_tecnico_keys = Especialidades.objects.filter(usuario=tecnico, del_status=False).values_list('especialidade', flat=True)
 
     # Obter labels das especialidades do técnico
@@ -197,7 +201,7 @@ def tecnico_meus_dados(request):
 
     return render(request, 'modulo_tecnico/meus_dados.html', conteudo)
 
-
+@login_required
 def tecnico_meusdados_atualizar(request):
     #Objeto POST
     post_data = request.POST.copy()
@@ -262,7 +266,7 @@ def tecnico_meusdados_atualizar(request):
     except ValueError:
         return JsonResponse({'atualizado': "nao"})
 
-
+@login_required
 def tecnico_meusdados_especialidades(request):
     if request.method == "POST":
         tecnico = request.user.usuario_relacionado
@@ -296,7 +300,7 @@ def tecnico_meusdados_especialidades(request):
     else:
         return JsonResponse({"status": "error", "message": "Invalid request method"})
 
-
+@login_required
 def tecnico_ficha_atendimento(request, id):
     ATIVIDADE_PRODUTIVA_DICT = dict(ATIVIDADE_PRODUTIVA)
     atendimento = Atendimento.objects.get(id=id)
@@ -367,7 +371,7 @@ def tecnico_ficha_atendimento(request, id):
     return render(request, 'modulo_tecnico/ficha_atendimento.html', conteudo)
 
 
-
+@login_required
 def tecnico_atendimento_salvar_relatorio(request, id):
     if request.method == 'POST':
         import json
@@ -388,6 +392,7 @@ def tecnico_atendimento_salvar_relatorio(request, id):
             return JsonResponse({'salvo': "nao"}, status=404)
     return JsonResponse({'salvo': "nao"}, status=405)
 
+@login_required
 def tecnico_confirmar_atendimento(request, id):
     #Objeto POST
     post_data = request.POST.copy()
@@ -422,7 +427,7 @@ def tecnico_confirmar_atendimento(request, id):
     except ValueError:
         return JsonResponse({'agendado': "nao"})
 
-
+@login_required
 def tecnico_cancelar_atendimento(request, id):
     #Objeto POST
     post_data = request.POST.copy()
@@ -456,7 +461,7 @@ def tecnico_cancelar_atendimento(request, id):
     except ValueError:
         return JsonResponse({'cancelado': "nao"})
 
-
+@login_required
 def tecnico_agendar_retorno(request, id):
     #Objeto POST
     post_data = request.POST.copy()
@@ -539,7 +544,7 @@ def tecnico_agendar_retorno(request, id):
     except ValueError:
         return JsonResponse({'retorno': "nao"})
     
-
+@login_required
 def tecnico_finalizar_atendimento(request, id):
     atendimento = Atendimento.objects.get(id=id)
     try:
@@ -550,6 +555,7 @@ def tecnico_finalizar_atendimento(request, id):
     except ValueError:
         return JsonResponse({'finalizado': "nao"})
 
+@login_required
 def tecnico_filtro_atendimento(request):
     status = request.GET.get('status', None)
     atividade = request.GET.get('atividade', None)
@@ -594,5 +600,6 @@ def tecnico_filtro_atendimento(request):
 
     return JsonResponse({'data': data_list})
 
+@login_required
 def tecnico_pagamentos(request):
     return render(request, 'modulo_tecnico/lista_pagamentos.html')
