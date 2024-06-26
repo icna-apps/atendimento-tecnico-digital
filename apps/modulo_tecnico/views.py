@@ -180,7 +180,7 @@ def tecnico_meus_dados(request):
 
     tecnico = request.user.usuario_relacionado
     try:
-        cnpj = UsuarioCNPJ.objects.get(usuario=request.user)
+        cnpj = UsuarioCNPJ.objects.get(usuario=tecnico)
     except ObjectDoesNotExist:
         cnpj = None
     especialidades_tecnico_keys = Especialidades.objects.filter(usuario=tecnico, del_status=False).values_list('especialidade', flat=True)
