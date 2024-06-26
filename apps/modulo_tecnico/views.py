@@ -207,7 +207,7 @@ def tecnico_meusdados_atualizar(request):
     post_data = request.POST.copy()
 
     #Meus Dados
-    cpf = post_data.get('cpf', '')
+    cpf = post_data.get('cpf', '')[:14]
     nomeCompleto = post_data.get('nomeCompleto', '')
     dataNascimento = post_data.get('dataNascimento', '')
     sexo = post_data.get('sexo', '')
@@ -221,6 +221,7 @@ def tecnico_meusdados_atualizar(request):
     tipo_conta_bancaria = post_data.get('tipoContaBancaria', '')
     numero_conta = post_data.get('numeroConta', '')
     razao_social = post_data.get('razao_social', '')
+    cnpj = post_data.get('cnpj', '')[:14]
 
     #Usuário
     usuario = request.user.usuario_relacionado
@@ -243,7 +244,7 @@ def tecnico_meusdados_atualizar(request):
         usuario_cnpj, created = UsuarioCNPJ.objects.get_or_create(
             usuario=usuario,
             defaults={
-                'cnpj': post_data.get('cnpj', ''),
+                'cnpj': cnpj,
                 'razao_social': razao_social,
                 'banco_codigo': instituicao_financeira,
                 'agencia': agencia_bancaria,
