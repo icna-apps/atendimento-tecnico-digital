@@ -174,23 +174,23 @@
                     <div class="atendimento_dados_imagens">
                         <div class="atendimento_dados_imagens__card" id="cardImagem1">
                             {% if atendimento.imagem01 %}
-                            <img src="data:image/jpeg;base64,{{ atendimento.imagem01|b64encode }}">
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem01|b64encode }}" class="atendimento_dados_imagens__img">
                             {% else %}
                                 <i class="material-symbols-outlined" style="font-size: 2vw;">image</i>
                                 Não enviada
                             {% endif %}
                         </div>
-                        <div class="atendimento_dados_imagens__card">
+                        <div class="atendimento_dados_imagens__card" id="cardImagem2">
                             {% if atendimento.imagem02 %}
-                                <img src="{{ atendimento.imagem01 }}">
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem02|b64encode }}" class="atendimento_dados_imagens__img">
                             {% else %}
                                 <i class="material-symbols-outlined" style="font-size: 2vw;">image</i>
                                 Não enviada
                             {% endif %}
                         </div>
-                        <div class="atendimento_dados_imagens__card">
-                            {% if atendimento.imagem03%}
-                                <img src="{{ atendimento.imagem01 }}">
+                        <div class="atendimento_dados_imagens__card" id="cardImagem3">
+                            {% if atendimento.imagem03 %}
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem03|b64encode }}" class="atendimento_dados_imagens__img">
                             {% else %}
                                 <i class="material-symbols-outlined" style="font-size: 2vw;">image</i>
                                 Não enviada

@@ -287,11 +287,21 @@ document.addEventListener('DOMContentLoaded', function() {
 
     
     //Modal imagem
-    const modalImagem = new bootstrap.Modal(document.getElementById('modalImagem'))
-    const cardImagem1 = document.querySelector('#cardImagem1')
+    const modalImagem = new bootstrap.Modal(document.getElementById('modalImagem'));
+    const modalImagemContent = document.getElementById('modalImagemContent');
+    
+    const cards = document.querySelectorAll('.atendimento_dados_imagens__card');
 
-    cardImagem1.addEventListener('click', function(){
-        modalImagem.show()
-    })
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            const img = card.querySelector('img');
+            if (img) {
+                modalImagemContent.src = img.src;
+                modalImagem.show();
+            }
+        });
+    });
+
+
 
 });

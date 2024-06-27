@@ -74,4 +74,20 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
 
+    //Modal imagem
+    const modalImagem = new bootstrap.Modal(document.getElementById('modalImagem'));
+    const modalImagemContent = document.getElementById('modalImagemContent');
+    
+    const cards = document.querySelectorAll('.imagens_enviadas__card');
+
+    cards.forEach(card => {
+        card.addEventListener('click', function() {
+            const img = card.querySelector('img');
+            if (img) {
+                modalImagemContent.src = img.src;
+                modalImagem.show();
+            }
+        });
+    });
+
 });

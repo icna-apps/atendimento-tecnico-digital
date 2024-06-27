@@ -311,7 +311,7 @@ class AtendimentoConfirmacao(models.Model):
     atendimento = models.ForeignKey(Atendimento, on_delete=models.SET_NULL, null=True, blank=True, related_name='atendimento_confirmacao')
 
     #confirmação do atendimento
-    imagem = models.ImageField(null=True, blank=True)
+    imagem = models.BinaryField(null=True, blank=True)
     forma_atendimento = models.CharField(max_length=60, choices=FORMA_ATENDIMENTO, null=False, blank=False)
     duracao_minutos = models.PositiveIntegerField(null=False, blank=False)
     qualidade_internet = models.PositiveIntegerField(null=False, blank=False)
@@ -341,7 +341,7 @@ class AtendimentoCancelado(models.Model):
 
     #atendimento cancelado
     motivo_cancelamento = models.CharField(max_length=100, choices=MOTIVO_CANCELAMENTO, null=False, blank=False)
-    imagem = models.ImageField(null=True, blank=True)
+    imagem = models.BinaryField(null=True, blank=True)
     observacoes = models.TextField(null=True, blank=True)
 
     #delete (del)

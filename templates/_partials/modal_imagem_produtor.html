@@ -1,0 +1,64 @@
+<!-- Modal -->
+{% load static %}
+<style>
+
+    .modal-dialog {
+        height: 70vh !important;
+    }
+
+    .custom-modal-width {
+        max-width: 100%; 
+        min-height: 90%;
+        font-size: 16px !important;
+    }
+
+    .modal-content{
+        max-height: 70vh;
+        min-height: 400px;
+        
+    }
+
+    .modal-body {
+        display: flex;
+        justify-content: center;
+        flex-grow: 1; /* Permitir que a modal-body cresça para preencher o espaço */
+        overflow: hidden; /* Esconder qualquer conteúdo que ultrapasse os limites */
+    }
+
+    .modal-body img {
+        height: 100%;
+        max-width: 100%; /* Manter a proporção da imagem */
+        object-fit: contain; /* Redimensionar a imagem para caber dentro do modal */
+    }
+
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="modalImagem" tabindex="-1" aria-hidden="false">
+    <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable custom-modal-width">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Imagem</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                
+
+                <img id="modalImagemContent" src="" alt="Imagem no modal">
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    document.querySelectorAll('.closeModalButton').forEach(button => {
+        button.addEventListener('click', function() {
+            $('#modalImagem').modal('hide');
+        });
+    });
+</script>

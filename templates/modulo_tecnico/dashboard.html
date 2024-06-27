@@ -29,7 +29,7 @@
                 <div class="score_geral">
                     <span class="numeros_gerais_box_score">
                         <span>
-                            {{ media_tecnico }}
+                            {{ media_tecnico|default:"-" }}
                             <span style="font-size: 1.5rem; color:gray">/5,0</span>
                         </span>
                         <span style="font-size: 1rem; color:gray">Média geral: {{ media_geral }}</span>

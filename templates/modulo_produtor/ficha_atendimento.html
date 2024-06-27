@@ -1,4 +1,5 @@
 {% load static %}
+{% load imagem %}
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -112,40 +113,35 @@
                 <div class="card__conteudo">
                     
                     <div class="imagens_enviadas">
-                        <span>
+                        <div class="imagens_enviadas__card" id="cardImagem1">
                             {% if atendimento.imagem01 %}
-                                <img src="#" alt="Imagem 01">
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem01|b64encode }}" class="imagens_enviadas__img">
                             {% else %}
-                                <div class="imagens_enviadas__imagem">
-                                    <i class="material-symbols-outlined">image</i>
-                                    <span>Não enviada</span> 
-                                </div>
+                                <i class="material-symbols-outlined" style="font-size: 6vw;">image</i>
+                                Não enviada
                             {% endif %}
-                        </span>
-                        <span>
+                        </div>
+                        
+                        <div class="imagens_enviadas__card" id="cardImagem2">
                             {% if atendimento.imagem02 %}
-                                <img src="#" alt="Imagem 02">
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem02|b64encode }}" class="imagens_enviadas__img">
                             {% else %}
-                                <div class="imagens_enviadas__imagem">
-                                    <i class="material-symbols-outlined">image</i>
-                                    <span>Não enviada</span> 
-                                </div>
+                                <i class="material-symbols-outlined" style="font-size:6vw;">image</i>
+                                Não enviada
                             {% endif %}
-                        </span>
-                        <span>
+                        </div>
+                        
+                        <div class="imagens_enviadas__card" id="cardImagem3">
                             {% if atendimento.imagem03 %}
-                                <img src="#" alt="Imagem 03">
+                                <img src="data:image/jpeg;base64,{{ atendimento.imagem03|b64encode }}" class="imagens_enviadas__img">
                             {% else %}
-                                <div class="imagens_enviadas__imagem">
-                                    <i class="material-symbols-outlined">image</i>
-                                    <span>Não enviada</span> 
-                                </div>
+                                <i class="material-symbols-outlined" style="font-size: 6vw;">image</i>
+                                Não enviada
                             {% endif %}
-                        </span>
+                        </div>
                     </div>
                     
-                    
-                    
+
                 </div>
             </div>
     
@@ -224,12 +220,16 @@
         
     </div>
 
+         <!-- modal imagem -->
+         {% include '_partials/modal_imagem_produtor.html' %}
     
     
     <div style="color:white">
         &nbsp;
     </div>
-   
+
+
+    
     
     <script src="{% static 'js/alerts.js' %}"></script>
     <script src="{% static 'js/utilidades.js' %}"></script>

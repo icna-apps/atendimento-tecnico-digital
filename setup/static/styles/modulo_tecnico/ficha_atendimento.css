@@ -170,10 +170,18 @@ a:hover{
     color: rgb(108, 108, 108);
     cursor: pointer;
     transition: transform 0.3s ease;
+    overflow: hidden;  /* Garantir que nada ultrapasse os limites do card */
 }
 
 .atendimento_dados_imagens__card:hover{
     transform: scale(1.05);
+}
+
+.atendimento_dados_imagens__img {
+    max-width: 90%;
+    max-height: 90%;
+    border-radius: 10px;
+    object-fit: cover; /* Ajustar a imagem para cobrir o card */
 }
 
 .avaliacao__atendimento__estrelas {

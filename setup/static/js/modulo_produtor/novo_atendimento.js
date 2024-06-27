@@ -52,9 +52,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function realizarNovoAgendamento(){
 
-        // enviarWhatsapp()
-        // return
-
         //Verificar preenchimento dos campos
         let preenchimento_incorreto = verificarCamposAtendimento()
         if (preenchimento_incorreto === false) {

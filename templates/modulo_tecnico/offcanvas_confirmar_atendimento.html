@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load imagem %}
 
 <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasConfirmarAtendimento">
     <div class="offcanvas-header">
@@ -9,28 +9,31 @@
     <div class="offcanvas-body conteudo_offcanvas">
         
         <!-- Form -->
-        <form id="formConfirmacaoAtendimento">
+        <form id="formConfirmacaoAtendimento" enctype="multipart/form-data">
 
             <!-- Imagem -->
-            <div class="form-control imagem">
-                <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do Atendimento</label>
-                <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
-                <button type="button" class="inserir-imagem" id="botao_imagem01" name="imagemConfirmacao" onclick="document.getElementById('id_imagem01').click();">
-                    <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
-                </button>
-                <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; width: 20vh;">
-                <!-- <button type="button" class="btn btn-danger mt-2" id="delete-img01" onclick="deleteImage('01')" style="display: none;">Apagar Imagem</button> -->
-                
-                <div class="botoes__offcanvas">
-                    <div class="funcionalidade" id="imagemExpandir" style="display: none;">
-                        <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
-                    </div>
-                    <div class="funcionalidade" id="imagemDelete" onclick="deleteImage('01')" style="display: none;">
-                        <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
-                    </div>
-                </div>
-                
+<div class="form-control imagem">
+    <label style="width: 100%; font-size: 0.7rem; color: gray; text-align: left;">Comprovante do Atendimento</label>
+    
+    {% if not atendimentoConfirmacao or not atendimentoConfirmacao.imagem %}
+        <input type="file" class="form-control" id="id_imagem01" name="imagem01" onchange="previewImage(this);" style="display: none;">
+        <button type="button" class="inserir-imagem" id="botao_imagem01" name="imagemConfirmacao" onclick="document.getElementById('id_imagem01').click();">
+            <i class="material-symbols-outlined" style="font-size: 8vh;">backup</i>
+        </button>
+        <img id="preview-img01" src="#" alt="Preview Image" class="imagem-estilo" style="display: none; width: 20vh; cursor: pointer;" onclick="showImageInModal(this)">
+        
+        <div class="botoes__offcanvas">
+            <div class="funcionalidade" id="imagemExpandir" style="display: none;">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray">open_in_full</i>
             </div>
+            <div class="funcionalidade" id="imagemDelete" onclick="deleteImage('01')" style="display: none;">
+                <i class="material-symbols-outlined" style="font-size: 1.5vw; vertical-align: middle; color: gray;">delete</i>
+            </div>
+        </div>
+    {% else %}
+        <img id="preview-img01" src="data:image/jpeg;base64,{{ atendimentoConfirmacao.imagem|b64encode }}" alt="Preview Image" class="imagem-estilo" style="display: block; width: 20vh; cursor: pointer;" onclick="showImageInModal(this)">
+    {% endif %}
+</div>
 
             <!-- Duração do atendimento -->
             <div class="form-floating mb-3">
@@ -161,6 +164,16 @@
         // expandirBtn.style.display = 'none';
         inserirImgBtn.style.display = 'block';
         previewImg.src = "#";
+    }
+</script>
+
+<script>
+    function showImageInModal(imgElement) {
+        const modalImagemContent = document.getElementById('modalImagemContent');
+        const modalImagem = new bootstrap.Modal(document.getElementById('modalImagem'));
+
+        modalImagemContent.src = imgElement.src;
+        modalImagem.show();
     }
 </script>
 

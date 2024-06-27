@@ -68,17 +68,36 @@
 }
 
 .imagens_enviadas {
+    width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    color: gray;
+    justify-content: space-around;
+    gap: 10px;
 }
 
-.imagens_enviadas__imagem {
+.imagens_enviadas__card {
+    border-radius: 10px;
+    background-color: rgb(191, 191, 191);
+    width: 30%;  /* Definindo uma largura fixa para todos os cards */
+    height: 12vh;
     display: flex;
     flex-direction: column;
-    font-size: 0.8rem;
+    justify-content: center;
+    align-items: center;
+    color: rgb(108, 108, 108);
+    overflow: hidden; 
+    padding: 5px;
 }
+
+.imagens_enviadas__img {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+    object-fit: cover;  /* Para ajustar a imagem dentro do card */
+    border-radius: 5px;
+}
+
 
 
 .status {

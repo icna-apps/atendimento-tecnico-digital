@@ -147,8 +147,6 @@ def tecnico_meus_horarios(request):
     
     return render(request, 'modulo_tecnico/meus_horarios.html', conteudo)
 
-
-
 @require_http_methods(["POST"])
 def tecnico_meus_horarios_salvar(request):
     try:
@@ -222,9 +220,6 @@ def tecnico_meusdados_atualizar(request):
     numero_conta = post_data.get('numeroConta', '')
     razao_social = post_data.get('razao_social', '')
     cnpj = post_data.get('cnpj', '')[:18]
-    print('CNPJ: ', cnpj)
-    print('CNPJ: ', cnpj)
-    print('CNPJ: ', cnpj)
 
     #Usuário
     usuario = request.user.usuario_relacionado
@@ -406,7 +401,7 @@ def tecnico_confirmar_atendimento(request, id):
     atendimento = Atendimento.objects.get(id=id)
 
     #dados da confirmação
-    imagem = ''
+    imagem = request.FILES.get('imagem01').read() if request.FILES.get('imagem01') else None
     forma_atendimento = post_data.get('formaAtendimento', '')
     duracao_minutos = post_data.get('duracaoMinutos', '')
     qualidade_internet = post_data.get('internet_quality', '')
@@ -441,7 +436,7 @@ def tecnico_cancelar_atendimento(request, id):
     atendimento = Atendimento.objects.get(id=id)
 
     #dados da confirmação
-    imagem = ''
+    imagem = request.FILES.get('imagemCancelamento').read() if request.FILES.get('imagemCancelamento') else None
     motivo_cancelamento = post_data.get('cancelamentoMotivo', '')
     observacoes = post_data.get('cancelamentoObservacoes', '')
     
