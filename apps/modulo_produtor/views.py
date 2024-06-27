@@ -13,7 +13,7 @@ from django.views.decorators.http import require_http_methods
 # Importações de aplicativos locais
 from apps.modulo_admin.forms import LoginForm, AtendimentoForm
 from apps.modulo_admin.models import Atendimento
-from apps.modulo_admin.services import enviar_sms
+from apps.modulo_admin.services import enviar_sms, enviar_whatsapp
 from apps.modulo_tecnico.models import HorariosAtendimentos, Especialidades
 from setup.utils import get_next_week_days
 
@@ -238,11 +238,11 @@ def produtor_realizar_agendamento(request):
             f"Técnico: {tecnico.primeiro_ultimo_nome()}\n"
         )
 
-        # enviar_sms(
-        #     novo_atendimento.id, 
-        #     mensagem,
-        #     tecnico.celular
-        # )
+        enviar_sms(
+            novo_atendimento.id, 
+            mensagem,
+            tecnico.celular
+        )
 
         #enviar whatsapp
         celular_tecnico = tecnico.celular
@@ -260,36 +260,7 @@ def produtor_realizar_agendamento(request):
 
 
 
-def enviar_whatsapp(message, celular):
-    instance_id = '3CF11B7EEFDFE015E75472B70F2FFCF9'
-    token = 'CD73083318F17C8E4D39F59F'
-    client_token = 'F85328dd9cc194ffda6d749d97c9f62eaS'  # Insira o Client-Token correto aqui
 
-    # phone = "556193250716"  # Garanta que este valor esteja correto
-    phone = "55" + celular
-    # message = "Deu certo!"  # Garanta que este valor esteja correto
-
-    conteudo = json.dumps({
-        "phone": phone,
-        "message": message
-    })
-
-    post_url = f'https://api.z-api.io/instances/{instance_id}/token/{token}/send-text'
-
-    headers = {
-        'Content-Type': 'application/json',
-        'Client-Token': client_token
-    }
-
-    response = requests.post(post_url, headers=headers, data=conteudo)
-
-    try:
-        response.raise_for_status()
-        data = response.json()
-        print('Sucesso:', data)
-    except requests.exceptions.HTTPError as err:
-        print('Erro na requisição:', err)
-        print('Resposta:', response.text)
 
 def produtor_confirmacao_atendimento(request, id):
     
