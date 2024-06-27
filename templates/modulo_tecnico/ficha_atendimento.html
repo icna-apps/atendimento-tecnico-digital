@@ -1,5 +1,6 @@
 {% extends '_partials/base_main.html' %}
 {% load static %}
+{% load imagem %}
 
 {% block extra_head %}
     <link rel="stylesheet" href="{% static '/styles/modulo_tecnico/ficha_atendimento.css' %}">
@@ -12,6 +13,8 @@
 
     <!-- FontsAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+    
 
 {% endblock %}
 {% block content %}    
@@ -169,9 +172,9 @@
                 <div class="atendimento_dados">
                     <span><b>Imagens Enviadas</b></span>
                     <div class="atendimento_dados_imagens">
-                        <div class="atendimento_dados_imagens__card">
+                        <div class="atendimento_dados_imagens__card" id="cardImagem1">
                             {% if atendimento.imagem01 %}
-                                <img src="{{ atendimento.imagem01 }}">
+                            <img src="data:image/jpeg;base64,{{ atendimento.imagem01|b64encode }}">
                             {% else %}
                                 <i class="material-symbols-outlined" style="font-size: 2vw;">image</i>
                                 Não enviada
@@ -193,6 +196,7 @@
                                 Não enviada
                             {% endif %}
                         </div>
+
                     </div>
                 </div>
 
@@ -264,6 +268,9 @@
 
         </div>
 
+        <!-- modal imagem -->
+        {% include '_partials/modal_imagem.html' %}
+
         <!-- offcanvas whatsapp -->
         {% include 'modulo_tecnico/offcanvas_iniciar_atendimento.html' %}
 
@@ -278,6 +285,10 @@
 
         <!-- offcanvas finalizar atendimento -->
         {% include 'modulo_tecnico/offcanvas_finalizar_atendimento.html' %}
+
+        
+
+        
 
         
           

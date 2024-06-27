@@ -248,9 +248,9 @@ class Atendimento(models.Model):
     mais_informacoes = models.TextField(null=True, blank=True)
     
     #imagens enviadas pelo produtor
-    imagem01 = models.ImageField(null=True, blank=True)
-    imagem02 = models.ImageField(null=True, blank=True)
-    imagem03 = models.ImageField(null=True, blank=True)
+    imagem01 = models.BinaryField(null=True, blank=True)
+    imagem02 = models.BinaryField(null=True, blank=True)
+    imagem03 = models.BinaryField(null=True, blank=True)
     
     #relatório
     relatorio = models.TextField(null=True, blank=True)

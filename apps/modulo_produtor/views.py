@@ -172,9 +172,9 @@ def produtor_realizar_agendamento(request):
     atividade_produtiva = post_data.get('atividade_produtiva', '')
     topico = post_data.get('topico', '')
     mais_informacoes = post_data.get('mais_informacoes', '')
-    imagem01 = request.FILES.get('imagem01')
-    imagem02 = request.FILES.get('imagem02')
-    imagem03 = request.FILES.get('imagem03')
+    imagem01 = request.FILES.get('imagem01').read() if request.FILES.get('imagem01') else None
+    imagem02 = request.FILES.get('imagem02').read() if request.FILES.get('imagem02') else None
+    imagem03 = request.FILES.get('imagem03').read() if request.FILES.get('imagem03') else None
     status = 'agendado'  # Já definido diretamente
 
     #Data e hora

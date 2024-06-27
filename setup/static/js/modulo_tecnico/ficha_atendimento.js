@@ -266,13 +266,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
 
-
-    
-    
-
-
-
-
     //Finalizar atendimento
     const abrirOffcanvasFinalizarAtendimento = document.querySelector("#abrirOffcanvasFinalizarAtendimento")
     const offcanvasFinalizarAtendimento = new bootstrap.Offcanvas("#offcanvasFinalizarAtendimento")
@@ -293,4 +286,12 @@ document.addEventListener('DOMContentLoaded', function() {
     })
 
     
+    //Modal imagem
+    const modalImagem = new bootstrap.Modal(document.getElementById('modalImagem'))
+    const cardImagem1 = document.querySelector('#cardImagem1')
+
+    cardImagem1.addEventListener('click', function(){
+        modalImagem.show()
+    })
+
 });
