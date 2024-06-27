@@ -265,7 +265,6 @@ class Atendimento(models.Model):
 
     #delete (del)
     del_status = models.BooleanField(default=False)
-    del_status2 = models.BooleanField(default=False)
     del_data = models.DateTimeField(null=True, blank=True)
     del_cpf = models.CharField(max_length=14, null=True, blank=True)
 
